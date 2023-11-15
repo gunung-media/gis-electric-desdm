@@ -45,13 +45,15 @@
   </div>
 </body>
 <script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
   const electricIcon = L.icon({
     iconUrl: 'electric.png',
-    iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-    popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+    iconAnchor: [22, 94],
+    popupAnchor: [-3, -76]
   });
-
+  let villages = L.layerGroup()
   let gardu1 = L.marker([0.064411, 114.921690], {icon: electricIcon}).bindPopup('Ini contoh gardu listrik 1');
   let gardu2 = L.marker([0.084411, 113.921690], {icon: electricIcon}).bindPopup('Ini contoh gardu listrik 2');
   const gardus = L.layerGroup([gardu1, gardu2])
@@ -84,7 +86,7 @@
     maxZoom: 20,
     minZoom: 6,
     zoomControl: false,
-    layers: [gardus, listrikSituation]
+    layers: [listrikSituation, gardus]
   }).setView([0.064411, 114.921690], 7)
   L.control.zoom({
     position: 'bottomleft'
@@ -95,13 +97,66 @@
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
   }).addTo(map)
 
+
   var overlayMaps = {
     "Gardu Listrik": gardus,
-    "Situasi Listrik": listrikSituation
+    "Situasi Listrik": listrikSituation,
+    villages: villages
   };
   var layerControl = L.control.layers(null, overlayMaps, {position: 'topleft'}).addTo(map);
+  setTimeout(() => {
+    $.ajax({
+      dataType: "json",
+      url: "./indonesia_villages_border.geojson",
+      success: function (datas) {
+        for (let i = 0; i < datas.length; i++) {
+          if (datas[i].province !== "KALIMANTAN TENGAH") continue
+          try {
+            const data = datas[i]
+            console.log(
+              {
+                geometry: {
+                  coordinates: [data.border],
+                  type: "Polygon"
+                }
+              }
+            )
+            let kalimantan = new L.geoJSON({
+              geometry: {
+                coordinates: [data.border],
+                type: "Polygon"
+              },
+              type: "Feature"
+            }, {
+              style: {
+                color: 'white',
+                dashArray: '1',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                fillColor: '#111',
+                fillOpacity: 0.1,
+              }
+            }).addTo(villages)
+            var info = ""
+            info += "<div class='media-center'>";
+            info += "</div>";
+            info += "<div class='media-body '>";
+            info += `<p>Provinsi: <b>${data.province}</b></p>`;
+            info += `<p>Kabupaten/Kota: ${data.district}</p>`;
+            info += `<p>Kecamatan: ${data.sub_district}</p>`;
+            info += `<p>Desa: ${data.village}</p>`;
+            info += "</div>";
+            kalimantan.eachLayer(function (layer) {
+              layer.bindPopup(info);
+            });
+          } catch {
+            continue;
+          }
+        }
+      }
+    })
+  }, 1000)
 </script>
-
 <script>
   Highcharts.chart('pie-chart', {
     chart: {
@@ -176,17 +231,10 @@
       backgroundColor: 'rgba(0,0,0,0)'
     },
     title: {
-      text: 'Corn vs wheat estimated production for 2020',
-      align: 'left'
-    },
-    subtitle: {
-      text:
-        'Source: <a target="_blank" ' +
-        'href="https://www.indexmundi.com/agriculture/?commodity=corn">indexmundi</a>',
-      align: 'left'
+      text: 'Desa ber-listrik vs Desa tidak ber-listrik',
     },
     xAxis: {
-      categories: ['USA', 'China', 'Brazil', 'EU', 'India', 'Russia'],
+      categories: ['Palangkaraya', 'Kapuas', 'Kuala Kurun', 'EU', 'India', 'Russia'],
       crosshair: true,
       accessibility: {
         description: 'Countries'
@@ -209,11 +257,11 @@
     },
     series: [
       {
-        name: 'Corn',
+        name: 'Desa ber-listrik',
         data: [406292, 260000, 107000, 68300, 27500, 14500]
       },
       {
-        name: 'Wheat',
+        name: 'Desa tidak ber-listrik',
         data: [51086, 136000, 5500, 141000, 107180, 77000]
       }
     ]
