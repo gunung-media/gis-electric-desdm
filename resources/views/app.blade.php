@@ -32,11 +32,6 @@
 <body class="font-sans antialiased">
     @inertia
     <script src="{{ asset('template/vendors/js/vendor.bundle.base.js') }}"></script>
-    <script src="{{ asset('template/js/off-canvas.js') }}" defer></script>
-    <script src="{{ asset('template/js/hoverable-collapse.js') }}" defer></script>
-    <script src="{{ asset('template/js/template.js') }}" defer></script>
-    <script src="{{ asset('template/js/settings.js') }}"></script>
-    <script src="{{ asset('template/js/todolist.js') }}"></script>
 </body>
 
 </html>
