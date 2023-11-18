@@ -1,11 +1,14 @@
 import { usePage } from "@inertiajs/react";
 import { PageProps } from "@/types";
-import { Navbar } from "@/Containers/Navbar";
-import Footer from "@/Containers/Footer";
-import Sidebar from "@/Containers/Sidebar";
+import { PropsWithChildren } from "react";
+import useScript from "@/hooks/useScript";
+import { Navbar, Footer, Sidebar } from "./partials";
 
 export function AuthenticatedLayout({ children }: PropsWithChildren) {
-    const { props: { assets } } = usePage<PageProps>();
+    const { props: { assets } } = usePage<PageProps>()
+    useScript(`${assets}/js/off-canvas.js`)
+    useScript(`${assets}/js/hoverable-collapse.js`)
+    useScript(`${assets}/js/template.js`)
     return (
         <div className="container-scroller">
             <Navbar />

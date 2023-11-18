@@ -1,4 +1,4 @@
-export default function Sidebar() {
+export const Sidebar = () => {
     return (
         <nav className="sidebar sidebar-offcanvas" id="sidebar">
             <ul className="nav">

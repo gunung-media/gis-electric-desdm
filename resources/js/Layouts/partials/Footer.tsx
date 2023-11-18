@@ -1,4 +1,4 @@
-export default function Footer() {
+export const Footer = () => {
     return (
         <footer className="footer">
             <div className="d-sm-flex justify-content-center justify-content-sm-between">
@@ -8,3 +8,4 @@ export default function Footer() {
         </footer>
     )
 }
+

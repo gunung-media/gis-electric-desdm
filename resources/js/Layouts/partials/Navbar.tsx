@@ -1,8 +1,7 @@
 import { PageProps } from "@/types";
 import { usePage } from "@inertiajs/react";
-import { useEffect } from "react";
 
-export function Navbar() {
+export const Navbar = () => {
     const { props: { assets } } = usePage<PageProps>()
     return (
         <nav className="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
