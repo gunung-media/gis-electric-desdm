@@ -1,9 +1,10 @@
 import { PageProps } from "@/types";
-import { PropsWithChildren, useEffect } from "react";
+import { PropsWithChildren } from "react";
 import { usePage } from "@inertiajs/react";
 
 export function GuestLayout({ children }: PropsWithChildren) {
-    const page = usePage<PageProps>();
+    const page = usePage<PageProps>()
+    const year = new Date().getFullYear()
     return (
         <div className="container-scroller">
             <div className="container-fluid page-body-wrapper full-page-wrapper">
@@ -20,7 +21,7 @@ export function GuestLayout({ children }: PropsWithChildren) {
                             </div>
                         </div>
                         <div className="col-lg-6 login-half-bg d-flex flex-row">
-                            <p className="text-white font-weight-medium text-center flex-grow align-self-end">Copyright &copy; 2021  All rights reserved.</p>
+                            <p className="text-white font-weight-medium text-center flex-grow align-self-end">Copyright &copy; {year}  All rights reserved.</p>
                         </div>
                     </div>
                 </div>
