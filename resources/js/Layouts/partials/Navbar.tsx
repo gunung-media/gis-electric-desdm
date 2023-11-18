@@ -1,9 +1,10 @@
 import { PageProps } from "@/types";
-import { usePage } from "@inertiajs/react";
-import { useEffect } from "react";
+import { useForm, usePage } from "@inertiajs/react";
 
 export const Navbar = () => {
     const { props: { assets } } = usePage<PageProps>()
+    const { delete: logout } = useForm()
+
     return (
         <nav className="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
@@ -40,10 +41,10 @@ export const Navbar = () => {
                                 <i className="ti-settings text-primary"></i>
                                 Settings
                             </a>
-                            <a className="dropdown-item">
+                            <button className="dropdown-item" onClick={() => logout(route('logout'))}>
                                 <i className="ti-power-off text-primary"></i>
                                 Logout
-                            </a>
+                            </button>
                         </div>
                     </li>
                 </ul>

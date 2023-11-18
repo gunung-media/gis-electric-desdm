@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory()->create([
             'name' => 'Super Admin',
             'username' => 'admin',
-            'password' => bcrypt('password')
+            'password' => bcrypt('admin')
         ]);
     }
 }

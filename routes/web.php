@@ -1,20 +1,23 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\Auth\AuthenticateController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
 */
 
-Route::inertia('/', 'Dashboard');
-Route::inertia('/login', 'Login');
+Route::middleware('guest')->group(function () {
+    Route::get('login', [AuthenticateController::class, 'create'])->name('login');
+    Route::post('login', [AuthenticateController::class, 'store']);
+});
+
+Route::middleware('auth')->group(function () {
+    Route::delete('logout', [AuthenticateController::class, 'destroy'])->name('logout');
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::inertia('/', 'Dashboard')->name('dashboard');
+    });
+});

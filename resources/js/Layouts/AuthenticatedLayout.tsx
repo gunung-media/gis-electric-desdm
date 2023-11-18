@@ -1,7 +1,7 @@
 import { usePage } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import { PropsWithChildren } from "react";
-import useScript from "@/hooks/useScript";
+import useScript from "@/common/hooks/useScript";
 import { Navbar, Footer, Sidebar } from "./partials";
 
 export function AuthenticatedLayout({ children }: PropsWithChildren) {
