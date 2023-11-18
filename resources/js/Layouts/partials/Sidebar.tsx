@@ -3,7 +3,7 @@ export const Sidebar = () => {
         <nav className="sidebar sidebar-offcanvas" id="sidebar">
             <ul className="nav">
                 <li className="nav-item">
-                    <a className="nav-link" href="../../index.html">
+                    <a className="nav-link" href={route('admin.dashboard')}>
                         <i className="icon-grid menu-icon"></i>
                         <span className="menu-title">Dashboard</span>
                     </a>
@@ -16,9 +16,8 @@ export const Sidebar = () => {
                     </a>
                     <div className="collapse" id="maps">
                         <ul className="nav flex-column sub-menu">
-                            <li className="nav-item"> <a className="nav-link" href="../maps/mapael.html">Mapael</a></li>
-                            <li className="nav-item"> <a className="nav-link" href="../maps/vector-map.html">Vector Map</a></li>
-                            <li className="nav-item"> <a className="nav-link" href="../maps/google-maps.html">Google Map</a></li>
+                            <li className="nav-item"> <a className="nav-link" href="../maps/mapael.html">Gardu Listrik</a></li>
+                            <li className="nav-item"> <a className="nav-link" href="../maps/vector-map.html">Desa</a></li>
                         </ul>
                     </div>
                 </li>
