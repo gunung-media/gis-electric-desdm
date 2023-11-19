@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticateController;
+use App\Http\Controllers\ElectricSubstationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,5 +22,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('logout', [AuthenticateController::class, 'destroy'])->name('logout');
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::inertia('/', 'Dashboard')->name('dashboard');
+        Route::resource('gardu_listrik', ElectricSubstationController::class);
     });
 });

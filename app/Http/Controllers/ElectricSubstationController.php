@@ -3,29 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\ElectricSubstation;
+use App\Repositories\ElectricSubstationRepository;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ElectricSubstationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    public function __construct(
+        protected ElectricSubstationRepository $electricSubstationRepository = new ElectricSubstationRepository()
+    ) {
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function index(): Response
     {
-        //
+        return Inertia::render('ElectricSubstation/Index', [
+            'datas' => $this->electricSubstationRepository->getElectricSubstations()
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function create(): Response
+    {
+        return Inertia::render('ElectricSubstation/Form');
+    }
+
     public function store(Request $request)
     {
         //
