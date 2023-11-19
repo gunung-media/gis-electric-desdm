@@ -9,6 +9,7 @@ export function AuthenticatedLayout({ children }: PropsWithChildren) {
     useScript(`${assets}/js/off-canvas.js`)
     useScript(`${assets}/js/hoverable-collapse.js`)
     useScript(`${assets}/js/template.js`)
+    useScript(`${assets}/js/data-table.js`)
     return (
         <div className="container-scroller">
             <Navbar />
