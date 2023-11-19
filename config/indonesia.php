@@ -47,7 +47,7 @@ return [
 
             'city' => ['code', 'province_code', 'name'],
 
-            'district' => ['code', 'city_code', 'name'],
+            'district' => ['code', 'city_code', 'name', 'latitude', 'longitude'],
 
             'village' => ['code', 'district_code', 'name'],
         ],
