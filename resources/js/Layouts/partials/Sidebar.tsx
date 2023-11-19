@@ -16,7 +16,7 @@ export const Sidebar = () => {
                     </a>
                     <div className="collapse" id="maps">
                         <ul className="nav flex-column sub-menu">
-                            <li className="nav-item"> <a className="nav-link" href="../maps/mapael.html">Gardu Listrik</a></li>
+                            <li className="nav-item"> <a className="nav-link" href={route('admin.gardu_listrik.index')}>Gardu Listrik</a></li>
                             <li className="nav-item"> <a className="nav-link" href="../maps/vector-map.html">Desa</a></li>
                         </ul>
                     </div>
