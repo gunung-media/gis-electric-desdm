@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('longitude');
             $table->timestamps();
 
-            $table->foreign('district_code')->references('code')->on(config("indonesia.table_prefix") . ".districts");
+            $table->foreign('district_code')->references('code')->on(config("indonesia.table_prefix") . "districts");
         });
     }
 
