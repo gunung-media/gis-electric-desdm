@@ -7,18 +7,23 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ElectricSubstationRepository
 {
-    public function insertElectricSubstation(array $data): ElectricSubstation
-    {
-        return ElectricSubstation::create($data);
+    public function __construct(
+        protected ElectricSubstation $model = new ElectricSubstation()
+    ) {
     }
 
-    public function getElectricSubstation(mixed $id): ElectricSubstation
+    public function insertElectricSubstation(array $data): ElectricSubstation
     {
-        return ElectricSubstation::find($id);
+        return $this->model->create($data);
+    }
+
+    public function getElectricSubstation(mixed $id): ?ElectricSubstation
+    {
+        return $this->model->findOrFail($id);
     }
 
     public function getElectricSubstations(): Collection
     {
-        return ElectricSubstation::all();
+        return $this->model->all();
     }
 }
