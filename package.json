@@ -27,6 +27,7 @@
     },
     "dependencies": {
         "leaflet": "^1.9.4",
+        "react-select": "^5.8.0",
         "sweetalert2": "^11.10.0"
     }
 }
