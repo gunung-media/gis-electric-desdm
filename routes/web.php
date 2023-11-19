@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::inertia('/', 'Landing');
+
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthenticateController::class, 'create'])->name('login');
     Route::post('login', [AuthenticateController::class, 'store']);

@@ -1,12 +1,12 @@
 import { InputError, InputGroup } from "@/common/components";
 import { GuestLayout } from "@/layouts/GuestLayout";
-import { useForm, usePage } from "@inertiajs/react";
+import { useForm, usePage, Head } from "@inertiajs/react";
 import { FormEventHandler } from "react";
 
 export default function Login() {
     const { errors } = usePage().props
 
-    const { data, setData, post, processing } = useForm({
+    const { data, setData, post } = useForm({
         username: "",
         password: ""
     });
@@ -18,6 +18,7 @@ export default function Login() {
     }
     return (
         <GuestLayout>
+            <Head title="Login" />
             <form className="pt-3" onSubmit={submit}>
                 <div className="form-group">
                     <InputGroup

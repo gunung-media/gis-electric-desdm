@@ -1,9 +1,11 @@
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
 import { PageProps } from "@/types"
+import { Head } from "@inertiajs/react"
 
 export default function Dashboard({ assets }: PageProps) {
     return (
         <AuthenticatedLayout>
+            <Head title="Dashboard" />
             <div className="row">
                 <div className="col-md-12 grid-margin">
                     <div className="row">
