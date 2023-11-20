@@ -1,6 +1,6 @@
 export interface ElectricSubstationDTO {
     name: string
-    district_id: string | number | null
+    district_code: string | number | null
     city_id?: string | number
     description?: string
     latitude: string | number
