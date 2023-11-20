@@ -29,7 +29,20 @@ class ElectricSubstationController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'district_code' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+        ]);
+
+        try {
+            $this->electricSubstationRepository->insertElectricSubstation($request->toArray());
+            return redirect(route('admin.gardu_listrik.index'))->with('status', 'Sukses Menambah Gardu Listik');
+        } catch (\Throwable $th) {
+            error_log(json_encode($th->getMessage()));
+            return back()->withErrors(['error' => 'Gagal menambah Gardu Listik']);
+        }
     }
 
     /**
