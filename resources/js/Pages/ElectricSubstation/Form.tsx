@@ -8,13 +8,14 @@ import { useForm, usePage } from "@inertiajs/react"
 import { ElectricSubstationDTO } from "@/features/ElectricSubstation"
 import Swal from "sweetalert2"
 import { PageProps } from "@/types"
+import { useMap } from "@/common/hooks"
 
 export default function Form() {
-    const { errors, session } = usePage<PageProps>().props
+    const { errors } = usePage<PageProps>().props
     const [cities, setCities] = useState<CityType[]>([])
     const [districts, setDistricts] = useState<DistrictType[]>([])
     const [selectedDistrict, setSelectedDistrict] = useState<OptionType<DistrictType> | null>(null)
-    const [map, setMap] = useState<L.Map>()
+    const { map } = useMap()
     const [marker, setMarker] = useState<L.Marker>()
     const { data: dto, setData, post } = useForm<ElectricSubstationDTO>()
 
@@ -23,27 +24,25 @@ export default function Form() {
             const { data: { data } } = await getCities()
             setCities(data)
         })()
-        const mapRef = L.map("map").setView(latLangKalteng as L.LatLngExpression, 7);
-        const marker = L.marker(latLangKalteng as L.LatLngExpression, {
-            draggable: true
-        }).addTo(mapRef);
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(mapRef);
-
-        marker.on('dragend', function() {
-            const position = marker.getLatLng();
-            setData(data => ({ ...data, latitude: position.lat, longitude: position.lng }))
-        });
-
-        setMap(mapRef)
-        setMarker(marker)
-        return () => {
-            mapRef.remove()
-            marker.remove()
-        }
     }, [])
+
+    useEffect(() => {
+        if (map) {
+            const marker = L.marker(latLangKalteng as L.LatLngExpression, {
+                draggable: true
+            }).addTo(map);
+
+            marker.on('dragend', function() {
+                const position = marker.getLatLng();
+                setData(data => ({ ...data, latitude: position.lat, longitude: position.lng }))
+            });
+
+            setMarker(marker)
+            return () => {
+                marker.remove()
+            }
+        }
+    }, [map])
 
     const handleCityChange = async (e: OptionType<CityType>) => {
         setData("city_id", e.value.code)
@@ -76,7 +75,7 @@ export default function Form() {
                     });
                 }
             },
-            onSuccess: (e) => {
+            onSuccess: () => {
                 Swal.fire({
                     icon: "success",
                     title: "Sukses",
