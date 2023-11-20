@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->char('district_code', 7);
             $table->string('name');
-            $table->text('descrption')->nullable();
+            $table->text('description')->nullable();
             $table->string('latitude');
             $table->string('longitude');
             $table->timestamps();
