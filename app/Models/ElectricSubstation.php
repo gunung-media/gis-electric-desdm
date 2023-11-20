@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use KodePandai\Indonesia\Models\District;
@@ -19,8 +20,15 @@ class ElectricSubstation extends Model
         'longitude',
     ];
 
+    public $appends = ['city_name'];
+
     public function district(): BelongsTo
     {
         return $this->belongsTo(District::class, 'district_code', 'code');
+    }
+
+    public function cityName(): Attribute
+    {
+        return Attribute::make(get: fn () => $this->district->city->name);
     }
 }
