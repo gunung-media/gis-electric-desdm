@@ -1,13 +1,17 @@
 import { DataTable } from "@/common/components"
+import { ElectricSubstationType } from "@/features/ElectricSubstation"
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
 import { PageProps } from "@/types"
 import { Head } from "@inertiajs/react"
-import { useEffect } from "react"
+import { useState } from "react"
 
-export default function Index({ datas }: PageProps & { datas: any }) {
-    useEffect(() => {
-        console.log(datas)
-    }, [])
+export default function Index({ datas }: PageProps & { datas: ElectricSubstationType[] }) {
+    const [dataTable] = useState<Object[]>(datas.map((val) => ({
+        "Nama": val.name,
+        "Kabupaten/Kota": val.city_name,
+        "Kecamatan": val.district.name,
+        "Deskripsi": val.description ?? '-',
+    })))
     return (
         <AuthenticatedLayout>
             <Head title="Gardu Listrik" />
@@ -22,9 +26,7 @@ export default function Index({ datas }: PageProps & { datas: any }) {
                     </div>
                     <div className="row">
                         <div className="col-12">
-                            <DataTable data={[
-                                { name: "test" },
-                            ]} />
+                            <DataTable data={dataTable} />
                         </div>
                     </div>
                 </div>
