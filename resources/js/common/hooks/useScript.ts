@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const useScript = (url: string) => {
+export const useScript = (url: string) => {
     useEffect(() => {
         const script = document.createElement('script');
 
@@ -14,5 +14,3 @@ const useScript = (url: string) => {
         }
     }, [url]);
 };
-
-export default useScript;
