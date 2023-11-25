@@ -1,13 +1,16 @@
 import { FC } from 'react';
 import Swal from 'sweetalert2'
 import { capitalizeFirstWord } from '../utils';
+import { CommonTableInterface } from '../interface/CommonTableInterface';
 
 type DataTableProps<T extends object = object> = {
-    data: T[]
+    data: T[];
+    columns: string[];
+    onDelete: (id: number) => void;
 }
 
-export const DataTable: FC<DataTableProps> = ({ data }) => {
-    const onDeleteClick = () => {
+export const DataTable: FC<DataTableProps> = ({ data, columns, onDelete }) => {
+    const onDeleteClick = (id: number) => {
         Swal.fire({
             title: "Do you want to delete this data?",
             showDenyButton: true,
@@ -16,6 +19,7 @@ export const DataTable: FC<DataTableProps> = ({ data }) => {
             denyButtonText: "No"
         }).then((result) => {
             if (result.isConfirmed) {
+                onDelete(id)
                 Swal.fire("!", "", "success");
             } else if (result.isDenied) {
                 Swal.fire("Changes are not saved", "", "info");
@@ -28,25 +32,34 @@ export const DataTable: FC<DataTableProps> = ({ data }) => {
                 <thead>
                     <tr>
                         <th>#</th>
-                        {Object.keys(data[0]).map((val, i) => (
-                            <th key={i}>{capitalizeFirstWord(val)}</th>
+                        {columns.map((column, i) => (
+                            <th key={i}>{capitalizeFirstWord(column)}</th>
                         ))}
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((val, i) => (
-                        <tr key={i}>
-                            <td>{i + 1}</td>
-                            {Object.values(val).map((dataValue, index) => (
-                                <td key={index}>{dataValue}</td>
-                            ))}
-                            <td>
-                                <button className="btn btn-outline-warning">Edit</button>
-                                <button className="btn btn-outline-danger" onClick={onDeleteClick}>Delete</button>
-                            </td>
+                    {data.length > 0 ? (
+                        data.map((val, i) => {
+                            return (
+                                <tr key={i}>
+                                    <td>{i + 1}</td>
+                                    {Object.entries(val).map(([key, dataValue], index) => (
+                                        key !== 'id' && <td key={index}>{dataValue}</td>
+                                    ))}
+                                    <td>
+                                        <button className="btn btn-outline-warning">Edit</button>
+                                        <button className="btn btn-outline-danger" onClick={() => onDeleteClick((val as CommonTableInterface).id)}>Delete</button>
+                                    </td>
+                                </tr>
+                            )
+                        }
+                        )
+                    ) : (
+                        <tr>
+                            <td colSpan={columns.length + 2} className='text-center'>No data available</td>
                         </tr>
-                    ))}
+                    )}
                 </tbody>
             </table>
         </div>
