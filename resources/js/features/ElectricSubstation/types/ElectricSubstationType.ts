@@ -5,5 +5,7 @@ export interface ElectricSubstationType extends CommonTableInterface {
     name: string
     district: DistrictType
     city_name: string
-    description?: string
+    description?: string,
+    latitude: string,
+    longitude: string,
 }
