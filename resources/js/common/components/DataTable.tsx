@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import Swal from 'sweetalert2'
-import { capitalizeFirstWord } from '../utils';
+import { capitalizeFirstWord, swalSuccess } from '../utils';
 import { CommonTableInterface } from '../interface/CommonTableInterface';
 
 type DataTableProps<T extends object = object> = {
@@ -21,9 +21,9 @@ export const DataTable: FC<DataTableProps> = ({ data, columns, onDelete, onEdit 
         }).then((result) => {
             if (result.isConfirmed) {
                 onDelete(id)
-                Swal.fire("!", "", "success");
+                swalSuccess('Sukses Menghapus')
             } else if (result.isDenied) {
-                Swal.fire("Changes are not saved", "", "info");
+                Swal.fire("Data tidak dihapus", "", "info");
             }
         })
     }

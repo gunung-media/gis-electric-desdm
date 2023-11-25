@@ -65,11 +65,10 @@ class ElectricSubstationController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(ElectricSubstation $electricSubstation)
+    public function destroy($electricSubstation)
     {
-        //
+        $electricSubstation = $this->electricSubstationRepository->getElectricSubstation($electricSubstation);
+        $electricSubstation->delete();
+        return redirect(route('admin.gardu_listrik.index'))->with('status', 'Sukses Menghapus Gardu Listik');
     }
 }

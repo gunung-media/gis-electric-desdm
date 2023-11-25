@@ -27,7 +27,7 @@ export default function Index({ datas }: PageProps & { datas: ElectricSubstation
                                 data={dataTable}
                                 columns={column}
                                 onEdit={(id) => router.visit(route('admin.gardu_listrik.edit', { gardu_listrik: id }))}
-                                onDelete={(id) => console.log(id)} />
+                                onDelete={(id) => router.delete(route('admin.gardu_listrik.destroy', { gardu_listrik: id }))} />
                         </div>
                     </div>
                 </div>
