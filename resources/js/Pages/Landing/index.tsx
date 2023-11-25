@@ -4,7 +4,7 @@ import kaltengLogo from '@/assets/images/kalteng-logo.png'
 import gubWagub from '@/assets/images/gubWagub.png'
 import kadis from '@/assets/images/kadis.png'
 
-export default function randing() {
+export default function Landing() {
     return (
         <div className="bg">
             <Head title="Landing" />
@@ -18,7 +18,7 @@ export default function randing() {
                         <h5>Sistem Informasi Listrik Daerah</h5>
                     </div>
                     <div className="menus">
-                        <a href="">Peta</a>
+                        <a href={route('map')}>Peta</a>
                         <a href="">Usulan</a>
                         <a href="">Laporan</a>
                         <a href="">Rencana Pembangungan</a>
