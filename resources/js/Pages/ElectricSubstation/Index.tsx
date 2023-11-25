@@ -2,16 +2,16 @@ import { DataTable } from "@/common/components"
 import { ElectricSubstationType } from "@/features/ElectricSubstation"
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
 import { PageProps } from "@/types"
-import { Head } from "@inertiajs/react"
-import { useState } from "react"
+import { Head, usePage, router } from "@inertiajs/react"
 
 export default function Index({ datas }: PageProps & { datas: ElectricSubstationType[] }) {
-    const [dataTable] = useState<Object[]>(datas.map((val) => ({
-        "Nama": val.name,
-        "Kabupaten/Kota": val.city_name,
-        "Kecamatan": val.district.name,
-        "Deskripsi": val.description ?? '-',
-    })))
+    const column = ['Nama', 'Kabupaten', 'Kecamatan', 'Deskripsi']
+    const dataTable = datas.map(({ id, name, city_name, district: { name: districtName }, description }) => ({
+        id, name, city_name, districtName, description
+    }))
+
+
+
     return (
         <AuthenticatedLayout>
             <Head title="Gardu Listrik" />
@@ -26,7 +26,7 @@ export default function Index({ datas }: PageProps & { datas: ElectricSubstation
                     </div>
                     <div className="row">
                         <div className="col-12">
-                            <DataTable data={dataTable} />
+                            <DataTable data={dataTable} columns={column} onEdit={(id) => router.visit(route('admin.gardu_listrik.edit', { gardu_listrik: id }))} />
                         </div>
                     </div>
                 </div>

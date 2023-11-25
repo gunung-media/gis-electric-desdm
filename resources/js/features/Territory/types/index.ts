@@ -1,7 +1,9 @@
+import { CommonTableInterface } from "@/common/interface/CommonTableInterface"
+
 export * from "./CityType"
 export * from "./DistrictType"
 
-export interface TerritoryType {
+export interface TerritoryType extends CommonTableInterface {
     name: string
     code: number
 }

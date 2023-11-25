@@ -5,12 +5,12 @@ import { Input, InputError, OptionType, Select } from "@/common/components"
 import latLangKalteng from "@/common/constants/latLangKalteng"
 import { DistrictType, getCities, getDistricts, CityType } from "@/features/Territory"
 import { useForm, usePage } from "@inertiajs/react"
-import { ElectricSubstationDTO } from "@/features/ElectricSubstation"
+import { ElectricSubstationDTO, ElectricSubstationType } from "@/features/ElectricSubstation"
 import Swal from "sweetalert2"
 import { PageProps } from "@/types"
 import { useMap } from "@/common/hooks"
 
-export default function Form() {
+export default function Form({ electricSubstation }: PageProps & { electricSubstation?: ElectricSubstationType }) {
     const { errors } = usePage<PageProps>().props
     const [cities, setCities] = useState<CityType[]>([])
     const [districts, setDistricts] = useState<DistrictType[]>([])
@@ -23,12 +23,25 @@ export default function Form() {
         (async () => {
             const { data: { data } } = await getCities()
             setCities(data)
+            if (electricSubstation) {
+                const { description, name, district: { code: district_code, city_code }, latitude, longitude } = electricSubstation
+                setData(data => ({
+                    ...data,
+                    description,
+                    city_id: city_code,
+                    name,
+                    district_code,
+                    latitude, longitude
+                }))
+                const { data: { data } } = await getDistricts(city_code)
+                setDistricts(data)
+            }
         })()
     }, [])
 
     useEffect(() => {
         if (map) {
-            const marker = L.marker(latLangKalteng as L.LatLngExpression, {
+            const marker = L.marker((electricSubstation ? [electricSubstation.latitude, electricSubstation.longitude] : latLangKalteng) as L.LatLngExpression, {
                 draggable: true
             }).addTo(map);
 
@@ -102,12 +115,12 @@ export default function Form() {
                             <h4 className="card-title">Additional Data</h4>
                             <InputError message={errors.error} />
                             <form className="forms-sample" onSubmit={handleSubmit}>
-                                <Select title="Kabupaten/Kota" data={cities} onChange={(e) => handleCityChange(e as OptionType<CityType>)} />
-                                <Select title="Kecamatan" data={districts} onChange={(e) => handleDistrictChange(e as OptionType<DistrictType>)} value={selectedDistrict} />
+                                <Select title="Kabupaten/Kota" data={cities} onChange={(e) => handleCityChange(e as OptionType<CityType>)} selectedId={dto.city_id} />
+                                <Select title="Kecamatan" data={districts} onChange={(e) => handleDistrictChange(e as OptionType<DistrictType>)} value={selectedDistrict} selectedId={dto.district_code} />
                                 <InputError message={errors.district_code} />
-                                <Input title="Nama Gardu Listrik" onChange={(e) => setData("name", e.target.value)} />
+                                <Input title="Nama Gardu Listrik" onChange={(e) => setData("name", e.target.value)} value={dto.name} />
                                 <InputError message={errors.name} />
-                                <Input title="Deskripsi" onChange={(e) => setData("description", e.target.value)} />
+                                <Input title="Deskripsi" onChange={(e) => setData("description", e.target.value)} value={dto.description} />
                                 <Input title="latitude" readOnly={true} value={dto.latitude} />
                                 <InputError message={errors.latitude} />
                                 <Input title="longitude" readOnly={true} value={dto.longitude} />

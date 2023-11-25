@@ -45,20 +45,12 @@ class ElectricSubstationController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(ElectricSubstation $electricSubstation)
+    public function edit($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ElectricSubstation $electricSubstation)
-    {
-        //
+        $electricSubstation = $this->electricSubstationRepository->getElectricSubstation($id);
+        return Inertia::render('ElectricSubstation/Form', [
+            'electricSubstation' => $electricSubstation
+        ]);
     }
 
     /**
