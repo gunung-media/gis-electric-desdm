@@ -7,9 +7,10 @@ type DataTableProps<T extends object = object> = {
     data: T[];
     columns: string[];
     onDelete: (id: number) => void;
+    onEdit: (id: number) => void;
 }
 
-export const DataTable: FC<DataTableProps> = ({ data, columns, onDelete }) => {
+export const DataTable: FC<DataTableProps> = ({ data, columns, onDelete, onEdit }) => {
     const onDeleteClick = (id: number) => {
         Swal.fire({
             title: "Do you want to delete this data?",
@@ -48,7 +49,7 @@ export const DataTable: FC<DataTableProps> = ({ data, columns, onDelete }) => {
                                         key !== 'id' && <td key={index}>{dataValue}</td>
                                     ))}
                                     <td>
-                                        <button className="btn btn-outline-warning">Edit</button>
+                                        <button className="btn btn-outline-warning" onClick={() => onEdit((val as CommonTableInterface).id)}>Edit</button>
                                         <button className="btn btn-outline-danger" onClick={() => onDeleteClick((val as CommonTableInterface).id)}>Delete</button>
                                     </td>
                                 </tr>
