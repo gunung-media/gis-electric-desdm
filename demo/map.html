@@ -2,270 +2,272 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GIS ELECTRIC DESDM</title>
-  <link rel="stylesheet" href="./styles.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIS ELECTRIC DESDM</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
-  <div id="map"></div>
+    <div id="map"></div>
 
-  <div class="header">
-    <div class="header-box">Gis <span>Electric Kalimantan Tengah</span></div>
-    <div class="header-actions">
-      <button>
-        <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0.250004 0.25H22.75V2.75H0.250004V0.25Z" fill="#2A62A6" />
-          <path d="M0.249992 20.25H14V22.75H0.249992V20.25Z" fill="#2A62A6" />
-          <path d="M0.250004 10.25H22.75V12.75H0.250004V10.25Z" fill="#2A62A6" />
-        </svg>
-      </button>
-      <button>
-        <svg width="25" height="29" viewBox="0 0 25 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" clip-rule="evenodd"
-            d="M24.8084 12.4016C24.8084 5.60391 19.2978 0.0932617 12.5001 0.0932617C5.73196 0.0932617 0.260135 5.50755 0.192253 12.2754C0.141017 17.3868 3.20613 21.7879 7.60378 23.6967C8.33966 24.0161 8.96913 24.5389 9.42013 25.2024L11.6224 28.4422C12.0435 29.0617 12.9565 29.0617 13.3776 28.4422L15.5798 25.2024C16.0294 24.541 16.6555 24.0176 17.3894 23.6997C21.7544 21.8081 24.8084 17.4618 24.8084 12.4016ZM18.7678 12.4017C18.7678 15.8633 15.9616 18.6694 12.5 18.6694C9.03844 18.6694 6.23227 15.8633 6.23227 12.4017C6.23227 8.94009 9.03844 6.13391 12.5 6.13391C15.9616 6.13391 18.7678 8.94009 18.7678 12.4017Z"
-            fill="#2A62A6" />
-        </svg>
-      </button>
+    <div class="header">
+        <div class="header-box">Gis <span>Electric Kalimantan Tengah</span></div>
+        <div class="header-actions">
+            <button>
+                <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.250004 0.25H22.75V2.75H0.250004V0.25Z" fill="#2A62A6" />
+                    <path d="M0.249992 20.25H14V22.75H0.249992V20.25Z" fill="#2A62A6" />
+                    <path d="M0.250004 10.25H22.75V12.75H0.250004V10.25Z" fill="#2A62A6" />
+                </svg>
+            </button>
+            <button>
+                <svg width="25" height="29" viewBox="0 0 25 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M24.8084 12.4016C24.8084 5.60391 19.2978 0.0932617 12.5001 0.0932617C5.73196 0.0932617 0.260135 5.50755 0.192253 12.2754C0.141017 17.3868 3.20613 21.7879 7.60378 23.6967C8.33966 24.0161 8.96913 24.5389 9.42013 25.2024L11.6224 28.4422C12.0435 29.0617 12.9565 29.0617 13.3776 28.4422L15.5798 25.2024C16.0294 24.541 16.6555 24.0176 17.3894 23.6997C21.7544 21.8081 24.8084 17.4618 24.8084 12.4016ZM18.7678 12.4017C18.7678 15.8633 15.9616 18.6694 12.5 18.6694C9.03844 18.6694 6.23227 15.8633 6.23227 12.4017C6.23227 8.94009 9.03844 6.13391 12.5 6.13391C15.9616 6.13391 18.7678 8.94009 18.7678 12.4017Z"
+                        fill="#2A62A6" />
+                </svg>
+            </button>
+        </div>
     </div>
-  </div>
 
-  <div class="graphics">
-    <p>Grafik Desa</p>
-    <div id="pie-chart"></div>
-    <div id="bar-chart"></div>
-  </div>
+    <div class="graphics">
+        <p>Grafik Desa</p>
+        <div id="pie-chart"></div>
+        <div id="bar-chart"></div>
+    </div>
 </body>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
-  const electricIcon = L.icon({
-    iconUrl: 'electric.png',
-    iconAnchor: [22, 94],
-    popupAnchor: [-3, -76]
-  });
-  let villages = L.layerGroup()
-  let gardu1 = L.marker([0.064411, 114.921690], {icon: electricIcon}).bindPopup('Ini contoh gardu listrik 1');
-  let gardu2 = L.marker([0.084411, 113.921690], {icon: electricIcon}).bindPopup('Ini contoh gardu listrik 2');
-  const gardus = L.layerGroup([gardu1, gardu2])
+    const electricIcon = L.icon({
+        iconUrl: 'electric.png',
+        iconAnchor: [22, 94],
+        popupAnchor: [-3, -76]
+    });
 
-  let listrik = L.polygon([
-    [0.064411, 114.921690],
-    [0.064411 + 0.1001, 114.921610],
-    [0.064411 + 0.2002, 115.921680],
-    [0.064411 + 0.3002, 115.721680]
-  ], {
-    color: 'green',
-    fillColor: 'green',
-    fillOpacity: 0.5,
-    radius: 500
-  }).bindPopup('Ini contoh desa ber-listrik');
-  let tidakListrik = L.polygon([
-    [0.01111, 113.921690],
-    [0.01111 + 0.1001, 113.921610],
-    [0.01111 + 0.2002, 113.921680],
-    [0.01111 + 0.3002, 114.721680]
-  ], {
-    color: 'grey',
-    fillColor: 'grey',
-    fillOpacity: 0.5,
-    radius: 500
-  }).bindPopup('Ini contoh desa tidak ber-listrik');
-  const listrikSituation = L.layerGroup([listrik, tidakListrik])
+    let villages = L.layerGroup()
+    let gardu1 = L.marker([0.064411, 114.921690], {icon: electricIcon}).bindPopup('Ini contoh gardu listrik 1');
+    let gardu2 = L.marker([0.084411, 113.921690], {icon: electricIcon}).bindPopup('Ini contoh gardu listrik 2');
+    const gardus = L.layerGroup([gardu1, gardu2])
 
-  var map = L.map('map', {
-    maxZoom: 20,
-    minZoom: 6,
-    zoomControl: false,
-    layers: [listrikSituation, gardus]
-  }).setView([0.064411, 114.921690], 7)
-  L.control.zoom({
-    position: 'bottomleft'
-  }).addTo(map)
+    let listrik = L.polygon([
+        [0.064411, 114.921690],
+        [0.064411 + 0.1001, 114.921610],
+        [0.064411 + 0.2002, 115.921680],
+        [0.064411 + 0.3002, 115.721680]
+    ], {
+        color: 'green',
+        fillColor: 'green',
+        fillOpacity: 0.5,
+        radius: 500
+    }).bindPopup('Ini contoh desa ber-listrik');
+    let tidakListrik = L.polygon([
+        [0.01111, 113.921690],
+        [0.01111 + 0.1001, 113.921610],
+        [0.01111 + 0.2002, 113.921680],
+        [0.01111 + 0.3002, 114.721680]
+    ], {
+        color: 'grey',
+        fillColor: 'grey',
+        fillOpacity: 0.5,
+        radius: 500
+    }).bindPopup('Ini contoh desa tidak ber-listrik');
+    const listrikSituation = L.layerGroup([listrik, tidakListrik])
 
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-  }).addTo(map)
+    var map = L.map('map', {
+        maxZoom: 20,
+        minZoom: 6,
+        zoomControl: false,
+        layers: [listrikSituation, gardus]
+    }).setView([0.064411, 114.921690], 7)
+    L.control.zoom({
+        position: 'bottomleft'
+    }).addTo(map)
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map)
 
 
-  var overlayMaps = {
-    "Gardu Listrik": gardus,
-    "Situasi Listrik": listrikSituation,
-    villages: villages
-  };
-  var layerControl = L.control.layers(null, overlayMaps, {position: 'topleft'}).addTo(map);
-  setTimeout(() => {
-    $.ajax({
-      dataType: "json",
-      url: "./indonesia_villages_border.geojson",
-      success: function (datas) {
-        for (let i = 0; i < datas.length; i++) {
-          if (datas[i].province !== "KALIMANTAN TENGAH") continue
-          try {
-            const data = datas[i]
-            console.log(
-              {
-                geometry: {
-                  coordinates: [data.border],
-                  type: "Polygon"
+    var overlayMaps = {
+        "Gardu Listrik": gardus,
+        "Situasi Listrik": listrikSituation,
+        villages: villages
+    };
+    var layerControl = L.control.layers(null, overlayMaps, {position: 'topleft'}).addTo(map);
+    setTimeout(() => {
+        $.ajax({
+            dataType: "json",
+            url: "./indonesia_villages_border.geojson",
+            success: function (datas) {
+                for (let i = 0; i < datas.length; i++) {
+                    if (datas[i].province !== "KALIMANTAN TENGAH") continue
+                    try {
+                        const data = datas[i]
+                        console.log(
+                            {
+                                geometry: {
+                                    coordinates: [data.border],
+                                    type: "Polygon"
+                                }
+                            }
+                        )
+                        let kalimantan = new L.geoJSON({
+                            geometry: {
+                                coordinates: [data.border],
+                                type: "Polygon"
+                            },
+                            type: "Feature"
+                        }, {
+                            style: {
+                                color: 'white',
+                                dashArray: '1',
+                                lineCap: 'butt',
+                                lineJoin: 'miter',
+                                fillColor: '#111',
+                                fillOpacity: 0.1,
+                            }
+                        }).addTo(villages)
+                        var info = ""
+                        info += "<div class='media-center'>";
+                        info += "</div>";
+                        info += "<div class='media-body '>";
+                        info += `<p>Provinsi: <b>${data.province}</b></p>`;
+                        info += `<p>Kabupaten/Kota: ${data.district}</p>`;
+                        info += `<p>Kecamatan: ${data.sub_district}</p>`;
+                        info += `<p>Desa: ${data.village}</p>`;
+                        info += "</div>";
+                        kalimantan.eachLayer(function (layer) {
+                            layer.bindPopup(info);
+                        });
+                    } catch {
+                        continue;
+                    }
                 }
-              }
-            )
-            let kalimantan = new L.geoJSON({
-              geometry: {
-                coordinates: [data.border],
-                type: "Polygon"
-              },
-              type: "Feature"
-            }, {
-              style: {
-                color: 'white',
-                dashArray: '1',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                fillColor: '#111',
-                fillOpacity: 0.1,
-              }
-            }).addTo(villages)
-            var info = ""
-            info += "<div class='media-center'>";
-            info += "</div>";
-            info += "<div class='media-body '>";
-            info += `<p>Provinsi: <b>${data.province}</b></p>`;
-            info += `<p>Kabupaten/Kota: ${data.district}</p>`;
-            info += `<p>Kecamatan: ${data.sub_district}</p>`;
-            info += `<p>Desa: ${data.village}</p>`;
-            info += "</div>";
-            kalimantan.eachLayer(function (layer) {
-              layer.bindPopup(info);
-            });
-          } catch {
-            continue;
-          }
-        }
-      }
-    })
-  }, 1000)
+            }
+        })
+    }, 1000)
 </script>
 <script>
-  Highcharts.chart('pie-chart', {
-    chart: {
-      type: 'pie',
-      backgroundColor: 'rgba(0,0,0,0)'
-    },
-    title: {
-      text: ''
-    },
-    tooltip: {
-      valueSuffix: '%'
-    },
-    plotOptions: {
-      series: {
-        allowPointSelect: true,
-        cursor: 'pointer',
-        dataLabels: [{
-          enabled: true,
-          distance: 20
-        }, {
-          enabled: true,
-          distance: -40,
-          format: '{point.percentage:.1f}%',
-          style: {
-            fontSize: '1.2em',
-            textOutline: 'none',
-            opacity: 0.7
-          },
-          filter: {
-            operator: '>',
-            property: 'percentage',
-            value: 10
-          }
-        }]
-      }
-    },
-    series: [
-      {
-        name: 'Percentage',
-        colorByPoint: true,
-        data: [
-          {
-            name: 'Water',
-            y: 55.02
-          },
-          {
-            name: 'Fat',
-            sliced: true,
-            selected: true,
-            y: 26.71
-          },
-          {
-            name: 'Carbohydrates',
-            y: 1.09
-          },
-          {
-            name: 'Protein',
-            y: 15.5
-          },
-          {
-            name: 'Ash',
-            y: 1.68
-          }
+    Highcharts.chart('pie-chart', {
+        chart: {
+            type: 'pie',
+            backgroundColor: 'rgba(0,0,0,0)'
+        },
+        title: {
+            text: ''
+        },
+        tooltip: {
+            valueSuffix: '%'
+        },
+        plotOptions: {
+            series: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: [{
+                    enabled: true,
+                    distance: 20
+                }, {
+                    enabled: true,
+                    distance: -40,
+                    format: '{point.percentage:.1f}%',
+                    style: {
+                        fontSize: '1.2em',
+                        textOutline: 'none',
+                        opacity: 0.7
+                    },
+                    filter: {
+                        operator: '>',
+                        property: 'percentage',
+                        value: 10
+                    }
+                }]
+            }
+        },
+        series: [
+            {
+                name: 'Percentage',
+                colorByPoint: true,
+                data: [
+                    {
+                        name: 'Water',
+                        y: 55.02
+                    },
+                    {
+                        name: 'Fat',
+                        sliced: true,
+                        selected: true,
+                        y: 26.71
+                    },
+                    {
+                        name: 'Carbohydrates',
+                        y: 1.09
+                    },
+                    {
+                        name: 'Protein',
+                        y: 15.5
+                    },
+                    {
+                        name: 'Ash',
+                        y: 1.68
+                    }
+                ]
+            }
         ]
-      }
-    ]
-  });
+    });
 
-  Highcharts.chart('bar-chart', {
-    chart: {
-      type: 'column',
-      backgroundColor: 'rgba(0,0,0,0)'
-    },
-    title: {
-      text: 'Desa ber-listrik vs Desa tidak ber-listrik',
-    },
-    xAxis: {
-      categories: ['Palangkaraya', 'Kapuas', 'Kuala Kurun', 'EU', 'India', 'Russia'],
-      crosshair: true,
-      accessibility: {
-        description: 'Countries'
-      }
-    },
-    yAxis: {
-      min: 0,
-      title: {
-        text: '1000 metric tons (MT)'
-      }
-    },
-    tooltip: {
-      valueSuffix: ' (1000 MT)'
-    },
-    plotOptions: {
-      column: {
-        pointPadding: 0.2,
-        borderWidth: 0
-      }
-    },
-    series: [
-      {
-        name: 'Desa ber-listrik',
-        data: [406292, 260000, 107000, 68300, 27500, 14500]
-      },
-      {
-        name: 'Desa tidak ber-listrik',
-        data: [51086, 136000, 5500, 141000, 107180, 77000]
-      }
-    ]
-  });
+    Highcharts.chart('bar-chart', {
+        chart: {
+            type: 'column',
+            backgroundColor: 'rgba(0,0,0,0)'
+        },
+        title: {
+            text: 'Desa ber-listrik vs Desa tidak ber-listrik',
+        },
+        xAxis: {
+            categories: ['Palangkaraya', 'Kapuas', 'Kuala Kurun', 'EU', 'India', 'Russia'],
+            crosshair: true,
+            accessibility: {
+                description: 'Countries'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '1000 metric tons (MT)'
+            }
+        },
+        tooltip: {
+            valueSuffix: ' (1000 MT)'
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [
+            {
+                name: 'Desa ber-listrik',
+                data: [406292, 260000, 107000, 68300, 27500, 14500]
+            },
+            {
+                name: 'Desa tidak ber-listrik',
+                data: [51086, 136000, 5500, 141000, 107180, 77000]
+            }
+        ]
+    });
 </script>
 
 </html>
