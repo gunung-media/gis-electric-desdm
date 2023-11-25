@@ -1,1 +1,1 @@
-export * from "./ElectriccSubstationType"
+export * from "./ElectricSubstationType"
