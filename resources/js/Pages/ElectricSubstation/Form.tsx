@@ -6,9 +6,9 @@ import latLangKalteng from "@/common/constants/latLangKalteng"
 import { DistrictType, getCities, getDistricts, CityType } from "@/features/Territory"
 import { useForm, usePage } from "@inertiajs/react"
 import { ElectricSubstationDTO, ElectricSubstationType } from "@/features/ElectricSubstation"
-import Swal from "sweetalert2"
 import { PageProps } from "@/types"
 import { useMap } from "@/common/hooks"
+import { swalError, swalSuccess } from "@/common/utils"
 
 export default function Form({ electricSubstation }: PageProps & { electricSubstation?: ElectricSubstationType }) {
     const { errors } = usePage<PageProps>().props
@@ -17,7 +17,7 @@ export default function Form({ electricSubstation }: PageProps & { electricSubst
     const [selectedDistrict, setSelectedDistrict] = useState<OptionType<DistrictType> | null>(null)
     const { map } = useMap()
     const [marker, setMarker] = useState<L.Marker>()
-    const { data: dto, setData, post } = useForm<ElectricSubstationDTO>()
+    const { data: dto, setData, post, put } = useForm<ElectricSubstationDTO>()
 
     useEffect(() => {
         (async () => {
@@ -78,22 +78,23 @@ export default function Form({ electricSubstation }: PageProps & { electricSubst
 
     const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault()
+        if (electricSubstation) {
+            put(route('admin.gardu_listrik.update'), {
+                onError: (e) => {
+                    swalError(e.error)
+                },
+                onSuccess: () => {
+                    swalSuccess()
+                }
+            })
+            return
+        }
         post(route('admin.gardu_listrik.store'), {
             onError: (e) => {
-                if (e.error) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: e.error,
-                    });
-                }
+                swalError(e.error)
             },
             onSuccess: () => {
-                Swal.fire({
-                    icon: "success",
-                    title: "Sukses",
-                    text: "Sukses Menambah",
-                });
+                swalSuccess()
             }
         })
     }

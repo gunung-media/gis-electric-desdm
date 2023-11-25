@@ -2,16 +2,13 @@ import { DataTable } from "@/common/components"
 import { ElectricSubstationType } from "@/features/ElectricSubstation"
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
 import { PageProps } from "@/types"
-import { Head, usePage, router } from "@inertiajs/react"
+import { Head, router } from "@inertiajs/react"
 
 export default function Index({ datas }: PageProps & { datas: ElectricSubstationType[] }) {
     const column = ['Nama', 'Kabupaten', 'Kecamatan', 'Deskripsi']
     const dataTable = datas.map(({ id, name, city_name, district: { name: districtName }, description }) => ({
         id, name, city_name, districtName, description
     }))
-
-
-
     return (
         <AuthenticatedLayout>
             <Head title="Gardu Listrik" />
