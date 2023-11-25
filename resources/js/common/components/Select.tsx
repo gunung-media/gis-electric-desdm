@@ -8,7 +8,7 @@ export type OptionType<T> = {
 }
 
 export const Select = ({ title, data, selectedId, ...props }: Props & { title: string, data: TerritoryType[], selectedId?: number | string | null, }) => {
-    const option: OptionType[] = data.map((val) => ({ value: val, label: val.name }))
+    const option: OptionType<any>[] = data.map((val) => ({ value: val, label: val.name }))
     const [defaultValue, setDefaultValue] = useState<OptionType<number | string>>()
 
     useEffect(() => {
