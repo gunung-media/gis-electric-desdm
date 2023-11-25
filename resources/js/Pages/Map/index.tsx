@@ -8,7 +8,7 @@ import { VillageType, getKaltengVillages } from '@/features/Territory'
 
 export default function Map() {
     const { map, setMap } = useMap()
-    const [isLoading, setIsLoading] = useState<bool>(true)
+    const [isLoading, setIsLoading] = useState<boolean>(true)
     const [villages, setVillages] = useState<VillageType[]>([])
 
     useEffect(() => {
