@@ -7,17 +7,19 @@ export type OptionType<T> = {
     label: string
 }
 
-export const Select = ({ title, data, selectedId, ...props }: Props & { title: string, data: TerritoryType[], selectedId?: number, }) => {
+export const Select = ({ title, data, selectedId, ...props }: Props & { title: string, data: TerritoryType[], selectedId?: number | string, }) => {
     const option: OptionType[] = data.map((val) => ({ value: val, label: val.name }))
-    const [defaultValue, setDefaultValue] = useState<OptionType>()
+    const [defaultValue, setDefaultValue] = useState<OptionType<number | string>>()
+
     useEffect(() => {
+        if (!selectedId) return
         const label = data.filter(val => val.code == selectedId)[0]?.name;
         setDefaultValue({
             value: selectedId,
             label: label
         })
-        console.log(label)
     }, [data, selectedId])
+
     return (
         <div className="form-group">
             <label htmlFor={title}>{title}</label>
