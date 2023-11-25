@@ -45,20 +45,24 @@ class ElectricSubstationController extends Controller
         }
     }
 
-    public function edit($id)
+    public function edit(mixed $electricSubstation): Response
     {
-        $electricSubstation = $this->electricSubstationRepository->getElectricSubstation($id);
+        $electricSubstation = $this->electricSubstationRepository->getElectricSubstation($electricSubstation);
         return Inertia::render('ElectricSubstation/Form', [
             'electricSubstation' => $electricSubstation
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, ElectricSubstation $electricSubstation)
+    public function update(Request $request, $electricSubstation)
     {
-        //
+        try {
+            $electricSubstation = $this->electricSubstationRepository->getElectricSubstation($electricSubstation);
+            $electricSubstation->update($request->toArray());
+            return redirect(route('admin.gardu_listrik.index'))->with('status', 'Sukses Mengupdate Gardu Listik');
+        } catch (\Throwable $th) {
+            error_log(json_encode($th->getMessage()));
+            return back()->withErrors(['error' => 'Gagal mengupdate Gardu Listik']);
+        }
     }
 
     /**

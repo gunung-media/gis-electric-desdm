@@ -79,12 +79,12 @@ export default function Form({ electricSubstation }: PageProps & { electricSubst
     const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault()
         if (electricSubstation) {
-            put(route('admin.gardu_listrik.update'), {
+            put(route('admin.gardu_listrik.update', { gardu_listrik: electricSubstation.id }), {
                 onError: (e) => {
                     swalError(e.error)
                 },
-                onSuccess: () => {
-                    swalSuccess()
+                onSuccess: (test) => {
+                    swalSuccess('Sukses Mengupdate')
                 }
             })
             return

@@ -23,7 +23,11 @@ export default function Index({ datas }: PageProps & { datas: ElectricSubstation
                     </div>
                     <div className="row">
                         <div className="col-12">
-                            <DataTable data={dataTable} columns={column} onEdit={(id) => router.visit(route('admin.gardu_listrik.edit', { gardu_listrik: id }))} />
+                            <DataTable
+                                data={dataTable}
+                                columns={column}
+                                onEdit={(id) => router.visit(route('admin.gardu_listrik.edit', { gardu_listrik: id }))}
+                                onDelete={(id) => console.log(id)} />
                         </div>
                     </div>
                 </div>
