@@ -50,6 +50,7 @@ class CreateIndonesiaTable extends Migration
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
             $table->string('postal_code')->nullable();
+            $table->json('borders')->nullable();
 
             $table->foreign('district_code')
                 ->references('code')

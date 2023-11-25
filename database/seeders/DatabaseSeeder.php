@@ -19,6 +19,9 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('admin')
         ]);
 
-        $this->call(IndonesiaDatabaseSeeder::class);
+        $this->call([
+            IndonesiaDatabaseSeeder::class,
+            IndonesianVillagesBorderSeeder::class,
+        ]);
     }
 }
