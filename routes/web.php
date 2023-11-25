@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::inertia('/', 'Landing');
+Route::inertia('/', 'Landing/index');
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthenticateController::class, 'create'])->name('login');
