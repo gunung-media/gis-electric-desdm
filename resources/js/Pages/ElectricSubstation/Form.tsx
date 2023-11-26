@@ -1,43 +1,34 @@
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
 import { FormEventHandler, useEffect, useState } from "react"
 import L from "leaflet"
-import { Input, InputError, OptionType, Select } from "@/common/components"
+import { Input, InputError, OptionType } from "@/common/components"
 import latLangKalteng from "@/common/constants/latLangKalteng"
-import { DistrictType, getCities, getDistricts, CityType } from "@/features/Territory"
+import { DistrictType, CityType, SelectCity, SelectDistrict } from "@/features/Territory"
 import { useForm, usePage } from "@inertiajs/react"
 import { ElectricSubstationDTO, ElectricSubstationType } from "@/features/ElectricSubstation"
 import { PageProps } from "@/types"
 import { useMap } from "@/common/hooks"
 import { swalError, swalSuccess } from "@/common/utils"
-import { SelectCity } from "@/features/Territory/components/SelectCity"
 
 export default function Form({ electricSubstation }: PageProps & { electricSubstation?: ElectricSubstationType }) {
     const { errors } = usePage<PageProps>().props
-    const [cities, setCities] = useState<CityType[]>([])
-    const [districts, setDistricts] = useState<DistrictType[]>([])
-    const [selectedDistrict, setSelectedDistrict] = useState<OptionType<DistrictType> | null>(null)
     const { map } = useMap()
     const [marker, setMarker] = useState<L.Marker>()
     const { data: dto, setData, post, put } = useForm<ElectricSubstationDTO>()
+    const [selectedCityId, setSelectedCityId] = useState<string | number>()
 
     useEffect(() => {
-        (async () => {
-            const { data: { data } } = await getCities()
-            setCities(data)
-            if (electricSubstation) {
-                const { description, name, district: { code: district_code, city_code }, latitude, longitude } = electricSubstation
-                setData(data => ({
-                    ...data,
-                    description,
-                    city_id: city_code,
-                    name,
-                    district_code,
-                    latitude, longitude
-                }))
-                const { data: { data } } = await getDistricts(city_code)
-                setDistricts(data)
-            }
-        })()
+        if (!electricSubstation) return;
+        const { description, name, district: { code: district_code, city_code }, latitude, longitude } = electricSubstation
+        setData(data => ({
+            ...data,
+            description,
+            city_id: city_code,
+            name,
+            district_code,
+            latitude, longitude
+        }))
+        setSelectedCityId(city_code)
     }, [])
 
     useEffect(() => {
@@ -60,17 +51,12 @@ export default function Form({ electricSubstation }: PageProps & { electricSubst
 
     const handleCityChange = async (e: OptionType<CityType>) => {
         setData("city_id", e.value.code)
-        setSelectedDistrict(null)
         setData("district_code", null)
-        const { data: { data } } = await getDistricts(e.value.code)
-        setDistricts(data)
+        setSelectedCityId(e.value.code)
     }
 
     const handleDistrictChange = async (e: OptionType<DistrictType>) => {
         setData("district_code", e.value.code)
-        setSelectedDistrict(e)
-        const { data: { data } } = await getDistricts(e.value.city_code)
-        setDistricts(data)
         const latLang = [parseInt(e.value.latitude), parseInt(e.value.longitude)]
         map!.panTo(latLang as L.LatLngExpression)
         marker!.setLatLng(latLang as L.LatLngExpression)
@@ -84,7 +70,7 @@ export default function Form({ electricSubstation }: PageProps & { electricSubst
                 onError: (e) => {
                     swalError(e.error)
                 },
-                onSuccess: (test) => {
+                onSuccess: () => {
                     swalSuccess('Sukses Mengupdate')
                 }
             })
@@ -118,7 +104,7 @@ export default function Form({ electricSubstation }: PageProps & { electricSubst
                             <InputError message={errors.error} />
                             <form className="forms-sample" onSubmit={handleSubmit}>
                                 <SelectCity handleCityChange={handleCityChange} selectedCity={dto.city_id} />
-                                <Select title="Kecamatan" data={districts} onChange={(e) => handleDistrictChange(e as OptionType<DistrictType>)} value={selectedDistrict} selectedId={dto.district_code} />
+                                <SelectDistrict handleDistrictChange={handleDistrictChange} selectedDistrict={dto.district_code} selectedCityId={selectedCityId} />
                                 <InputError message={errors.district_code} />
                                 <Input title="Nama Gardu Listrik" onChange={(e) => setData("name", e.target.value)} value={dto.name} />
                                 <InputError message={errors.name} />
