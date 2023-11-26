@@ -14,7 +14,7 @@ export default function Landing() {
                 <div className="landing-container">
                     <div className="heading">
                         <img src={kaltengLogo} alt="Kalimantan Tengah" />
-                        <h1>SI<span>lisda</span></h1>
+                        <h1>Si<span>lisda</span></h1>
                         <h5>Sistem Informasi Listrik Daerah</h5>
                     </div>
                     <div className="menus">
