@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\ElectricSubstation;
+use App\Http\Controllers\Controller;
 use App\Repositories\ElectricSubstationRepository;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
