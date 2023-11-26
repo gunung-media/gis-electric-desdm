@@ -1,19 +1,23 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticateController;
-use App\Http\Controllers\ElectricSubstationController;
-use App\Http\Controllers\MapController;
+
+use App\Http\Controllers\Admin\ElectricSubstationController;
+
+use App\Http\Controllers\Landing\MapController;
+use App\Http\Controllers\Landing\ProposalController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
 */
 
-Route::inertia('/', 'Landing/index');
+Route::inertia('/', 'Landing/index')->name('landing');
 Route::get('/map', MapController::class)->name('map');
+Route::resource('/proposal', ProposalController::class)->only(['index', 'store', 'show']);
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthenticateController::class, 'create'])->name('login');

@@ -1,10 +1,12 @@
 import { useMap } from '@/common/hooks'
-import './sytles.scss'
+import { Loader } from '@/common/components'
+import '@/common/styles/map.scss'
 import { useEffect, useState } from 'react'
 import electricPng from '@/assets/images/electric.png'
 import L from 'leaflet'
 import ReactLoading from 'react-loading';
 import { VillageType, getKaltengVillages } from '@/features/Territory'
+import { router } from '@inertiajs/react'
 
 export default function Map() {
     const { map, setMap } = useMap()
@@ -73,7 +75,7 @@ export default function Map() {
                             var info = ""
                             info += "<div class='media-center'>";
                             info += "</div>";
-                            info += "<div class='media-body '>";
+                            info += "<div class='media-body'>";
                             info += `<p>Kabupaten/Kota: ${element.city.name}</p>`;
                             info += `<p>Kecamatan: ${element.district.name}</p>`;
                             info += `<p>Desa: ${element.name}</p>`;
@@ -95,14 +97,10 @@ export default function Map() {
     }, [map])
     return (
         <>
-            {isLoading && (
-                <div className='overlay'>
-                    <ReactLoading height={'100%'} width={'20%'} className='loader' />
-                </div>
-            )}
+            <Loader isShow={isLoading} />
             <div id="map"></div>
             <div className="header">
-                <div className="header-box">Gis <span>Electric Kalimantan Tengah</span></div>
+                <div className="header-box" onClick={() => router.visit(route('landing'))}>Silisda <span>peta</span></div>
                 <div className="header-actions">
                     <button>
                         <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
