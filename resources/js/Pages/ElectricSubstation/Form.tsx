@@ -9,6 +9,7 @@ import { ElectricSubstationDTO, ElectricSubstationType } from "@/features/Electr
 import { PageProps } from "@/types"
 import { useMap } from "@/common/hooks"
 import { swalError, swalSuccess } from "@/common/utils"
+import { SelectCity } from "@/features/Territory/components/SelectCity"
 
 export default function Form({ electricSubstation }: PageProps & { electricSubstation?: ElectricSubstationType }) {
     const { errors } = usePage<PageProps>().props
@@ -116,7 +117,7 @@ export default function Form({ electricSubstation }: PageProps & { electricSubst
                             <h4 className="card-title">Additional Data</h4>
                             <InputError message={errors.error} />
                             <form className="forms-sample" onSubmit={handleSubmit}>
-                                <Select title="Kabupaten/Kota" data={cities} onChange={(e) => handleCityChange(e as OptionType<CityType>)} selectedId={dto.city_id} />
+                                <SelectCity handleCityChange={handleCityChange} selectedCity={dto.city_id} />
                                 <Select title="Kecamatan" data={districts} onChange={(e) => handleDistrictChange(e as OptionType<DistrictType>)} value={selectedDistrict} selectedId={dto.district_code} />
                                 <InputError message={errors.district_code} />
                                 <Input title="Nama Gardu Listrik" onChange={(e) => setData("name", e.target.value)} value={dto.name} />
