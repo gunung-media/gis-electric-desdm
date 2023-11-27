@@ -71,13 +71,13 @@ export const ProposalTrackingBox: FC<{
                                         <tr>
                                             <td colSpan={3}>Tidak ada tracking</td>
                                         </tr>
-                                    ) : (
+                                    ) : proposal?.trackings.map((tracking) => (
                                         <tr>
-                                            <td>Jacob</td>
-                                            <td>Photoshop</td>
-                                            <td className="text-danger"> 28.76% <i className="ti-arrow-down"></i></td>
+                                            <td>{tracking.status}</td>
+                                            <td>{tracking.description}</td>
+                                            <td className="text-danger">{tracking.created_at}</td>
                                         </tr>
-                                    )}
+                                    ))}
                                 </tbody>
                             </table>
                         </div>
