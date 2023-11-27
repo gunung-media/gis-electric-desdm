@@ -1,89 +1,56 @@
-import { useGetLocation, useMap } from '@/common/hooks'
 import './styles.scss'
-import { ChangeEvent, FormEventHandler, useEffect, useState } from 'react'
 import L from 'leaflet'
-import { Head, router, useForm, usePage } from '@inertiajs/react'
-import { CloseBtn, Loader, FormGroup, InputType, OptionType, OptionalSelect, InputError } from '@/common/components';
-import { Modal, Button, Form, Container, Row, Col } from 'react-bootstrap'
-import { ProposalDTO, ProposalType } from '@/features/Proposal'
-import { CityType, DistrictType, SelectCity, SelectDistrict, VillageType } from '@/features/Territory'
-import { SelectVillage } from '@/features/Territory/components/SelectVillage'
-import { enumToStringArray, swalError, swalSuccess } from '@/common/utils'
-import { PriorityEnum } from '@/common/enums'
+import { useMap } from '@/common/hooks'
+import { useEffect, useState } from 'react'
+import { Head, router, } from '@inertiajs/react'
+import { Loader } from '@/common/components';
+import { ModalFormProposal, ProposalType, TrackingView } from '@/features/Proposal'
+import { theMarker } from '@/common/utils'
 import { PageProps } from '@/types'
+import { renderToString } from 'react-dom/server'
 
 export default function Proposal({ datas }: PageProps & { datas: ProposalType[] }) {
     const { map } = useMap()
-    const { errors } = usePage<PageProps>().props
-    const { latLang } = useGetLocation()
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [isShowTracking, setIsShowTracking] = useState<boolean>(false)
     const [isShowAdd, setIsShowAdd] = useState<boolean>(false)
-    const { data, setData, post } = useForm<ProposalDTO>()
-    const [cityCode, setCityCode] = useState<string | number>()
-    const [districtCode, setDistrictCode] = useState<string | number>()
-    const [villageCode, setVillageCode] = useState<string | number>()
-
-    const identityProposal: InputType<ProposalDTO>[] = [
-        { title: 'Nama Lengkap', name: 'full_name', type: "text" },
-        { title: 'Nomor Identitas', name: 'identity_number', type: "text" },
-        { title: 'Email', name: 'email', type: 'email' },
-        { title: 'Nomor Telepon', name: 'phone_number', type: 'number' },
-        { title: 'Alamat', name: 'address', type: 'text' },
-    ]
-
-    const additionalFields: InputType<ProposalDTO>[] = [
-        { title: 'Deskripsi Usulan', name: 'description', type: "text" },
-        { title: 'Foto/Dokumen Pendukung', name: 'document_path', type: "file" },
-        { title: 'Estimasi Biaya', name: 'estimated_cost', type: "number" },
-        { title: 'Catatan Tambahan', name: 'additional_note', type: "text" },
-    ]
+    const [proposalId, setProposalId] = useState<number>()
 
     useEffect(() => {
+        const proposalMarker = []
+        for (let i = 0; i < datas.length; i++) {
+            const proposal = datas[i];
+            const marker = theMarker(
+                parseFloat(proposal.latitude ?? proposal.village.latitude ?? "0"),
+                parseFloat(proposal.longitude ?? proposal.village.longitude ?? "0")
+            )
+            marker.bindPopup(renderToString(
+                <>
+                    <h5>{proposal.proposal_type}</h5>
+                    <p>{proposal.created_at}</p>
+
+                </>
+            ))
+
+            marker.on('click', () => {
+                setIsShowTracking(true)
+                setProposalId(proposal.id)
+            })
+            proposalMarker.push(marker)
+        }
+        const proposalLayer = L.layerGroup(proposalMarker)
+
         if (map) {
             L.control.zoom({
                 position: 'bottomleft'
             }).addTo(map)
+
+            map.addLayer(proposalLayer)
+            setIsLoading(false)
         }
+
     }, [map])
 
-    useEffect(() => {
-        setData((prevData) => ({
-            ...prevData,
-            latitude: latLang.latitude,
-            longitude: latLang.longitude
-        }))
-    }, [latLang])
-
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target
-        setData((prevData) => ({
-            ...prevData,
-            [name]: name !== "document_path" ? value : e.target.files[0]
-        }))
-    }
-
-    const handleCityChange = (e: OptionType<CityType>) => {
-        setCityCode(e.value.code)
-    }
-
-    const handleDistrictChange = (e: OptionType<DistrictType>) => {
-        setDistrictCode(e.value.code)
-    }
-
-    const handleVillageChange = (e: OptionType<VillageType>) => {
-        setVillageCode(e.value.code)
-        setData('village_code', e.value.code.toString())
-    }
-
-    const handleSubmit: FormEventHandler = (e) => {
-        e.preventDefault()
-        post(route('proposal.store'), {
-            onSuccess: () => { swalSuccess('Sukses menambah usulan'); setIsShowAdd(false) },
-            onError: (e) => swalError(e.error),
-            forceFormData: true
-        })
-    }
 
     return (
         <>
@@ -100,86 +67,16 @@ export default function Proposal({ datas }: PageProps & { datas: ProposalType[] 
                 </div>
             </div>
 
-            <Modal
-                show={isShowAdd}
-                onHide={() => setIsShowAdd(false)}
-                backdrop="static"
-                keyboard={false}
-                size='xl'
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title>Tambah Usulan</Modal.Title>
-                </Modal.Header>
-                <Form onSubmit={handleSubmit}>
-                    <Modal.Body>
-                        <Container>
-                            <Row>
-                                <Col>
-                                    {identityProposal.map((val, i) => (
-                                        <FormGroup
-                                            key={i}
-                                            title={val.title}
-                                            type={val.type}
-                                            onChange={handleInputChange}
-                                            name={val.name}
-                                            errorMsg={errors[val.name]}
-                                        />
-                                    ))}
-                                    <SelectCity handleCityChange={handleCityChange} />
-                                    <SelectDistrict handleDistrictChange={handleDistrictChange} selectedCityId={cityCode} />
-                                    <SelectVillage handleVillageChange={handleVillageChange} selectedDistrictId={districtCode} />
-                                    <InputError message={errors.village_code} />
-                                </Col>
-                                <Col>
-                                    <OptionalSelect
-                                        title='Jenis Usulan'
-                                        defaultChoice={['Instalasi Jaringan Baru', 'Penambahan Jaringan Eksisting', 'Peningkatan Kapasitas Jaringan', 'Lainnya']}
-                                        onSelected={(val) => setData('proposal_type', val)}
-                                    />
-                                    <InputError message={errors.proposal_type} />
+            <ModalFormProposal
+                isShow={isShowAdd}
+                onClose={() => setIsShowAdd(false)}
+            />
 
-                                    {additionalFields.map((val, i) => (
-                                        <FormGroup
-                                            key={i}
-                                            title={val.title}
-                                            type={val.type}
-                                            onChange={handleInputChange}
-                                            name={val.name}
-                                            errorMsg={errors[val.name]}
-                                        />
-                                    ))}
-
-                                    <OptionalSelect
-                                        title='Prioritas'
-                                        defaultChoice={enumToStringArray(PriorityEnum)}
-                                        onSelected={(val) => setData('priority', val as PriorityEnum)}
-                                    />
-                                    <InputError message={errors.priority} />
-                                </Col>
-                            </Row>
-                        </Container>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={() => setIsShowAdd(false)}>
-                            Close
-                        </Button>
-                        <Button variant="primary" type='submit'>Simpan</Button>
-                    </Modal.Footer>
-                </Form>
-            </Modal>
-
-            {
-                isShowTracking && (
-                    <div className="tracking">
-                        <div className="header">
-                            <svg width="45" height="25" viewBox="0 0 45 25" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ 'display': '' }}>
-                            </svg>
-                            <p>Tracking</p>
-                            <CloseBtn onClick={() => setIsShowTracking(false)} />
-                        </div>
-                    </div>
-                )
-            }
+            <TrackingView
+                isShow={isShowTracking}
+                onClose={() => setIsShowTracking(false)}
+                proposalId={proposalId}
+            />
         </>
     )
 }
