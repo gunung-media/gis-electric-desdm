@@ -1,20 +1,21 @@
-import { useMap } from '@/common/hooks'
+import { useGetLocation, useMap } from '@/common/hooks'
 import './styles.scss'
 import { ChangeEvent, FormEventHandler, useEffect, useState } from 'react'
 import L from 'leaflet'
 import { Head, router, useForm, usePage } from '@inertiajs/react'
 import { CloseBtn, Loader, FormGroup, InputType, OptionType, OptionalSelect, InputError } from '@/common/components';
 import { Modal, Button, Form, Container, Row, Col } from 'react-bootstrap'
-import { ProposalDTO } from '@/features/Proposal'
+import { ProposalDTO, ProposalType } from '@/features/Proposal'
 import { CityType, DistrictType, SelectCity, SelectDistrict, VillageType } from '@/features/Territory'
 import { SelectVillage } from '@/features/Territory/components/SelectVillage'
 import { enumToStringArray, swalError, swalSuccess } from '@/common/utils'
 import { PriorityEnum } from '@/common/enums'
 import { PageProps } from '@/types'
 
-export default function Proposal() {
+export default function Proposal({ datas }: PageProps & { datas: ProposalType[] }) {
     const { map } = useMap()
     const { errors } = usePage<PageProps>().props
+    const { latLang } = useGetLocation()
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [isShowTracking, setIsShowTracking] = useState<boolean>(false)
     const [isShowAdd, setIsShowAdd] = useState<boolean>(false)
@@ -22,7 +23,6 @@ export default function Proposal() {
     const [cityCode, setCityCode] = useState<string | number>()
     const [districtCode, setDistrictCode] = useState<string | number>()
     const [villageCode, setVillageCode] = useState<string | number>()
-
 
     const identityProposal: InputType<ProposalDTO>[] = [
         { title: 'Nama Lengkap', name: 'full_name', type: "text" },
@@ -48,27 +48,12 @@ export default function Proposal() {
     }, [map])
 
     useEffect(() => {
-        const getLocation = () => {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        setData((prevData) => ({
-                            ...prevData,
-                            latitude: position.coords.latitude.toString(),
-                            longitude: position.coords.longitude.toString(),
-                        }))
-                    },
-                    (error) => {
-                        console.error('Error getting location:', error);
-                    }
-                );
-            } else {
-                console.error('Geolocation is not supported by this browser.');
-            }
-        };
-
-        getLocation();
-    }, [])
+        setData((prevData) => ({
+            ...prevData,
+            latitude: latLang.latitude,
+            longitude: latLang.longitude
+        }))
+    }, [latLang])
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -93,7 +78,6 @@ export default function Proposal() {
 
     const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault()
-        console.log(data.document_path)
         post(route('proposal.store'), {
             onSuccess: () => { swalSuccess('Sukses menambah usulan'); setIsShowAdd(false) },
             onError: (e) => swalError(e.error),
