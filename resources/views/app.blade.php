@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{ asset('template/vendors/datatables.net-bs4/dataTables.bootstrap4.css') }}">
 
     <link rel="stylesheet" href="{{ asset('template/css/vertical-layout-light/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/vendors/font-awesome/css/font-awesome.min.css') }}" />
     <link rel="shortcut icon" href="{{ asset('template/images/favicon.png') }}" />
 
     <!-- Scripts -->

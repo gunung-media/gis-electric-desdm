@@ -21,6 +21,24 @@ export const Sidebar = () => {
                         </ul>
                     </div>
                 </li>
+                <li className="nav-item">
+                    <a className="nav-link" href={route('admin.proposal.index')}>
+                        <i className="fa fa-globe menu-icon"></i>
+                        <span className="menu-title">Usulan</span>
+                    </a>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link" href={route('admin.dashboard')}>
+                        <i className="fa fa-warning menu-icon"></i>
+                        <span className="menu-title">Laporan</span>
+                    </a>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link" href={route('admin.dashboard')}>
+                        <i className="fa fa-building menu-icon"></i>
+                        <span className="menu-title">Rencana Pembangunan</span>
+                    </a>
+                </li>
             </ul>
         </nav>
     )

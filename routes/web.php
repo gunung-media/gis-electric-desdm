@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('logout', [AuthenticateController::class, 'destroy'])->name('logout');
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::inertia('/', 'Dashboard')->name('dashboard');
-        Route::resource('gardu_listrik', ElectricSubstationController::class);
+        Route::resource('gardu_listrik', ElectricSubstationController::class)->except(['show']);
+        Route::resource('proposal', ProposalController::class)->only(['index', 'show', 'destroy']);
     });
 });
