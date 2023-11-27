@@ -48,7 +48,7 @@ class ElectricSubstationController extends Controller
     public function edit(mixed $electricSubstation): Response
     {
         $electricSubstation = $this->electricSubstationRepository->getElectricSubstation($electricSubstation);
-        return Inertia::render('ElectricSubstation/Form', [
+        return Inertia::render('Admin/ElectricSubstation/Form', [
             'electricSubstation' => $electricSubstation
         ]);
     }
