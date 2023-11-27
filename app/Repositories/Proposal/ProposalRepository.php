@@ -15,12 +15,14 @@ class ProposalRepository
     public function getProposals(): Collection
     {
         $query = $this->model->query();
-        return $query->get();
+        return $query
+            ->with('village')
+            ->get();
     }
 
     public function getProposal(int $id): ?Proposal
     {
-        return $this->model->findOrFail($id);
+        return $this->model->with(['village', 'trackings'])->findOrFail($id);
     }
 
     public function insertProposal(array $data): Proposal

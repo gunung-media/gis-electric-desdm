@@ -2,11 +2,11 @@
 
 namespace App\Models\Proposal;
 
+use App\Models\Territory\Village;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use KodePandai\Indonesia\Models\Village;
 
 /**
  * @mixin \Illuminate\Database\Eloquent\Builder
