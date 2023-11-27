@@ -2,7 +2,7 @@ import { useMap } from '@/common/hooks'
 import './styles.scss'
 import { ChangeEvent, FormEventHandler, useEffect, useState } from 'react'
 import L from 'leaflet'
-import { router, useForm, usePage } from '@inertiajs/react'
+import { Head, router, useForm, usePage } from '@inertiajs/react'
 import { CloseBtn, Loader, FormGroup, InputType, OptionType, OptionalSelect, InputError } from '@/common/components';
 import { Modal, Button, Form, Container, Row, Col } from 'react-bootstrap'
 import { ProposalDTO } from '@/features/Proposal'
@@ -103,6 +103,7 @@ export default function Proposal() {
 
     return (
         <>
+            <Head title='Usulan' />
             <Loader isShow={isLoading} />
             <div id="map"></div>
             <div className="header">

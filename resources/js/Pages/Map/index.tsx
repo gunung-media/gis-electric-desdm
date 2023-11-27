@@ -4,9 +4,8 @@ import '@/common/styles/map.scss'
 import { useEffect, useState } from 'react'
 import electricPng from '@/assets/images/electric.png'
 import L from 'leaflet'
-import ReactLoading from 'react-loading';
 import { VillageType, getKaltengVillages } from '@/features/Territory'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 
 export default function Map() {
     const { map, setMap } = useMap()
@@ -97,6 +96,7 @@ export default function Map() {
     }, [map])
     return (
         <>
+            <Head title='Peta' />
             <Loader isShow={isLoading} />
             <div id="map"></div>
             <div className="header">
