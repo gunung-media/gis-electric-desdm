@@ -1,2 +1,2 @@
-export * from "./TrackingView"
+export * from "./ProposalTrackingBox"
 export * from "./ModalFormProposal"

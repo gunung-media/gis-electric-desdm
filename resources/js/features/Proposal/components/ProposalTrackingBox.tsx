@@ -3,7 +3,7 @@ import { Card, CloseButton, Form, InputGroup } from "react-bootstrap"
 import { getProposalDetail } from "../api"
 import { ProposalType } from ".."
 
-export const TrackingView: FC<{
+export const ProposalTrackingBox: FC<{
     isShow: boolean,
     proposalId?: number,
     onClose: () => void
@@ -42,13 +42,45 @@ export const TrackingView: FC<{
                                 disabled={true}
                             />
                         </InputGroup>
-                        <InputGroup className="mb-3">
+                        <InputGroup className="mb-3" >
                             <InputGroup.Text id="basic-addon1">Tanggal Usulan</InputGroup.Text>
                             <Form.Control
                                 value={proposal?.created_at}
                                 disabled={true}
                             />
                         </InputGroup>
+                        <InputGroup className="" style={{ marginBottom: '3rem' }}>
+                            <InputGroup.Text id="basic-addon1">Status Akhir</InputGroup.Text>
+                            <Form.Control
+                                value={proposal?.latest_status}
+                                disabled={true}
+                            />
+                        </InputGroup>
+                        <div className="table-responsive">
+                            <table className="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Deskripsi</th>
+                                        <th>Status</th>
+                                        <th>Tanggal</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {proposal?.trackings.length === 0 ? (
+                                        <tr>
+                                            <td colSpan={3}>Tidak ada tracking</td>
+                                        </tr>
+                                    ) : (
+                                        <tr>
+                                            <td>Jacob</td>
+                                            <td>Photoshop</td>
+                                            <td className="text-danger"> 28.76% <i className="ti-arrow-down"></i></td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
                     </Card.Body>
                 </Card >
             )}

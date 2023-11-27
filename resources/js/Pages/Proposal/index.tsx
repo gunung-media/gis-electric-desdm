@@ -4,7 +4,7 @@ import { useMap } from '@/common/hooks'
 import { useEffect, useState } from 'react'
 import { Head, router, } from '@inertiajs/react'
 import { Loader } from '@/common/components';
-import { ModalFormProposal, ProposalType, TrackingView } from '@/features/Proposal'
+import { ModalFormProposal, ProposalType, ProposalTrackingBox } from '@/features/Proposal'
 import { theMarker } from '@/common/utils'
 import { PageProps } from '@/types'
 import { renderToString } from 'react-dom/server'
@@ -72,7 +72,7 @@ export default function Proposal({ datas }: PageProps & { datas: ProposalType[] 
                 onClose={() => setIsShowAdd(false)}
             />
 
-            <TrackingView
+            <ProposalTrackingBox
                 isShow={isShowTracking}
                 onClose={() => setIsShowTracking(false)}
                 proposalId={proposalId}
