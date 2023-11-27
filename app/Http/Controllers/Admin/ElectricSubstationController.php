@@ -17,17 +17,17 @@ class ElectricSubstationController extends Controller
 
     public function index(): Response
     {
-        return Inertia::render('ElectricSubstation/Index', [
+        return Inertia::render('Admin/ElectricSubstation/Index', [
             'datas' => $this->electricSubstationRepository->getElectricSubstations()
         ]);
     }
 
     public function create(): Response
     {
-        return Inertia::render('ElectricSubstation/Form');
+        return Inertia::render('Admin/ElectricSubstation/Form');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): mixed
     {
         $this->validate($request, [
             'name' => 'required',
@@ -53,7 +53,7 @@ class ElectricSubstationController extends Controller
         ]);
     }
 
-    public function update(Request $request, $electricSubstation)
+    public function update(Request $request, mixed $electricSubstation): mixed
     {
         try {
             $electricSubstation = $this->electricSubstationRepository->getElectricSubstation($electricSubstation);
@@ -65,7 +65,7 @@ class ElectricSubstationController extends Controller
         }
     }
 
-    public function destroy($electricSubstation)
+    public function destroy(mixed $electricSubstation): mixed
     {
         $electricSubstation = $this->electricSubstationRepository->getElectricSubstation($electricSubstation);
         $electricSubstation->delete();
