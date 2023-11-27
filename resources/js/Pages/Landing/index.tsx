@@ -20,7 +20,7 @@ export default function Landing() {
                     <div className="menus">
                         <a href={route('map')}>Peta</a>
                         <a href={route('proposal.index')}>Usulan</a>
-                        <a href="">Laporan</a>
+                        <a href={route('report.index')}>Laporan</a>
                         <a href="">Rencana Pembangungan</a>
                     </div>
                 </div>

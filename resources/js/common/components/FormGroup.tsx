@@ -5,7 +5,7 @@ import { ChangeEvent, FC } from "react"
 export type InputType<T> = {
     title: string
     name: keyof T
-    type: 'file' | 'text' | 'number' | 'email'
+    type: 'file' | 'text' | 'number' | 'email' | 'datetime-local'
 }
 
 export const FormGroup: FC<{

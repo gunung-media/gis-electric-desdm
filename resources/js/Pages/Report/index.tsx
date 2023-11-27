@@ -4,20 +4,20 @@ import { useMap } from '@/common/hooks'
 import { useEffect, useState } from 'react'
 import { Head, router, } from '@inertiajs/react'
 import { Loader } from '@/common/components';
-import { ModalFormProposal, ProposalType, ProposalTrackingBox, generateProposalLayer } from '@/features/Proposal'
+import { ModalFormReport, ReportType, ReportTrackingBox, generateReportLayer } from '@/features/Report'
 import { PageProps } from '@/types'
 
-export default function Proposal({ datas }: PageProps & { datas: ProposalType[] }) {
+export default function Report({ datas }: PageProps & { datas: ReportType[] }) {
     const { map } = useMap()
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [isShowTracking, setIsShowTracking] = useState<boolean>(false)
     const [isShowAdd, setIsShowAdd] = useState<boolean>(false)
-    const [proposalId, setProposalId] = useState<number>()
+    const [reportId, setReportId] = useState<number>()
 
     useEffect(() => {
-        const proposalLayer = generateProposalLayer(datas, (isShow, proposalId) => {
+        const reportLayer = generateReportLayer(datas, (isShow, reportId) => {
             setIsShowTracking(isShow)
-            setProposalId(proposalId)
+            setReportId(reportId)
         })
 
         if (map) {
@@ -25,7 +25,7 @@ export default function Proposal({ datas }: PageProps & { datas: ProposalType[] 
                 position: 'bottomleft'
             }).addTo(map)
 
-            map.addLayer(proposalLayer)
+            map.addLayer(reportLayer)
             setIsLoading(false)
         }
 
@@ -34,11 +34,11 @@ export default function Proposal({ datas }: PageProps & { datas: ProposalType[] 
 
     return (
         <>
-            <Head title='Usulan' />
+            <Head title='Laporan' />
             <Loader isShow={isLoading} />
             <div id="map"></div>
             <div className="header">
-                <div className="header-box" onClick={() => router.visit(route('landing'))}>Silisda <span>usulan</span></div>
+                <div className="header-box" onClick={() => router.visit(route('landing'))}>Silisda <span>laporan</span></div>
                 <div className="header-actions">
                     <button onClick={() => setIsShowAdd(true)}>
                     </button>
@@ -47,15 +47,15 @@ export default function Proposal({ datas }: PageProps & { datas: ProposalType[] 
                 </div>
             </div>
 
-            <ModalFormProposal
+            <ModalFormReport
                 isShow={isShowAdd}
                 onClose={() => setIsShowAdd(false)}
             />
 
-            <ProposalTrackingBox
+            <ReportTrackingBox
                 isShow={isShowTracking}
                 onClose={() => setIsShowTracking(false)}
-                proposalId={proposalId}
+                reportId={reportId}
             />
         </>
     )

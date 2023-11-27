@@ -3,64 +3,59 @@
 namespace App\Http\Controllers\Landing;
 
 use App\Http\Controllers\Controller;
-use App\Models\Report\Report;
+use App\Repositories\Report\ReportRepository;
+use App\Repositories\Report\ReportTrackingRepository;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ReportController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    public function __construct(
+        protected ReportRepository $reportRepository = new ReportRepository(),
+        protected ReportTrackingRepository $reportTrackingRepository = new ReportTrackingRepository()
+    ) {
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function index(): Response
     {
-        //
+        $reports = $this->reportRepository->getReports();
+        return Inertia::render('Report/index', [
+            'datas' => $reports
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(Request $request): mixed
     {
-        //
+        $request->validate([
+            'full_name' => 'required|string',
+            'identity_number' => 'required|string',
+            'email' => 'required|email',
+            'phone_number' => 'required|string',
+            'village_code' => 'required|string',
+            'address' => 'required|string',
+            'latitude' => 'nullable|string',
+            'longitude' => 'nullable|string',
+            'date_happen' => 'required|date',
+            'report_type' => 'required|string',
+            'description' => 'nullable|string',
+            'document_path' => 'required|file',
+            'priority' => 'required|in:Tinggi,Sedang,Rendah',
+        ]);
+
+        $documentPath = $request->file('document_path')->store('report_documents');
+        try {
+            $this->reportRepository->insertReport([...($request->all()), 'document_path' => $documentPath]);
+            return redirect(route('report.index'))->with('status', 'Sukses Menambah usulan');
+        } catch (\Throwable $th) {
+            error_log(json_encode($th->getMessage()));
+            return back()->withErrors(['error' => 'Gagal menambah usulan']);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Report $report)
+    public function show(mixed $id): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Report $report)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Report $report)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Report $report)
-    {
-        //
+        return response()->json(['data' => $this->reportRepository->getReport($id)]);
     }
 }
