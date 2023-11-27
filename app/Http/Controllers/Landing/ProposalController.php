@@ -21,8 +21,9 @@ class ProposalController extends Controller
     public function index(): Response
     {
         $proposals = $this->proposalRepository->getProposals();
+        // dd($proposals->toArray());
         return Inertia::render('Proposal/index', [
-            'proposals' => $proposals
+            'datas' => $proposals
         ]);
     }
 
@@ -57,6 +58,6 @@ class ProposalController extends Controller
 
     public function show(mixed $id): JsonResponse
     {
-        return response()->json(['data' => $this->proposalTrackingRepository->getProposalTrackings($id)]);
+        return response()->json(['data' => $this->proposalRepository->getProposal($id)]);
     }
 }
