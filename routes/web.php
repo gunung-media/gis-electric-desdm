@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ProposalController as AdminProposalController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\Admin\ProposalTrackingController;
 use App\Http\Controllers\Admin\ReportTrackingController;
+use App\Http\Controllers\Admin\DevelopmentPlanController as AdminDevelopmentPlanController;
 
 use App\Http\Controllers\Landing\MapController;
 use App\Http\Controllers\Landing\ProposalController;
@@ -48,5 +49,7 @@ Route::middleware('auth')->group(function () {
         Route::name('report.')->prefix('report/{reportId}')->group(function () {
             Route::resource('tracking', ReportTrackingController::class)->except(['index', 'show']);
         });
+
+        Route::resource('development-plan', AdminDevelopmentPlanController::class)->except(['show']);
     });
 });

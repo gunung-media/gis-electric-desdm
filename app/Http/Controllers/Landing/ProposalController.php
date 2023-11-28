@@ -21,7 +21,6 @@ class ProposalController extends Controller
     public function index(): Response
     {
         $proposals = $this->proposalRepository->getProposals();
-        // dd($proposals->toArray());
         return Inertia::render('Proposal/index', [
             'datas' => $proposals
         ]);
