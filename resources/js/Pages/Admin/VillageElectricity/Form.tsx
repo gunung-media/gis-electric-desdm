@@ -8,6 +8,7 @@ import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
 import { Head, router, useForm, usePage } from "@inertiajs/react";
 import L from "leaflet";
+import "leaflet-draw";
 import { FormEventHandler, useEffect, useState } from "react";
 
 export default function Form({ villageElectricity }: PageProps & { villageElectricity?: VillageElectricityType }) {
@@ -59,6 +60,33 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
                 setIsLoading(false)
             })()
 
+            const drawnItems = new L.FeatureGroup();
+            map.addLayer(drawnItems);
+            const drawControl = new L.Control.Draw({
+                draw: {
+                    marker: false,
+                    circle: false,
+                    circlemarker: false,
+                    rectangle: false,
+                    polyline: false,
+                },
+                edit: {
+                    featureGroup: drawnItems
+                }
+            });
+            map.addControl(drawControl);
+
+            map.on('draw:created', function(event) {
+                const { layer } = event;
+                drawnItems.addLayer(layer);
+                setData('borders', JSON.stringify(layer.toGeoJSON().geometry.coordinates))
+            });
+
+            map.on('draw:edited', function(e) {
+                const { layer } = e;
+                setData('borders', JSON.stringify(layer.toGeoJSON().geometry.coordinates))
+            });
+
             if (villageElectricity) {
                 const {
                     village: {
@@ -98,7 +126,7 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
     const mapZoom = (latitude: string | null, longitude: string | null, mapZoomLevel: number) => {
         try {
             const latLang = [Number(latitude), Number(longitude)]
-            map?.zoomIn(3, { animate: true })
+            map?.zoomIn(mapZoomLevel, { animate: true })
             map?.panTo(latLang as L.LatLngExpression)
         } catch (error) {
             return;

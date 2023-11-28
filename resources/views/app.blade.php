@@ -16,7 +16,9 @@
     <link rel="shortcut icon" href="{{ asset('template/images/favicon.png') }}" />
 
     <link href="{{ asset('template/vendors/datatable-responsive/datatables.min.css') }}" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"
+        integrity="sha512-gc3xjCmIy673V6MyOAZhIW93xhM9ei1I+gLbmFjUHIjocENRsLX/QUE1htk5q1XV2D/iie/VQ8DXI6Vu8bexvQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Scripts -->
     @routes

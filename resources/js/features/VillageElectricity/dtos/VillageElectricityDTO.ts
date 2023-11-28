@@ -4,4 +4,5 @@ export interface VillageElectricityDTO {
     network_length: number
     village_potential: string
     village_code: string | number
+    borders: string
 }

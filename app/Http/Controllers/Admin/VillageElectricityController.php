@@ -63,14 +63,16 @@ class VillageElectricityController extends Controller
     public function update(Request $request, string $id): mixed
     {
         $request->validate([
-            'title' => 'required|string',
-            'description' => 'required|string',
-            'status' => 'required|in:Dalam Perencanaan,Disetujui,Dalam Progress,Selesai',
+            'village_code' => 'required',
+            'households_with_electricity' => 'required|integer',
+            'households_without_electricity' => 'required|integer',
+            'network_length' => 'required|numeric',
+            'village_potential' => 'nullable|string',
         ]);
 
         try {
             if ($request->has('borders')) {
-                $this->villageRepository->updateBorderVillage($request->input('village_code'), $request->input('borders'));
+                $this->villageRepository->updateBorderVillage($request->input('village_code'), json_decode($request->input('borders')));
             }
             $villageElectricity = $this->villageElectricityRepository->getVillageElectricity($id);
             $villageElectricity->update($request->all());
