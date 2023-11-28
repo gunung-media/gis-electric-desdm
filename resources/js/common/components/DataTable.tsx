@@ -11,6 +11,12 @@ type DataTableProps<T extends object = object> = {
 }
 
 export const DataTable: FC<DataTableProps> = ({ data, columns, onDelete, onEdit }) => {
+    function customAlert(message) {
+        console.log('Custom Alert:', message);
+    }
+
+    // Override the alert function
+    window.alert = customAlert;
     const onDeleteClick = (id: number) => {
         Swal.fire({
             title: "Do you want to delete this data?",
