@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\Admin\ProposalTrackingController;
 use App\Http\Controllers\Admin\ReportTrackingController;
 use App\Http\Controllers\Admin\DevelopmentPlanController as AdminDevelopmentPlanController;
+use App\Http\Controllers\Admin\VillageElectricityController as AdminVillageElectricityController;
 
 use App\Http\Controllers\Landing\MapController;
 use App\Http\Controllers\Landing\ProposalController;
@@ -51,5 +52,6 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::resource('development-plan', AdminDevelopmentPlanController::class)->except(['show']);
+        Route::resource('village_electricity', AdminVillageElectricityController::class)->except(['show']);
     });
 });

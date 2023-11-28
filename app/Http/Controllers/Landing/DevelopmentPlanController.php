@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Landing;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\DevelopmentPlanRepository;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 

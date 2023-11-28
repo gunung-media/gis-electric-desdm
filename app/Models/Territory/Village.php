@@ -5,6 +5,9 @@ namespace App\Models\Territory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use KodePandai\Indonesia\Models\Village as KodePandaiVillage;
 
+/**
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ */
 class Village extends KodePandaiVillage
 {
     public $appends = ['latitude', 'longitude'];
