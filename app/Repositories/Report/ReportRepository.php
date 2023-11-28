@@ -15,12 +15,16 @@ class ReportRepository
     public function getReports(): Collection
     {
         $query = $this->model->query();
-        return $query->get();
+        return $query
+            ->with('village')
+            ->get();
     }
 
     public function getReport(int $id): ?Report
     {
-        return $this->model->findOrFail($id);
+        return $this->model
+            ->with(['village', 'trackings'])
+            ->findOrFail($id);
     }
 
     public function insertReport(array $data): Report

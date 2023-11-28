@@ -24,7 +24,7 @@ class ReportTrackingRepository
         return $this->model->findOrFail($id);
     }
 
-    public function insertTracking(array $data): Report
+    public function insertTracking(array $data): ReportTracking
     {
         return $this->model->create($data);
     }
