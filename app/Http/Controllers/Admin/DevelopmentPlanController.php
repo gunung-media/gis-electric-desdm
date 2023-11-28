@@ -61,13 +61,12 @@ class DevelopmentPlanController extends Controller
             'title' => 'required|string',
             'description' => 'required|string',
             'status' => 'required|in:Dalam Perencanaan,Disetujui,Dalam Progress,Selesai',
-            'document_path' => 'required|file|mimes:pdf'
         ]);
 
-        $documentPath = $request->file('document_path')->store('development_plan_documents');
+        $documentPath = $request->has('document_path') ? $request->file('document_path')->store('development_plan_documents') : null;
         try {
             $developmentPlan = $this->developmentPlanRepository->getDevelopmentPlan($id);
-            $developmentPlan->update([...($request->all()), 'document_path' => $documentPath]);
+            $developmentPlan->update([...($request->all()), 'document_path' => $documentPath ?? $developmentPlan->document_path]);
             return redirect(route('admin.development-plan.index'))->with('status', 'Sukses Mengedit Rencana Pembangunan');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));

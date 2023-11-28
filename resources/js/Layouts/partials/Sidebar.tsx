@@ -34,7 +34,7 @@ export const Sidebar = () => {
                     </a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" href={route('admin.dashboard')}>
+                    <a className="nav-link" href={route('admin.development-plan.index')}>
                         <i className="fa fa-building menu-icon"></i>
                         <span className="menu-title">Rencana Pembangunan</span>
                     </a>
