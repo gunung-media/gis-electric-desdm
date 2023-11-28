@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react"
-import { Card, CloseButton, Form, InputGroup } from "react-bootstrap"
+import { Card, CloseButton } from "react-bootstrap"
 import { getReportDetail } from "../api"
 import { ReportType } from ".."
 import { BootstrapInputGroup, TrackingTable } from "@/common/components"

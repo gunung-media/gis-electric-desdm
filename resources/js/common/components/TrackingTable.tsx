@@ -1,9 +1,8 @@
-import { ProposalTracking } from "@/features/Proposal"
-import { ReportTrackingType } from "@/features/Report"
 import { FC } from "react"
+import { TrackingInterface } from "../interface"
 
 export const TrackingTable: FC<{
-    trackings?: ReportTrackingType[] | ProposalTracking[]
+    trackings?: TrackingInterface[]
 }> = ({ trackings }) => {
     return (
         <div className="table-responsive">

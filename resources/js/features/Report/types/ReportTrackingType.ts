@@ -1,8 +1,5 @@
-import { CommonTableInterface } from "@/common/interface/CommonTableInterface";
+import { TrackingInterface } from "@/common/interface";
 
-export interface ReportTrackingType extends CommonTableInterface {
-    id: number
-    description: string
-    status: 'Diterima' | 'Diproses' | 'Ditolak' | 'Diterima dengan catatan'
-    proposal_id: number
+export interface ReportTrackingType extends TrackingInterface {
+    report_id: number
 }
