@@ -5,7 +5,7 @@ import { Loader } from '@/common/components'
 import { useEffect, useState } from 'react'
 import electricPng from '@/assets/images/electric.png'
 import L from 'leaflet'
-import { VillageType, getKaltengVillages } from '@/features/Territory'
+import { VillageType, getKaltengBorderLayer, getKaltengVillages } from '@/features/Territory'
 import { Head, router } from '@inertiajs/react'
 
 export default function Map() {
@@ -14,7 +14,8 @@ export default function Map() {
     const [villages, setVillages] = useState<VillageType[]>([])
 
     useEffect(() => {
-        let villages = L.layerGroup();
+        let villages: L.LayerGroup = L.layerGroup();
+
 
         const electricIcon = L.icon({
             iconUrl: electricPng,
@@ -26,10 +27,13 @@ export default function Map() {
         let gardu2 = L.marker([0.084411, 113.921690], { icon: electricIcon }).bindPopup('Ini contoh gardu listrik 2');
         const gardus = L.layerGroup([gardu1, gardu2])
 
-
         if (map) {
-            map.addLayer(gardus)
-            map.addLayer(villages)
+            map.addLayer(gardus);
+            (async () => {
+                villages = await getKaltengBorderLayer()
+                map.addLayer(villages)
+                setIsLoading(false)
+            })()
 
             L.control.zoom({
                 position: 'bottomleft'
@@ -40,59 +44,6 @@ export default function Map() {
                 "Desa": villages
             };
             L.control.layers(undefined, overlayMaps, { position: 'topleft' }).addTo(map);
-
-            (async () => {
-                try {
-                    const { data: { data } } = await getKaltengVillages()
-                    setVillages(data)
-                    for (let i = 0; i < data.length; i++) {
-                        const element = data[i];
-                        try {
-                            let featureCollection: GeoJSON.FeatureCollection<any> = {
-                                type: 'FeatureCollection',
-                                features: [
-                                    {
-                                        type: 'Feature',
-                                        geometry: {
-                                            type: 'Polygon',
-                                            coordinates: [JSON.parse(element.borders ?? "[]")]
-                                        },
-                                        properties: {}
-                                    }
-                                ]
-                            };
-                            let village = L.geoJson(featureCollection, {
-                                style: {
-                                    color: 'white',
-                                    dashArray: '1',
-                                    lineCap: 'butt',
-                                    lineJoin: 'miter',
-                                    fillColor: '#111',
-                                    fillOpacity: 0.1,
-                                }
-                            }).addTo(villages)
-
-                            var info = ""
-                            info += "<div class='media-center'>";
-                            info += "</div>";
-                            info += "<div class='media-body'>";
-                            info += `<p>Kabupaten/Kota: ${element.city.name}</p>`;
-                            info += `<p>Kecamatan: ${element.district.name}</p>`;
-                            info += `<p>Desa: ${element.name}</p>`;
-                            info += "</div>";
-                            village.eachLayer(function(layer) {
-                                layer.bindPopup(info);
-                            });
-                        } catch (error) {
-                            continue;
-                        }
-                    }
-                } catch (error) {
-                    console.log(error)
-                } finally {
-                    setIsLoading(false)
-                }
-            })()
         }
     }, [map])
     return (

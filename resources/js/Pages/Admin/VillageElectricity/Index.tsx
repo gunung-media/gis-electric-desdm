@@ -25,7 +25,7 @@ export default function Index({ villageElectricitys }: PageProps & { villageElec
                 <div className="card-body">
                     <div className="card-title d-flex justify-content-between">
                         <p>Kelistrikan Desa</p>
-                        <a href={route('admin.development-plan.create')} type="button" className="btn btn-primary btn-icon-text">
+                        <a href={route('admin.village_electricity.create')} type="button" className="btn btn-primary btn-icon-text">
                             <i className="ti-plus btn-icon-prepend"></i>
                             Tambah
                         </a>

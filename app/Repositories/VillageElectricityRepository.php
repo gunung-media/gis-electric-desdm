@@ -19,7 +19,9 @@ class VillageElectricityRepository
 
     public function getVillageElectricity(mixed $id): ?VillageElectricity
     {
-        return $this->model->findOrFail($id);
+        return $this->model
+            ->with(['village', 'village.district', 'village.district.city'])
+            ->findOrFail($id);
     }
 
     public function getVillageElectricitys(): Collection
