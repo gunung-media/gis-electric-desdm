@@ -1,6 +1,7 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '@/common/styles/map.scss'
 import { useMap } from '@/common/hooks'
 import { Loader } from '@/common/components'
-import '@/common/styles/map.scss'
 import { useEffect, useState } from 'react'
 import electricPng from '@/assets/images/electric.png'
 import L from 'leaflet'

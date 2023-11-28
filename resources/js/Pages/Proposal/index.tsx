@@ -1,3 +1,4 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.scss'
 import L from 'leaflet'
 import createBtn from '@/assets/icons/add-button-svgrepo-com.svg'
