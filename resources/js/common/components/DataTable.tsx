@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import Swal from 'sweetalert2'
 import { capitalizeFirstWord, swalSuccess } from '../utils';
 import { CommonTableInterface } from '../interface/CommonTableInterface';
@@ -11,12 +11,21 @@ type DataTableProps<T extends object = object> = {
 }
 
 export const DataTable: FC<DataTableProps> = ({ data, columns, onDelete, onEdit }) => {
-    function customAlert(message) {
+    function customAlert(message: any) {
         console.log('Custom Alert:', message);
     }
-
-    // Override the alert function
     window.alert = customAlert;
+
+    useEffect(() => {
+        $('#data-table-simple tbody').on('click', '#editBtn', function() {
+            onEdit($(this).data('id'));
+        });
+
+        $('#data-table-simple tbody').on('click', '#deleteBtn', function() {
+            onDeleteClick($(this).data('id'));
+        });
+    }, [])
+
     const onDeleteClick = (id: number) => {
         Swal.fire({
             title: "Do you want to delete this data?",
@@ -55,8 +64,8 @@ export const DataTable: FC<DataTableProps> = ({ data, columns, onDelete, onEdit 
                                         key !== 'id' && <td key={index} onClick={() => onEdit((val as CommonTableInterface).id)} style={{ cursor: 'pointer' }}>{dataValue}</td>
                                     ))}
                                     <td>
-                                        <button className="btn btn-outline-warning" onClick={() => onEdit((val as CommonTableInterface).id)}>Edit</button>
-                                        <a className="btn btn-outline-danger" onClick={() => onDeleteClick((val as CommonTableInterface).id)}>Delete</a>
+                                        <button id="editBtn" className="btn btn-outline-warning" onClick={() => onEdit((val as CommonTableInterface).id)} data-id={(val as CommonTableInterface).id}>Edit</button>
+                                        <button id="deleteBtn" className="btn btn-outline-danger" onClick={() => onDeleteClick((val as CommonTableInterface).id)} data-id={(val as CommonTableInterface).id}>Delete</button>
                                     </td>
                                 </tr>
                             )
