@@ -10,7 +10,7 @@ export type InputType<T> = {
 
 export const FormGroup: FC<{
     title: string,
-    onChange: (e: ChangeEvent<HTMLInputElement>) => void,
+    onChange?: (e: ChangeEvent<HTMLInputElement>) => void,
     errorMsg?: string,
     name: string
 } & FormControlProps> = ({ title, onChange, errorMsg, type = "text", name, ...props }) => {

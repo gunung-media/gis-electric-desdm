@@ -4,7 +4,7 @@ import { Form, InputGroup } from "react-bootstrap"
 export const BootstrapInputGroup: FC<{
     title: string,
     value?: string | null,
-    disabled: boolean
+    disabled?: boolean
 } & HTMLAttributes<HTMLDivElement>> = ({ title, value, disabled = true, ...props }) => {
     return (
         <InputGroup {...props}>
