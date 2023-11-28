@@ -29,7 +29,7 @@ class ProposalTrackingController extends Controller
 
         try {
             $this->proposalTrackingRepository->insertTracking([...($request->all()), 'proposal_id' => $proposalId]);
-            return redirect(route('proposal.show', ['proposal' => $proposalId]))->with('status', 'Sukses Menambah tracking');
+            return redirect(route('admin.proposal.show', ['proposal' => $proposalId]))->with('status', 'Sukses Menambah tracking');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));
             return back()->withErrors(['error' => 'Gagal menambah tracking']);
@@ -48,15 +48,17 @@ class ProposalTrackingController extends Controller
         try {
             $proposalTracking = $this->proposalTrackingRepository->getTracking($id);
             $proposalTracking->update([...($request->all()), 'proposal_id' => $proposalId]);
-            return redirect(route('proposal.show', ['proposal' => $proposalId]))->with('status', 'Sukses Edit tracking');
+            return redirect(route('admin.proposal.show', ['proposal' => $proposalId]))->with('status', 'Sukses Edit tracking');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));
             return back()->withErrors(['error' => 'Gagal edit tracking']);
         }
     }
 
-    public function destroy(string $id)
+    public function destroy(string $proposalId, string $id): mixed
     {
-        //
+        $proposalTracking = $this->proposalTrackingRepository->getTracking($id);
+        $proposalTracking->delete();
+        return redirect(route('admin.proposal.show', ['proposal' => $proposalId]))->with('status', 'Sukses Hapus');
     }
 }
