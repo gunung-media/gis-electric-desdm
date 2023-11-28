@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Proposal;
 
-use App\Models\Proposal\Proposal;
 use App\Models\Proposal\ProposalTracking;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -24,7 +23,7 @@ class ProposalTrackingRepository
         return $this->model->findOrFail($id);
     }
 
-    public function insertTracking(array $data): Proposal
+    public function insertTracking(array $data): ProposalTracking
     {
         return $this->model->create($data);
     }

@@ -17,7 +17,7 @@ class ProposalTrackingController extends Controller
 
     public function create(string $proposalId): Response
     {
-        return Inertia::render('Admin/Proposal/Tracking');
+        return Inertia::render('Admin/Proposal/TrackingForm');
     }
 
     public function store(Request $request, string $proposalId): mixed
@@ -29,7 +29,7 @@ class ProposalTrackingController extends Controller
 
         try {
             $this->proposalTrackingRepository->insertTracking([...($request->all()), 'proposal_id' => $proposalId]);
-            return redirect(route('proposal.show', ['id' => $proposalId]))->with('status', 'Sukses Menambah tracking');
+            return redirect(route('proposal.show', ['proposal' => $proposalId]))->with('status', 'Sukses Menambah tracking');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));
             return back()->withErrors(['error' => 'Gagal menambah tracking']);
@@ -38,8 +38,8 @@ class ProposalTrackingController extends Controller
 
     public function edit(string $proposalId, string $id): Response
     {
-        return Inertia::render('Admin/Proposal/Tracking', [
-            'data' => $this->proposalTrackingRepository->getTracking($id)
+        return Inertia::render('Admin/Proposal/TrackingForm', [
+            'tracking' => $this->proposalTrackingRepository->getTracking($id)
         ]);
     }
 
@@ -48,7 +48,7 @@ class ProposalTrackingController extends Controller
         try {
             $proposalTracking = $this->proposalTrackingRepository->getTracking($id);
             $proposalTracking->update([...($request->all()), 'proposal_id' => $proposalId]);
-            return redirect(route('proposal.show', ['id' => $proposalId]))->with('status', 'Sukses Edit tracking');
+            return redirect(route('proposal.show', ['proposal' => $proposalId]))->with('status', 'Sukses Edit tracking');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));
             return back()->withErrors(['error' => 'Gagal edit tracking']);

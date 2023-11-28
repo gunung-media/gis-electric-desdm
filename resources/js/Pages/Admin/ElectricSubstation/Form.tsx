@@ -114,7 +114,7 @@ export default function Form({ electricSubstation }: PageProps & { electricSubst
                                 <Input title="longitude" readOnly={true} value={dto.longitude} />
                                 <InputError message={errors.longitude} />
                                 <button type="submit" className="btn btn-primary me-2">Submit</button>
-                                <button className="btn btn-light">Cancel</button>
+                                <button type="button" className="btn btn-light">Cancel</button>
                             </form>
                         </div>
                     </div>
