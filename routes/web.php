@@ -6,7 +6,9 @@ use App\Http\Controllers\Auth\AuthenticateController;
 
 use App\Http\Controllers\Admin\ElectricSubstationController;
 use App\Http\Controllers\Admin\ProposalController as AdminProposalController;
+use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\Admin\ProposalTrackingController;
+use App\Http\Controllers\Admin\ReportTrackingController;
 
 use App\Http\Controllers\Landing\MapController;
 use App\Http\Controllers\Landing\ProposalController;
@@ -40,6 +42,11 @@ Route::middleware('auth')->group(function () {
         Route::resource('proposal', AdminProposalController::class)->only(['index', 'show', 'destroy']);
         Route::name('proposal.')->prefix('proposal/{proposalId}')->group(function () {
             Route::resource('tracking', ProposalTrackingController::class)->except(['index', 'show']);
+        });
+
+        Route::resource('report', AdminReportController::class)->only(['index', 'show', 'destroy']);
+        Route::name('report.')->prefix('report/{reportId}')->group(function () {
+            Route::resource('tracking', ReportTrackingController::class)->except(['index', 'show']);
         });
     });
 });
