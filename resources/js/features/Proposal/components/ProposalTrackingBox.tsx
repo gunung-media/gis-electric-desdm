@@ -1,7 +1,8 @@
 import { FC, useEffect, useState } from "react"
-import { Card, CloseButton, Form, InputGroup } from "react-bootstrap"
+import { Card, CloseButton } from "react-bootstrap"
 import { getProposalDetail } from "../api"
 import { ProposalType } from ".."
+import { BootstrapInputGroup, TrackingTable } from "@/common/components"
 
 export const ProposalTrackingBox: FC<{
     isShow: boolean,
@@ -28,59 +29,31 @@ export const ProposalTrackingBox: FC<{
                             <p style={{ marginLeft: 'auto' }}>Tracking</p>
                             <CloseButton onClick={onClose} style={{ marginLeft: 'auto' }} />
                         </Card.Title>
-                        <InputGroup className="mb-3">
-                            <InputGroup.Text id="basic-addon1">Jenis Usulan</InputGroup.Text>
-                            <Form.Control
-                                value={proposal?.proposal_type}
-                                disabled={true}
-                            />
-                        </InputGroup>
-                        <InputGroup className="mb-3">
-                            <InputGroup.Text id="basic-addon1">Pengusul</InputGroup.Text>
-                            <Form.Control
-                                value={proposal?.full_name}
-                                disabled={true}
-                            />
-                        </InputGroup>
-                        <InputGroup className="mb-3" >
-                            <InputGroup.Text id="basic-addon1">Tanggal Usulan</InputGroup.Text>
-                            <Form.Control
-                                value={proposal?.created_at}
-                                disabled={true}
-                            />
-                        </InputGroup>
-                        <InputGroup className="" style={{ marginBottom: '3rem' }}>
-                            <InputGroup.Text id="basic-addon1">Status Akhir</InputGroup.Text>
-                            <Form.Control
-                                value={proposal?.latest_status}
-                                disabled={true}
-                            />
-                        </InputGroup>
-                        <div className="table-responsive">
-                            <table className="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Deskripsi</th>
-                                        <th>Status</th>
-                                        <th>Tanggal</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    {proposal?.trackings.length === 0 ? (
-                                        <tr>
-                                            <td colSpan={3}>Tidak ada tracking</td>
-                                        </tr>
-                                    ) : proposal?.trackings.map((tracking) => (
-                                        <tr>
-                                            <td>{tracking.status}</td>
-                                            <td>{tracking.description}</td>
-                                            <td className="text-danger">{tracking.created_at}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
+                        <BootstrapInputGroup
+                            title="Jenis Usulan"
+                            value={proposal?.proposal_type}
+                            disabled={true}
+                            className="mb-3"
+                        />
+                        <BootstrapInputGroup
+                            title="Pengusul"
+                            value={proposal?.full_name}
+                            disabled={true}
+                            className="mb-3"
+                        />
+                        <BootstrapInputGroup
+                            title="Tanggal Usulan"
+                            value={proposal?.created_at}
+                            disabled={true}
+                            className="mb-3"
+                        />
+                        <BootstrapInputGroup
+                            title="Status Akhir"
+                            value={proposal?.latest_status}
+                            disabled={true}
+                            style={{ marginBottom: '3rem' }}
+                        />
+                        <TrackingTable trackings={proposal?.trackings} />
                     </Card.Body>
                 </Card >
             )}

@@ -21,7 +21,7 @@ class ProposalController extends Controller
 
     public function show(string $id): Response
     {
-        return Inertia::render('Admin/Proposal/detail', ['data' => $this->proposalRepository->getProposal($id)]);
+        return Inertia::render('Admin/Proposal/Detail', ['data' => $this->proposalRepository->getProposal($id)]);
     }
 
     public function destroy(string $id): mixed

@@ -29,7 +29,7 @@ export const DataTable: FC<DataTableProps> = ({ data, columns, onDelete, onEdit 
     }
     return (
         <div className="table-responsive">
-            <table id="data-table-simple" className="table">
+            <table id="data-table-simple" className="table table-hover">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -43,14 +43,14 @@ export const DataTable: FC<DataTableProps> = ({ data, columns, onDelete, onEdit 
                     {data.length > 0 ? (
                         data.map((val, i) => {
                             return (
-                                <tr key={i}>
+                                <tr key={i} >
                                     <td>{i + 1}</td>
                                     {Object.entries(val).map(([key, dataValue], index) => (
-                                        key !== 'id' && <td key={index}>{dataValue}</td>
+                                        key !== 'id' && <td key={index} onClick={() => onEdit((val as CommonTableInterface).id)} style={{ cursor: 'pointer' }}>{dataValue}</td>
                                     ))}
                                     <td>
                                         <button className="btn btn-outline-warning" onClick={() => onEdit((val as CommonTableInterface).id)}>Edit</button>
-                                        <button className="btn btn-outline-danger" onClick={() => onDeleteClick((val as CommonTableInterface).id)}>Delete</button>
+                                        <a className="btn btn-outline-danger" onClick={() => onDeleteClick((val as CommonTableInterface).id)}>Delete</a>
                                     </td>
                                 </tr>
                             )

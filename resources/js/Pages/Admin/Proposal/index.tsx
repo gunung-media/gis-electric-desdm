@@ -34,7 +34,7 @@ export default function Index({ datas }: PageProps & { datas: ProposalType[] }) 
                             <DataTable
                                 data={dataTable}
                                 columns={column}
-                                onEdit={(id) => router.visit(route('admin.proposoal.show', { proposal: id }))}
+                                onEdit={(id) => router.visit(route('admin.proposal.show', { proposal: id }))}
                                 onDelete={(id) => router.delete(route('admin.proposal.destroy', { proposal: id }))} />
                         </div>
                     </div>

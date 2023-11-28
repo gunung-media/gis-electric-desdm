@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from "react"
 import { Card, CloseButton, Form, InputGroup } from "react-bootstrap"
 import { getReportDetail } from "../api"
 import { ReportType } from ".."
+import { BootstrapInputGroup, TrackingTable } from "@/common/components"
 
 export const ReportTrackingBox: FC<{
     isShow: boolean,
@@ -28,59 +29,31 @@ export const ReportTrackingBox: FC<{
                             <p style={{ marginLeft: 'auto' }}>Tracking</p>
                             <CloseButton onClick={onClose} style={{ marginLeft: 'auto' }} />
                         </Card.Title>
-                        <InputGroup className="mb-3">
-                            <InputGroup.Text id="basic-addon1">Jenis Laporan</InputGroup.Text>
-                            <Form.Control
-                                value={report?.report_type}
-                                disabled={true}
-                            />
-                        </InputGroup>
-                        <InputGroup className="mb-3">
-                            <InputGroup.Text id="basic-addon1">Pelapor</InputGroup.Text>
-                            <Form.Control
-                                value={report?.full_name}
-                                disabled={true}
-                            />
-                        </InputGroup>
-                        <InputGroup className="mb-3" >
-                            <InputGroup.Text id="basic-addon1">Tanggal Laporan</InputGroup.Text>
-                            <Form.Control
-                                value={report?.created_at}
-                                disabled={true}
-                            />
-                        </InputGroup>
-                        <InputGroup className="" style={{ marginBottom: '3rem' }}>
-                            <InputGroup.Text id="basic-addon1">Status Akhir</InputGroup.Text>
-                            <Form.Control
-                                value={report?.latest_status}
-                                disabled={true}
-                            />
-                        </InputGroup>
-                        <div className="table-responsive">
-                            <table className="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Deskripsi</th>
-                                        <th>Status</th>
-                                        <th>Tanggal</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    {report?.trackings.length === 0 ? (
-                                        <tr>
-                                            <td colSpan={3}>Tidak ada tracking</td>
-                                        </tr>
-                                    ) : report?.trackings.map((tracking) => (
-                                        <tr>
-                                            <td>{tracking.status}</td>
-                                            <td>{tracking.description}</td>
-                                            <td className="text-danger">{tracking.created_at}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
+                        <BootstrapInputGroup
+                            title="Jenis Laporan"
+                            value={report?.report_type}
+                            disabled={true}
+                            className="mb-3"
+                        />
+                        <BootstrapInputGroup
+                            title="Pelapor"
+                            value={report?.full_name}
+                            disabled={true}
+                            className="mb-3"
+                        />
+                        <BootstrapInputGroup
+                            title="Tanggal Laporan"
+                            value={report?.created_at}
+                            disabled={true}
+                            className="mb-3"
+                        />
+                        <BootstrapInputGroup
+                            title="Status Akhir"
+                            value={report?.latest_status}
+                            disabled={true}
+                            style={{ marginBottom: '3rem' }}
+                        />
+                        <TrackingTable trackings={report?.trackings} />
                     </Card.Body>
                 </Card >
             )}
