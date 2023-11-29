@@ -1,6 +1,7 @@
 import { DataTable } from "@/common/components";
 import { DevelopmentPlanType } from "@/features/DevelopmentPlan";
 import { HorizontalLayout } from "@/layouts/HorizontalLayout";
+import { PageProps } from "@/types";
 import { Head, router } from "@inertiajs/react";
 
 export default function Index({ developmentPlans }: PageProps & { developmentPlans: DevelopmentPlanType[] }) {
@@ -28,7 +29,7 @@ export default function Index({ developmentPlans }: PageProps & { developmentPla
                             <DataTable
                                 data={dataTable}
                                 columns={column}
-                                onEdit={() => console.log('')}
+                                onEdit={(id) => router.visit(route('development-plan.show', { development_plan: id }))}
                                 onDelete={() => console.log('')}
                                 isForLanding={true} />
                         </div>

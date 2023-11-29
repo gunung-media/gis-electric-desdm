@@ -36,6 +36,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'assets' => asset('template'),
+            'storageUrl' => asset('storage'),
             'session' => [
                 'status' => $request->session('status')
             ],

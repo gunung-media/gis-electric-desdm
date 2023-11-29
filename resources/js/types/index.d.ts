@@ -10,6 +10,7 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
         user: User;
     }
     assets: string
+    storageUrl: string
     session: {
         status: string
     }

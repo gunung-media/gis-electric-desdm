@@ -24,6 +24,7 @@ class DevelopmentPlanController extends Controller
 
     public function show(string $id): Response
     {
+        Inertia::setRootView('horizontal');
         return Inertia::render('DevelopmentPlan/Detail', [
             'developmentPlan' => $this->developmentPlanRepository->getDevelopmentPlan($id)
         ]);
