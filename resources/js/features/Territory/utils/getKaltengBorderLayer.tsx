@@ -2,7 +2,7 @@ import { renderToString } from "react-dom/server";
 import { getKaltengVillages } from "..";
 import L from 'leaflet'
 
-export const getKaltengBorderLayer = async (): Promise<L.LayerGroup> => {
+export const generateKaltengVillageLayer = async (): Promise<L.LayerGroup> => {
     let villages = L.layerGroup();
     try {
         const { data: { data } } = await getKaltengVillages()

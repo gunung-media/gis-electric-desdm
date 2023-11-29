@@ -1,2 +1,2 @@
-const latLangKalteng = [0.064411, 114.921690]
+const latLangKalteng = [-1.2136, 113.9108]
 export default latLangKalteng;

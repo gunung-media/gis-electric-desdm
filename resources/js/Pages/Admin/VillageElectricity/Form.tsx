@@ -1,7 +1,7 @@
 import { InputError, FormGroup, OptionType, Loader } from "@/common/components";
 import { useMap } from "@/common/hooks";
 import { swalError, swalSuccess } from "@/common/utils";
-import { CityType, DistrictType, SelectCity, SelectDistrict, VillageType, getKaltengBorderLayer } from "@/features/Territory";
+import { CityType, DistrictType, SelectCity, SelectDistrict, VillageType, generateKaltengVillageLayer } from "@/features/Territory";
 import { SelectVillage } from "@/features/Territory/components/SelectVillage";
 import { VillageElectricityDTO, VillageElectricityType } from "@/features/VillageElectricity";
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout";
@@ -22,7 +22,7 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
     const [isLoading, setIsLoading] = useState<boolean>(true)
 
     useEffect(() => {
-        if (!villageElectricity) return;
+        if (!villageElectricity || !(villageElectricity!.village)) return;
         const {
             village: {
                 code: village_code,
@@ -55,7 +55,7 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
         let villages = L.layerGroup()
         if (map) {
             (async () => {
-                villages = await getKaltengBorderLayer()
+                villages = await generateKaltengVillageLayer()
                 map.addLayer(villages)
                 setIsLoading(false)
             })()

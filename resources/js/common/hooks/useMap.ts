@@ -6,7 +6,7 @@ export const useMap = (mapId: string = "map") => {
     const [map, setMap] = useState<Map>()
 
     useEffect(() => {
-        const mapRef = L.map("map").setView(latLangKalteng as L.LatLngExpression, 7);
+        const mapRef = L.map("map").setView(latLangKalteng as L.LatLngExpression, 8);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'

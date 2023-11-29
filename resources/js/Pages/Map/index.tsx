@@ -3,34 +3,26 @@ import '@/common/styles/map.scss'
 import { useMap } from '@/common/hooks'
 import { Loader } from '@/common/components'
 import { useEffect, useState } from 'react'
-import electricPng from '@/assets/images/electric.png'
 import L from 'leaflet'
-import { VillageType, getKaltengBorderLayer, getKaltengVillages } from '@/features/Territory'
+import { generateKaltengVillageLayer } from '@/features/Territory'
 import { Head, router } from '@inertiajs/react'
+import { PageProps } from '@/types';
+import { ElectricSubstationType, generateESLayerGroup } from '@/features/ElectricSubstation';
 
-export default function Map() {
-    const { map, setMap } = useMap()
+export default function Map({ electricSubstationData }: PageProps & { electricSubstationData: ElectricSubstationType[] }) {
+    const { map } = useMap()
     const [isLoading, setIsLoading] = useState<boolean>(true)
-    const [villages, setVillages] = useState<VillageType[]>([])
+    const [isShowVillageInfo, setIsShowVillageInfo] = useState<boolean>(false)
 
     useEffect(() => {
-        let villages: L.LayerGroup = L.layerGroup();
-
-
-        const electricIcon = L.icon({
-            iconUrl: electricPng,
-            iconAnchor: [22, 94],
-            popupAnchor: [-3, -76]
-        });
-
-        let gardu1 = L.marker([0.064411, 114.921690], { icon: electricIcon }).bindPopup('Ini contoh gardu listrik 1');
-        let gardu2 = L.marker([0.084411, 113.921690], { icon: electricIcon }).bindPopup('Ini contoh gardu listrik 2');
-        const gardus = L.layerGroup([gardu1, gardu2])
+        let villages: L.LayerGroup = L.layerGroup()
+        let electricSubstation: L.LayerGroup = L.layerGroup()
 
         if (map) {
-            map.addLayer(gardus);
+            electricSubstation = generateESLayerGroup(electricSubstationData)
+            map.addLayer(electricSubstation);
             (async () => {
-                villages = await getKaltengBorderLayer()
+                villages = await generateKaltengVillageLayer()
                 map.addLayer(villages)
                 setIsLoading(false)
             })()
@@ -39,11 +31,10 @@ export default function Map() {
                 position: 'bottomleft'
             }).addTo(map)
 
-            var overlayMaps = {
-                "Gardu Listrik": gardus,
+            L.control.layers(undefined, {
+                "Gardu Listrik": electricSubstation,
                 "Desa": villages
-            };
-            L.control.layers(undefined, overlayMaps, { position: 'topleft' }).addTo(map);
+            }, { position: 'topleft' }).addTo(map);
         }
     }, [map])
     return (
@@ -71,11 +62,15 @@ export default function Map() {
                 </div>
             </div>
 
-            <div className="graphics">
-                <p>Grafik Desa</p>
-                <div id="pie-chart"></div>
-                <div id="bar-chart"></div>
-            </div>
+            {
+                isShowVillageInfo && (
+                    <div className="graphics">
+                        <p>Grafik Desa</p>
+                        <div id="pie-chart"></div>
+                        <div id="bar-chart"></div>
+                    </div>
+                )
+            }
         </>
     )
 }
