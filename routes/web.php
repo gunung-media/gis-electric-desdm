@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ReportTrackingController;
 use App\Http\Controllers\Admin\DevelopmentPlanController as AdminDevelopmentPlanController;
 use App\Http\Controllers\Admin\VillageElectricityController as AdminVillageElectricityController;
 
+use App\Http\Controllers\Landing\DevelopmentPlanController;
 use App\Http\Controllers\Landing\MapController;
 use App\Http\Controllers\Landing\ProposalController;
 use App\Http\Controllers\Landing\ReportController;
@@ -27,6 +28,7 @@ Route::inertia('/', 'Landing/index')->name('landing');
 Route::get('/map', MapController::class)->name('map');
 Route::resource('/proposal', ProposalController::class)->only(['index', 'store', 'show']);
 Route::resource('/report', ReportController::class)->only(['index', 'store', 'show']);
+Route::resource('/development-plan', DevelopmentPlanController::class)->only(['index', 'show']);
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthenticateController::class, 'create'])->name('login');

@@ -21,7 +21,7 @@ export default function Landing() {
                         <a href={route('map')}>Peta</a>
                         <a href={route('proposal.index')}>Usulan</a>
                         <a href={route('report.index')}>Laporan</a>
-                        <a href="">Rencana Pembangungan</a>
+                        <a href={route('development-plan.index')}>Rencana Pembangungan</a>
                     </div>
                 </div>
             </div>

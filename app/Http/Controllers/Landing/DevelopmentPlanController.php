@@ -16,14 +16,15 @@ class DevelopmentPlanController extends Controller
 
     public function index(): Response
     {
-        return Inertia::render('Landing/DevelopmentPlan/index', [
+        Inertia::setRootView('horizontal');
+        return Inertia::render('DevelopmentPlan/Index', [
             'developmentPlans' => $this->developmentPlanRepository->getDevelopmentPlans()
         ]);
     }
 
     public function show(string $id): Response
     {
-        return Inertia::render('Landing/DevelopmentPlan/index', [
+        return Inertia::render('DevelopmentPlan/Detail', [
             'developmentPlan' => $this->developmentPlanRepository->getDevelopmentPlan($id)
         ]);
     }
