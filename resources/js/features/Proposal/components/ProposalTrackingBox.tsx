@@ -24,7 +24,7 @@ export const ProposalTrackingBox: FC<{
         <>
             {isShow && (
                 <Card className='tracking'>
-                    <Card.Body>
+                    <Card.Body className='content'>
                         <Card.Title style={{ display: 'flex', justifyContent: 'center' }}>
                             <p style={{ marginLeft: 'auto' }}>Tracking</p>
                             <CloseButton onClick={onClose} style={{ marginLeft: 'auto' }} />

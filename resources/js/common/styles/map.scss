@@ -100,9 +100,11 @@
             height: 57px;
             cursor: pointer;
         }
-        img{
+
+        svg{
             width: 23px;
             height: 23px;
+            fill: #2A62A6;
         };
     }
 }
@@ -112,12 +114,18 @@
     left: 29rem;
     top: 1.2rem;
     margin-top: 0 !important;
-    margin-left: 0 !important;
+    margin-left: -5rem !important;
     border: none !important;
     border-radius: 30px !important;
     background: rgba(255, 255, 255, 0.7) !important;
     box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1) !important;
     padding: 0.3rem;
+}
+
+.leaflet-control-layers-expanded {
+    width: 10rem;
+    padding: 1rem;
+    border-radius: 10px!important;
 }
 
 .header-actions button:hover,

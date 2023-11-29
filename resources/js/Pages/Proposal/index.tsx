@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.scss'
 import L from 'leaflet'
-import createBtn from '@/assets/icons/add-button-svgrepo-com.svg'
+import createBtn from '@/assets/icons/add-plus-svgrepo-com.svg'
 import { useMap } from '@/common/hooks'
 import { useEffect, useState } from 'react'
 import { Head, router, } from '@inertiajs/react'

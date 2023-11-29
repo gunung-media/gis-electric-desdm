@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.scss'
 import L from 'leaflet'
-import createBtn from '@/assets/icons/add-button-svgrepo-com.svg'
+import CreateBtn from '@/assets/icons/add-plus-svgrepo-com.svg?react'
 import { useMap } from '@/common/hooks'
 import { useEffect, useState } from 'react'
 import { Head, router, } from '@inertiajs/react'
@@ -43,7 +43,7 @@ export default function Report({ datas }: PageProps & { datas: ReportType[] }) {
                 <div className="header-box" onClick={() => router.visit(route('landing'))}>Silisda <span>laporan</span></div>
                 <div className="header-actions">
                     <button onClick={() => setIsShowAdd(true)}>
-                        <img src={createBtn} alt="" />
+                        <CreateBtn />
                     </button>
                     <button>
                     </button>
