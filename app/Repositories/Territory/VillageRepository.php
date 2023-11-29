@@ -14,7 +14,7 @@ class VillageRepository
     public function updateBorderVillage(mixed $villageCode, array $borders): mixed
     {
         $village = $this->model->where('code', $villageCode)->firstOrFail();
-        $village->borders = $borders[0];
+        $village->borders = $borders[0] ?? null;
         $village->save();
         return $village;
     }

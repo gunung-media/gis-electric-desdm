@@ -14,8 +14,16 @@ export default function Index({ villageElectricitys }: PageProps & { villageElec
         'Potensial Desa',
         'Tanggal Update',
     ]
+
+    const renderElectricity = (electricity: boolean) => {
+        return electricity ? (
+            <label className="badge badge-success">Berlistrik</label>
+        ) : (
+            <label className="badge badge-danger">Tidak berlistrik</label>
+        )
+    }
     const dataTable = villageElectricitys.map(({ id, village: { name: villageName }, electricity, households_with_electricity, households_without_electricity, network_length, village_potential, updated_at }) => ({
-        id, villageName, electricity, households_with_electricity, households_without_electricity, network_length, village_potential, updated_at
+        id, villageName, electricity: renderElectricity(electricity), households_with_electricity, households_without_electricity, network_length, village_potential, updated_at
     }))
 
     return (
