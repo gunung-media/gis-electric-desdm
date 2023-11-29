@@ -1,3 +1,4 @@
+import { VillageElectricityType } from "@/features/VillageElectricity";
 import { CityType, DistrictType, TerritoryType } from ".";
 
 export interface VillageType extends TerritoryType {
@@ -8,4 +9,5 @@ export interface VillageType extends TerritoryType {
     borders: string | null
     city: CityType
     district: DistrictType
+    electricity?: VillageElectricityType | null
 }
