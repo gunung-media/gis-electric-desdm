@@ -24,11 +24,11 @@ export const getKaltengBorderLayer = async (): Promise<L.LayerGroup> => {
                 };
                 let village = L.geoJson(featureCollection, {
                     style: {
-                        color: 'white',
+                        color: element.electricity?.electricity ? 'green' : 'white',
                         dashArray: '1',
                         lineCap: 'butt',
                         lineJoin: 'miter',
-                        fillColor: '#111',
+                        fillColor: element.electricity?.electricity ? 'green' : '#111',
                         fillOpacity: 0.1,
                     }
                 }).addTo(villages)
@@ -40,6 +40,12 @@ export const getKaltengBorderLayer = async (): Promise<L.LayerGroup> => {
                                 <h5>Desa: {element.name}</h5>
                                 <p>Kabupaten/Kota: {element.city.name}</p>
                                 <p>Kecamatan: {element.district.name}</p>
+                                <hr />
+                                <p>Kelistrikan: {element.electricity?.electricity ? 'Berlistrik' : '-'}</p>
+                                <p>Jumlah KK Berlistrik: {element.electricity?.households_with_electricity ?? '-'}</p>
+                                <p>Jumlah KK Tidak Berlistrik: {element.electricity?.households_without_electricity ?? '-'}</p>
+                                <p>Jumlah Jaringan: {element.electricity?.network_length ?? '-'}</p>
+                                <p>Potensi Desa: {element.electricity?.village_potential ?? '-'}</p>
                             </div>
                         </>
                     ));
