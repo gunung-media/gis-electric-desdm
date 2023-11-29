@@ -1,4 +1,4 @@
-import { DataTable } from "@/common/components"
+import { DataTable, RenderDownloadBtn } from "@/common/components"
 import { ProposalType } from "@/features/Proposal"
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
 import { PageProps } from "@/types"
@@ -19,7 +19,7 @@ export default function Index({ datas }: PageProps & { datas: ProposalType[] }) 
         'Tanggal Usulan',
     ]
     const dataTable = datas.map(({ id, proposal_type, full_name, identity_number, email, phone_number, village: { name: villageName }, address, description, document_path, priority, created_at }) => ({
-        id, proposal_type, priority, villageName, full_name, identity_number, email, phone_number, address, description, document_path, created_at
+        id, proposal_type, priority, villageName, full_name, identity_number, email, phone_number, address, description, document_path: (<RenderDownloadBtn documentPath={document_path} />), created_at
     }))
     return (
         <AuthenticatedLayout>

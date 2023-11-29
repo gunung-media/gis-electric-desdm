@@ -1,4 +1,4 @@
-import { DataTable } from "@/common/components";
+import { DataTable, RenderDownloadBtn } from "@/common/components";
 import { DevelopmentPlanType } from "@/features/DevelopmentPlan";
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
@@ -14,7 +14,7 @@ export default function Index({ developmentPlans }: PageProps & { developmentPla
         'Tanggal Update',
     ]
     const dataTable = developmentPlans.map(({ id, title, description, status, document_path, created_at, updated_at }) => ({
-        id, title, description, status, document_path, created_at, updated_at
+        id, title, description, status, document_path: (<RenderDownloadBtn documentPath={document_path} />), created_at, updated_at
     }))
 
     return (
