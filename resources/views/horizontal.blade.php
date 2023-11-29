@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{ asset('template/vendors/font-awesome/css/font-awesome.min.css') }}" />
     <link rel="shortcut icon" href="{{ asset('template/images/favicon.png') }}" />
 
+    <link href="{{ asset('template/vendors/datatable-responsive/datatables.min.css') }}" rel="stylesheet">
     <!-- Scripts -->
     @routes
     @viteReactRefresh
@@ -25,6 +26,7 @@
 <body class="font-sans antialiased">
     @inertia
     <script src="{{ asset('template/vendors/js/vendor.bundle.base.js') }}"></script>
+    <script src="{{ asset('template/vendors/datatable-responsive/datatables.min.js') }}"></script>
 </body>
 
 </html>

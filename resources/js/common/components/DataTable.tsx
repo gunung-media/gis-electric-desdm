@@ -8,9 +8,10 @@ type DataTableProps<T extends object = object> = {
     columns: string[];
     onDelete: (id: number) => void;
     onEdit: (id: number) => void;
+    isForLanding?: boolean
 }
 
-export const DataTable: FC<DataTableProps> = ({ data, columns, onDelete, onEdit }) => {
+export const DataTable: FC<DataTableProps> = ({ data, columns, onDelete, onEdit, isForLanding = false }) => {
     function customAlert(message: any) {
         console.log('Custom Alert:', message);
     }
@@ -51,7 +52,9 @@ export const DataTable: FC<DataTableProps> = ({ data, columns, onDelete, onEdit 
                         {columns.map((column, i) => (
                             <th key={i}>{capitalizeFirstWord(column)}</th>
                         ))}
-                        <th>Actions</th>
+                        {!isForLanding && (
+                            <th>Actions</th>
+                        )}
                     </tr>
                 </thead>
                 <tbody>
@@ -63,10 +66,12 @@ export const DataTable: FC<DataTableProps> = ({ data, columns, onDelete, onEdit 
                                     {Object.entries(val).map(([key, dataValue], index) => (
                                         key !== 'id' && <td key={index} onClick={() => onEdit((val as CommonTableInterface).id)} style={{ cursor: 'pointer' }}>{dataValue}</td>
                                     ))}
-                                    <td>
-                                        <button id="editBtn" className="btn btn-outline-warning" onClick={() => onEdit((val as CommonTableInterface).id)} data-id={(val as CommonTableInterface).id}>Edit</button>
-                                        <button id="deleteBtn" className="btn btn-outline-danger" onClick={() => onDeleteClick((val as CommonTableInterface).id)} data-id={(val as CommonTableInterface).id}>Delete</button>
-                                    </td>
+                                    {!isForLanding && (
+                                        <td>
+                                            <button id="editBtn" className="btn btn-outline-warning" onClick={() => onEdit((val as CommonTableInterface).id)} data-id={(val as CommonTableInterface).id}>Edit</button>
+                                            <button id="deleteBtn" className="btn btn-outline-danger" onClick={() => onDeleteClick((val as CommonTableInterface).id)} data-id={(val as CommonTableInterface).id}>Delete</button>
+                                        </td>
+                                    )}
                                 </tr>
                             )
                         }
