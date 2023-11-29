@@ -45,8 +45,6 @@ export default function Report({ datas }: PageProps & { datas: ReportType[] }) {
                     <button onClick={() => setIsShowAdd(true)}>
                         <CreateBtn />
                     </button>
-                    <button>
-                    </button>
                 </div>
             </div>
 

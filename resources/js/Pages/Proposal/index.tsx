@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.scss'
 import L from 'leaflet'
-import createBtn from '@/assets/icons/add-plus-svgrepo-com.svg'
+import CreateBtn from '@/assets/icons/add-plus-svgrepo-com.svg?react'
 import { useMap } from '@/common/hooks'
 import { useEffect, useState } from 'react'
 import { Head, router, } from '@inertiajs/react'
@@ -43,9 +43,7 @@ export default function Proposal({ datas }: PageProps & { datas: ProposalType[] 
                 <div className="header-box" onClick={() => router.visit(route('landing'))}>Silisda <span>usulan</span></div>
                 <div className="header-actions">
                     <button onClick={() => setIsShowAdd(true)}>
-                        <img src={createBtn} alt="" />
-                    </button>
-                    <button>
+                        <CreateBtn />
                     </button>
                 </div>
             </div>
