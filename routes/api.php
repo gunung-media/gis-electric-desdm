@@ -1,8 +1,8 @@
 <?php
 
+use App\Repositories\Territory\VillageRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use KodePandai\Indonesia\Models\Village;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/indonesia/kalteng/villages', function () {
-    $kalimantanTengahVillage = Village::whereRelation('province', 'indonesia_provinces.code', 62)->with(['district', 'city'])->get();
-    return response()->json(['data' => $kalimantanTengahVillage->toArray()]);
+    $villageRepository = new VillageRepository();
+    return response()->json(['data' => $villageRepository->getVillageBorders()->toArray()]);
 });
