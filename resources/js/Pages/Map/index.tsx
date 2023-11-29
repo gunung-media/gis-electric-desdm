@@ -1,18 +1,20 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '@/common/styles/map.scss'
+import './styles.scss'
 import { useMap } from '@/common/hooks'
 import { Loader } from '@/common/components'
 import { useEffect, useState } from 'react'
 import L from 'leaflet'
-import { generateKaltengVillageLayer } from '@/features/Territory'
+import { VillageType, generateKaltengVillageLayer } from '@/features/Territory'
 import { Head, router } from '@inertiajs/react'
 import { PageProps } from '@/types';
 import { ElectricSubstationType, generateESLayerGroup } from '@/features/ElectricSubstation';
+import { VillageElectricInfoBox } from '@/features/VillageElectricity/components';
 
 export default function Map({ electricSubstationData }: PageProps & { electricSubstationData: ElectricSubstationType[] }) {
     const { map } = useMap()
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [isShowVillageInfo, setIsShowVillageInfo] = useState<boolean>(false)
+    const [selectedVillage, setSelectedVillage] = useState<VillageType | null>(null)
 
     useEffect(() => {
         let villages: L.LayerGroup = L.layerGroup()
@@ -22,7 +24,10 @@ export default function Map({ electricSubstationData }: PageProps & { electricSu
             electricSubstation = generateESLayerGroup(electricSubstationData)
             map.addLayer(electricSubstation);
             (async () => {
-                villages = await generateKaltengVillageLayer()
+                villages = await generateKaltengVillageLayer((village) => {
+                    setIsShowVillageInfo(true)
+                    setSelectedVillage(village)
+                })
                 map.addLayer(villages)
                 setIsLoading(false)
             })()
@@ -62,15 +67,11 @@ export default function Map({ electricSubstationData }: PageProps & { electricSu
                 </div>
             </div>
 
-            {
-                isShowVillageInfo && (
-                    <div className="graphics">
-                        <p>Grafik Desa</p>
-                        <div id="pie-chart"></div>
-                        <div id="bar-chart"></div>
-                    </div>
-                )
-            }
+            <VillageElectricInfoBox
+                isShow={isShowVillageInfo}
+                village={selectedVillage}
+                onClose={() => setIsShowVillageInfo(false)}
+            />
         </>
     )
 }

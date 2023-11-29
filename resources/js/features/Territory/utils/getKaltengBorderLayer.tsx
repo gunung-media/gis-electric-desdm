@@ -1,8 +1,8 @@
 import { renderToString } from "react-dom/server";
-import { getKaltengVillages } from "..";
+import { VillageType, getKaltengVillages } from "..";
 import L from 'leaflet'
 
-export const generateKaltengVillageLayer = async (): Promise<L.LayerGroup> => {
+export const generateKaltengVillageLayer = async (onBorderClick?: (village: VillageType) => void): Promise<L.LayerGroup> => {
     let villages = L.layerGroup();
     try {
         const { data: { data } } = await getKaltengVillages()
@@ -34,6 +34,10 @@ export const generateKaltengVillageLayer = async (): Promise<L.LayerGroup> => {
                 }).addTo(villages)
 
                 village.eachLayer(function(layer) {
+                    layer.on('click', () => {
+                        if (onBorderClick)
+                            onBorderClick(element)
+                    })
                     layer.bindPopup(renderToString(
                         <>
                             <div>
