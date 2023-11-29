@@ -10,58 +10,59 @@ export const VillageElectricInfoBox: FC<{
     onClose: () => void
 }> = ({ village, isShow, onClose }) => {
     useEffect(() => {
-        if (!village?.electricity) return
-        Highcharts.chart({
-            chart: {
-                renderTo: 'pie-chart',
-                type: 'pie',
-                backgroundColor: 'rgba(0,0,0,0)'
-            },
-            title: {
-                text: ''
-            },
-            plotOptions: {
-                series: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: [{
-                        enabled: true,
-                    }, {
-                        enabled: true,
-                        style: {
-                            fontSize: '1.2em',
-                            textOutline: 'none',
-                            opacity: 0.7
-                        },
-                        filter: {
-                            operator: '>',
-                            property: 'percentage',
-                            value: 10
-                        }
-                    }]
-                }
-            },
-            series: [
-                // @ts-ignore
-                {
-                    name: 'Percentage',
-                    colorByPoint: true,
-                    data: [
-                        {
-                            name: 'KK Berlistrik',
-                            sliced: true,
-                            selected: true,
-                            y: village.electricity.households_with_electricity
-                        },
-                        {
-                            name: 'KK Tidak Berlistrik',
-                            y: village.electricity.households_without_electricity
-                        },
-                    ]
-                }
-            ]
-        });
-    }, [isShow])
+        if (village?.electricity) {
+            Highcharts.chart({
+                chart: {
+                    renderTo: 'pie-chart',
+                    type: 'pie',
+                    backgroundColor: 'rgba(0,0,0,0)'
+                },
+                title: {
+                    text: ''
+                },
+                plotOptions: {
+                    series: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: [{
+                            enabled: true,
+                        }, {
+                            enabled: true,
+                            style: {
+                                fontSize: '1.2em',
+                                textOutline: 'none',
+                                opacity: 0.7
+                            },
+                            filter: {
+                                operator: '>',
+                                property: 'percentage',
+                                value: 10
+                            }
+                        }]
+                    }
+                },
+                series: [
+                    // @ts-ignore
+                    {
+                        name: 'Percentage',
+                        colorByPoint: true,
+                        data: [
+                            {
+                                name: 'KK Berlistrik',
+                                sliced: true,
+                                selected: true,
+                                y: village.electricity.households_with_electricity
+                            },
+                            {
+                                name: 'KK Tidak Berlistrik',
+                                y: village.electricity.households_without_electricity
+                            },
+                        ]
+                    }
+                ]
+            });
+        }
+    }, [village])
     return (
         <>
             {isShow && (
