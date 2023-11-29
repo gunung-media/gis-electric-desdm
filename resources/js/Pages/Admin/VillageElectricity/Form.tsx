@@ -87,7 +87,7 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
                 setData('borders', JSON.stringify(layer.toGeoJSON().geometry.coordinates))
             });
 
-            if (villageElectricity) {
+            if (villageElectricity && villageElectricity.village) {
                 const {
                     village: {
                         latitude,
