@@ -8,7 +8,7 @@ import { useForm, usePage } from "@inertiajs/react"
 import { ElectricSubstationDTO, ElectricSubstationType } from "@/features/ElectricSubstation"
 import { PageProps } from "@/types"
 import { useMap } from "@/common/hooks"
-import { swalError, swalSuccess } from "@/common/utils"
+import { electricIcon, swalError, swalSuccess } from "@/common/utils"
 
 export default function Form({ electricSubstation }: PageProps & { electricSubstation?: ElectricSubstationType }) {
     const { errors } = usePage<PageProps>().props
@@ -34,7 +34,8 @@ export default function Form({ electricSubstation }: PageProps & { electricSubst
     useEffect(() => {
         if (map) {
             const marker = L.marker((electricSubstation ? [electricSubstation.latitude, electricSubstation.longitude] : latLangKalteng) as L.LatLngExpression, {
-                draggable: true
+                draggable: true,
+                icon: electricIcon
             }).addTo(map);
 
             marker.on('dragend', function() {
