@@ -2,6 +2,7 @@
 
 namespace App\Models\Territory;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use KodePandai\Indonesia\Models\District as ModelsDistrict;
 
 /**
@@ -14,5 +15,10 @@ class District extends ModelsDistrict
         parent::__construct($attributes);
 
         $this->mergeFillable(['borders']);
+    }
+
+    public function villages(): HasMany
+    {
+        return $this->hasMany(Village::class);
     }
 }

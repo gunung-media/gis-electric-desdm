@@ -8,6 +8,8 @@ export const getCities = async (): Promise<AxiosResponse<{ data: CityType[] }>> 
 
 export const getDistricts = async (cityCode: number | string): Promise<AxiosResponse<{ data: DistrictType[] }>> => await axios.get(`${URL}/districts`, { params: { 'city_code': cityCode } })
 
+export const getDistrict = async (districtId: number | string): Promise<AxiosResponse<{ data: DistrictType }>> => await axios.get(route('api.districtInfo', { districtId }))
+
 export const getVillages = async (districtCode: number | string): Promise<AxiosResponse<{ data: VillageType[] }>> => await axios.get(`${URL}/villages`, { params: { 'district_code': districtCode } })
 
 export const getKaltengVillages = async (districtCode?: number | string): Promise<AxiosResponse<{ data: VillageType[] }>> => await axios.get(`${URL}/kalteng/villages`, { params: { 'district_code': districtCode } })

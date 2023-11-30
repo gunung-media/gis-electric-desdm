@@ -13,5 +13,5 @@ export interface VillageElectricityType extends CommonTableInterface {
     is_village_electric_pln: boolean
     is_village_electric_non_pln: boolean
     is_village_no_electric: boolean
-    households_count: boolean
+    households_count: number
 }

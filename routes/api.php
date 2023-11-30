@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TerritoryController;
 use App\Repositories\Territory\VillageRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,8 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/indonesia/kalteng/villages', function (Request $request) {
-    ini_set('memory_limit', '1024M');
-    $villageRepository = new VillageRepository();
-    return response()->json(['data' => $villageRepository->getVillageBorders($request)->toArray()]);
+Route::name('api.')->group(function () {
+    Route::get('/indonesia/kalteng/villages', [TerritoryController::class, 'villagesBorder'])->name('villagesBorder');
+    Route::get('/territory/district/{districtId}', [TerritoryController::class, 'districtInfo'])->name('districtInfo');
 });

@@ -35,9 +35,11 @@ class VillageElectricityController extends Controller
         $request->validate([
             'village_code' => 'required|unique:village_electricities,village_code',
             'households_with_electricity' => 'required|integer',
+            'households_with_electricity_non_pln' => 'required|integer',
             'households_without_electricity' => 'required|integer',
-            'network_length' => 'required|numeric',
+            'network_length' => 'nullable|numeric',
             'village_potential' => 'nullable|string',
+            'kk' => 'nullable|integer',
         ]);
 
         try {
@@ -63,11 +65,13 @@ class VillageElectricityController extends Controller
     public function update(Request $request, string $id): mixed
     {
         $request->validate([
-            'village_code' => 'required',
+            'village_code' => 'required|unique:village_electricities,village_code,' . $id,
             'households_with_electricity' => 'required|integer',
+            'households_with_electricity_non_pln' => 'required|integer',
             'households_without_electricity' => 'required|integer',
-            'network_length' => 'required|numeric',
+            'network_length' => 'nullable|numeric',
             'village_potential' => 'nullable|string',
+            'kk' => 'nullable|integer',
         ]);
 
         try {
