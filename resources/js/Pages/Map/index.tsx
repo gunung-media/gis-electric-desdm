@@ -56,7 +56,10 @@ export default function Map({ electricSubstationData }: PageProps & { electricSu
             <VillageElectricInfoBox
                 isShow={isShowVillageInfo}
                 village={selectedVillage}
-                onClose={() => setIsShowVillageInfo(false)}
+                onClose={() => {
+                    setIsShowVillageInfo(false)
+                    setSelectedVillage(null)
+                }}
             />
         </>
     )
