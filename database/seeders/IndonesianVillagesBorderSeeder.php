@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Territory\Village;
 use Illuminate\Database\Seeder;
-use KodePandai\Indonesia\Models\Village;
 
 class IndonesianVillagesBorderSeeder extends Seeder
 {
@@ -12,15 +12,27 @@ class IndonesianVillagesBorderSeeder extends Seeder
         $content = file_get_contents(dirname(__DIR__) . '/raw/kalimantan_tengah_villages.geojson');
         $geojson = json_decode($content, true);
 
+        $effectedVillage = 0;
+        $villageNotFound = 0;
+
         foreach ($geojson['features'] as $feature) {
             $villageName = $feature['village'];
 
             $village = Village::where('name', $villageName)->first();
-            if (is_null($village)) continue;
+            if (is_null($village)) {
+                error_log("village not found: {$villageName}");
+                $villageNotFound++;
+                continue;
+            }
 
             $borders = $feature['border'];
             $village->borders = $borders;
             $village->save();
+
+            $effectedVillage++;
         }
+
+        error_log("Effected Village: $effectedVillage");
+        error_log("Village Not Found: $villageNotFound");
     }
 }

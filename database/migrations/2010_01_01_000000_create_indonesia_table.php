@@ -13,6 +13,7 @@ class CreateIndonesiaTable extends Migration
             $table->string('name', 255);
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
+            $table->timestamps();
         });
 
         Schema::create(config('indonesia.table_prefix') . 'cities', function (Blueprint $table) {
@@ -21,6 +22,7 @@ class CreateIndonesiaTable extends Migration
             $table->string('name', 255);
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
+            $table->timestamps();
 
             $table->foreign('province_code')
                 ->references('code')
@@ -35,6 +37,7 @@ class CreateIndonesiaTable extends Migration
             $table->string('name', 255);
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
+            $table->timestamps();
 
             $table->foreign('city_code')
                 ->references('code')
@@ -51,6 +54,7 @@ class CreateIndonesiaTable extends Migration
             $table->string('longitude')->nullable();
             $table->string('postal_code')->nullable();
             $table->json('borders')->nullable();
+            $table->timestamps();
 
             $table->foreign('district_code')
                 ->references('code')
