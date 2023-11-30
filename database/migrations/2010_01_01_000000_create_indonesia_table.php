@@ -13,15 +13,17 @@ class CreateIndonesiaTable extends Migration
             $table->string('name', 255);
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
+            $table->json('borders')->nullable();
             $table->timestamps();
         });
 
         Schema::create(config('indonesia.table_prefix') . 'cities', function (Blueprint $table) {
-            $table->char('code', 4)->primary();
+            $table->char('code', 6)->primary();
             $table->char('province_code', 2);
             $table->string('name', 255);
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
+            $table->json('borders')->nullable();
             $table->timestamps();
 
             $table->foreign('province_code')
@@ -32,11 +34,12 @@ class CreateIndonesiaTable extends Migration
         });
 
         Schema::create(config('indonesia.table_prefix') . 'districts', function (Blueprint $table) {
-            $table->char('code', 7)->primary();
-            $table->char('city_code', 4);
+            $table->char('code', 9)->primary();
+            $table->char('city_code', 6);
             $table->string('name', 255);
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
+            $table->json('borders')->nullable();
             $table->timestamps();
 
             $table->foreign('city_code')
@@ -47,8 +50,8 @@ class CreateIndonesiaTable extends Migration
         });
 
         Schema::create(config('indonesia.table_prefix') . 'villages', function (Blueprint $table) {
-            $table->char('code', 10)->primary();
-            $table->char('district_code', 7);
+            $table->char('code', 12)->primary();
+            $table->char('district_code', 9);
             $table->string('name', 255);
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();

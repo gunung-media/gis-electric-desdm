@@ -25,7 +25,9 @@ class IndonesianVillagesBorderSeeder extends Seeder
                 continue;
             }
 
-            $borders = $feature['border'];
+            $border = $feature['border'];
+
+            $borders = ['coordinates' => $border, 'type' => count($border) > 1 ? "MultiPolygon" : "Polygon"];
             $village->borders = $borders;
             $village->save();
 

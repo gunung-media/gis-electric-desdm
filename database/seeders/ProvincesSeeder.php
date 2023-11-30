@@ -13,12 +13,17 @@ class ProvincesSeeder extends Seeder
         $now = Carbon::now();
         $csv = new CsvtoArray();
         $file = __DIR__ . '/../raw/csv/provinces.csv';
-        $header = ['code', 'name', 'lat', 'long'];
+        $header = ['Code', 'Parent', 'Name', 'Latitude', 'Longitude', 'Postal'];
         $data = $csv->csv_to_array($file, $header);
         $data = array_map(function ($arr) use ($now) {
-            $additional = ['created_at' => $now, 'updated_at' => $now, 'latitude' => $arr['lat'], 'longitude' => $arr['long']];
-            unset($arr['lat'], $arr['long']);
-            return $arr + $additional;
+            return [
+                'code' => $arr['Code'],
+                'name' => $arr['Name'],
+                'latitude' => $arr['Latitude'],
+                'longitude' => $arr['Longitude'],
+                'created_at' => $now,
+                'updated_at' => $now
+            ];
         }, $data);
 
         DB::table(config('indonesia.table_prefix') . 'provinces')->insertOrIgnore($data);
