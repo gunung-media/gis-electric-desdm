@@ -24,14 +24,14 @@ class VillageElectricity extends Model
 
     public $appends = ['electricity', 'is_village_electric_pln', 'is_village_electric_non_pln', 'is_village_no_electric'];
 
-    public function isVillageElectricPLN(): Attribute
+    public function isVillageElectricPln(): Attribute
     {
         return Attribute::make(
             get: fn () => $this->households_with_electricity != 0
         );
     }
 
-    public function isVillageElectricNonPLN(): Attribute
+    public function isVillageElectricNonPln(): Attribute
     {
         return Attribute::make(
             get: fn () => $this->households_with_electricity_non_pln != 0

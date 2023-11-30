@@ -45,8 +45,10 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
                     city_code,
                 }
             },
+            kk,
             households_without_electricity,
             households_with_electricity,
+            households_with_electricity_non_pln,
             network_length,
             village_potential
         } = villageElectricity
@@ -56,7 +58,9 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
         setData(data => ({
             ...data,
             village_code,
+            kk,
             households_with_electricity,
+            households_with_electricity_non_pln,
             households_without_electricity,
             network_length,
             village_potential,
@@ -240,12 +244,28 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
                                     />
                                     <InputError message={errors.village_code} />
                                     <FormGroup
-                                        title="Jumlah KK Berlistrik"
+                                        title="Jumlah KK"
+                                        name="kk"
+                                        errorMsg={errors.kk}
+                                        type="number"
+                                        onChange={(e) => setData('kk', Number(e.target.value))}
+                                        value={dto.kk}
+                                    />
+                                    <FormGroup
+                                        title="Jumlah KK Berlistrik (PLN)"
                                         name="households_with_electricity"
                                         errorMsg={errors.households_with_electricity}
                                         type="number"
                                         onChange={(e) => setData('households_with_electricity', Number(e.target.value))}
                                         value={dto.households_with_electricity}
+                                    />
+                                    <FormGroup
+                                        title="Jumlah KK Berlistrik (Non PLN)"
+                                        name="households_with_electricity_non_pln"
+                                        errorMsg={errors.households_with_electricity_non_pln}
+                                        type="number"
+                                        onChange={(e) => setData('households_with_electricity_non_pln', Number(e.target.value))}
+                                        value={dto.households_with_electricity_non_pln}
                                     />
                                     <FormGroup
                                         title="Jumlah KK Tidak Berlistrik"

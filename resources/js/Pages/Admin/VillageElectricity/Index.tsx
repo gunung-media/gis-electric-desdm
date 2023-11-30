@@ -8,7 +8,8 @@ export default function Index({ villageElectricitys }: PageProps & { villageElec
     const column: string[] = [
         'Nama Desa/Kelurahan',
         'Kelistrikan',
-        'Jumlah KK Berlistrik',
+        'Jumlah KK Berlistrik PLN',
+        'Jumlah KK Berlistrik Non PLN',
         'Jumlah KK Tidak Berlistrik',
         'Panjang Jaringan',
         'Potensial Desa',
@@ -27,12 +28,21 @@ export default function Index({ villageElectricitys }: PageProps & { villageElec
         village,
         electricity,
         households_with_electricity,
+        households_with_electricity_non_pln,
         households_without_electricity,
         network_length,
         village_potential,
         updated_at
     }) => ({
-        id, villageName: village?.name || 'Unknown Village', electricity: renderElectricity(electricity), households_with_electricity, households_without_electricity, network_length, village_potential, updated_at
+        id,
+        villageName: village?.name || 'Unknown Village',
+        electricity: renderElectricity(electricity),
+        households_with_electricity,
+        households_with_electricity_non_pln,
+        households_without_electricity,
+        network_length,
+        village_potential: village_potential ?? '-',
+        updated_at
     }))
 
     return (
