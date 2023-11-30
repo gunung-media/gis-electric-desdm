@@ -6,5 +6,5 @@ export * from "./VillageType"
 
 export interface TerritoryType extends CommonTableInterface {
     name: string
-    code: number
+    code: string
 }
