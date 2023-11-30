@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('village_electricities', function (Blueprint $table) {
             $table->id();
-            $table->char('village_code', 10);
+            $table->char('village_code', 12)->unique();
+            $table->integer('kk')->nullable();
             $table->integer('households_with_electricity')->default(0);
+            $table->integer('households_with_electricity_non_pln')->default(0);
             $table->integer('households_without_electricity')->default(0);
-            $table->float('network_length')->default(0);
+            $table->float('network_length')->default(0)->nullable();
             $table->text('village_potential')->nullable();
             $table->timestamps();
 

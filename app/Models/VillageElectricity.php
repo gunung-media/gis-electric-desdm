@@ -14,13 +14,36 @@ class VillageElectricity extends Model
 {
     protected $fillable = [
         'village_code',
+        'kk',
         'households_with_electricity',
+        'households_with_electricity_non_pln',
         'households_without_electricity',
         'network_length',
         'village_potential',
     ];
 
-    public $appends = ['electricity'];
+    public $appends = ['electricity', 'is_village_electric_pln', 'is_village_electric_non_pln', 'is_village_no_electric'];
+
+    public function isVillageElectricPLN(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->households_with_electricity != 0
+        );
+    }
+
+    public function isVillageElectricNonPLN(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->households_with_electricity_non_pln != 0
+        );
+    }
+
+    public function isVillageNoElectric(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->households_with_electricity_non_pln == 0 && $this->households_with_electricity == 0
+        );
+    }
 
     public function electricity(): Attribute
     {
