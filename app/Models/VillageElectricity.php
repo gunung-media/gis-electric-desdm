@@ -22,7 +22,14 @@ class VillageElectricity extends Model
         'village_potential',
     ];
 
-    public $appends = ['electricity', 'is_village_electric_pln', 'is_village_electric_non_pln', 'is_village_no_electric'];
+    public $appends = ['electricity', 'is_village_electric_pln', 'is_village_electric_non_pln', 'is_village_no_electric', 'households_count'];
+
+    public function householdsCount(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->households_with_electricity + $this->households_with_electricity_non_pln
+        );
+    }
 
     public function isVillageElectricPln(): Attribute
     {
