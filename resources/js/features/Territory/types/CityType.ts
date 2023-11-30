@@ -1,5 +1,6 @@
-import { TerritoryType } from "."
+import { TerritoryType, VillageType } from "."
 
 export interface CityType extends TerritoryType {
     province_code: string
+    villages?: VillageType[] | null
 }

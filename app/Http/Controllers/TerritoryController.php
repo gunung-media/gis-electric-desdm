@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\Territory\CityRepository;
 use App\Repositories\Territory\DistrictRepository;
 use App\Repositories\Territory\VillageRepository;
 use Illuminate\Http\JsonResponse;
@@ -12,7 +13,7 @@ class TerritoryController extends Controller
     public function __construct(
         protected VillageRepository $villageRepository = new VillageRepository(),
         protected DistrictRepository $districtRepository = new DistrictRepository(),
-
+        protected CityRepository $cityRepository = new CityRepository(),
     ) {
     }
 
@@ -25,5 +26,10 @@ class TerritoryController extends Controller
     public function districtInfo(Request $request, $districtId): JsonResponse
     {
         return response()->json(['data' => $this->districtRepository->getDistrictInfo($districtId)]);
+    }
+
+    public function cityInfo(Request $request, $cityId): JsonResponse
+    {
+        return response()->json(['data' => $this->cityRepository->getCityInfo($cityId)]);
     }
 }

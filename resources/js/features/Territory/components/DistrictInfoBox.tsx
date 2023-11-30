@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from "react"
 import { Card, CloseButton } from "react-bootstrap"
 import { BootstrapInputGroup } from "@/common/components"
 import { DistrictType, getDistrict } from "@/features/Territory"
-import Highcharts from 'highcharts';
 
 export const DistrictInfoBox: FC<{
     isShow: boolean,
@@ -26,20 +25,31 @@ export const DistrictInfoBox: FC<{
                 const { data: { data: dData } } = await getDistrict(district.code)
                 setDistrictData(dData)
                 for (const village of dData.villages!) {
-                    setAdditionalData({
-                        jumlahRumahTinggal: additionalData.jumlahRumahTinggal + (village.electricity?.households_count ?? 0),
-                        jumlahKK: additionalData.jumlahKK + (village.electricity?.kk ?? 0),
-                        desaBerlistrikPLN: additionalData.desaBerlistrikPLN + (village.electricity?.is_village_electric_pln ? 1 : 0),
-                        desaBerlistrikNonPLN: additionalData.desaBerlistrikPLN + (village.electricity?.is_village_electric_non_pln ? 1 : 0),
-                        desaTidaklistrik: additionalData.desaTidaklistrik + (village.electricity?.is_village_no_electric ? 1 : 0),
-                        rumahTinggalListrikPLN: additionalData.rumahTinggalListrikPLN + (village.electricity?.households_with_electricity ?? 0),
-                        rumahTinggalListrikNonPLN: additionalData.rumahTinggalListrikNonPLN + (village.electricity?.households_with_electricity_non_pln ?? 0),
-                        rumahTanggaNonListrik: additionalData.rumahTanggaNonListrik + (village.electricity?.households_without_electricity ?? 0),
-                    })
-
+                    setAdditionalData(prevData => ({
+                        jumlahRumahTinggal: prevData.jumlahRumahTinggal + (village.electricity?.households_count ?? 0),
+                        jumlahKK: prevData.jumlahKK + (village.electricity?.kk ?? 0),
+                        desaBerlistrikPLN: prevData.desaBerlistrikPLN + (village.electricity?.is_village_electric_pln ? 1 : 0),
+                        desaBerlistrikNonPLN: prevData.desaBerlistrikNonPLN + (village.electricity?.is_village_electric_non_pln ? 1 : 0),
+                        desaTidaklistrik: prevData.desaTidaklistrik + (village.electricity?.is_village_no_electric ? 1 : 0),
+                        rumahTinggalListrikPLN: prevData.rumahTinggalListrikPLN + (village.electricity?.households_with_electricity ?? 0),
+                        rumahTinggalListrikNonPLN: prevData.rumahTinggalListrikNonPLN + (village.electricity?.households_with_electricity_non_pln ?? 0),
+                        rumahTanggaNonListrik: prevData.rumahTanggaNonListrik + (village.electricity?.households_without_electricity ?? 0),
+                    }));
                 }
             })();
         }
+        return (() => {
+            setAdditionalData({
+                jumlahRumahTinggal: 0,
+                jumlahKK: 0,
+                desaBerlistrikPLN: 0,
+                desaBerlistrikNonPLN: 0,
+                desaTidaklistrik: 0,
+                rumahTinggalListrikPLN: 0,
+                rumahTinggalListrikNonPLN: 0,
+                rumahTanggaNonListrik: 0,
+            })
+        })
     }, [district])
     return (
         <>

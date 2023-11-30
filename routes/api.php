@@ -23,4 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::name('api.')->group(function () {
     Route::get('/indonesia/kalteng/villages', [TerritoryController::class, 'villagesBorder'])->name('villagesBorder');
     Route::get('/territory/district/{districtId}', [TerritoryController::class, 'districtInfo'])->name('districtInfo');
+    Route::get('/territory/city/{cityId}', [TerritoryController::class, 'cityInfo'])->name('cityInfo');
 });

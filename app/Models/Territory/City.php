@@ -2,6 +2,7 @@
 
 namespace App\Models\Territory;
 
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use KodePandai\Indonesia\Models\City as ModelsCity;
 
 /**
@@ -14,5 +15,10 @@ class City extends ModelsCity
         parent::__construct($attributes);
 
         $this->mergeFillable(['borders']);
+    }
+
+    public function villages(): HasManyThrough
+    {
+        return $this->hasManyThrough(Village::class, District::class);
     }
 }

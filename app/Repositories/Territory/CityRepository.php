@@ -10,4 +10,12 @@ class CityRepository
         protected City $city = new City()
     ) {
     }
+
+    public function getCityInfo(mixed $cityCode)
+    {
+        $query = $this->city
+            ->with(['villages', 'villages.electricity'])
+            ->findOrFail($cityCode);
+        return $query;
+    }
 }
