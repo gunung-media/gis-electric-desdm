@@ -29,6 +29,12 @@ export default function Map({ electricSubstationData }: PageProps & { electricSu
                     setSelectedVillage(village)
                 })
                 map.addLayer(villages)
+
+                L.control.layers(undefined, {
+                    "Gardu Listrik": electricSubstation,
+                    "Desa": villages
+                }, { position: 'topleft' }).addTo(map);
+
                 setIsLoading(false)
             })()
 
@@ -36,10 +42,6 @@ export default function Map({ electricSubstationData }: PageProps & { electricSu
                 position: 'bottomleft'
             }).addTo(map)
 
-            L.control.layers(undefined, {
-                "Gardu Listrik": electricSubstation,
-                "Desa": villages
-            }, { position: 'topleft' }).addTo(map);
         }
     }, [map])
     return (
