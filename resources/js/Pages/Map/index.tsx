@@ -63,6 +63,7 @@ export default function Map({ electricSubstationData }: PageProps & { electricSu
                     setIsShowDistrictInfo(true)
                     setSelectedDistrict(district)
                     handleCloseCity(true)
+                    handleCloseVillage()
                     map.setView([Number(district.latitude), Number(district.longitude) + .6], 10, { animate: true })
                 })
                 setDistrictsLayer(districts)

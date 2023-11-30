@@ -1,8 +1,7 @@
 import { InputError, FormGroup, OptionType, Loader } from "@/common/components";
 import { useMap } from "@/common/hooks";
 import { swalError, swalSuccess, swalToast } from "@/common/utils";
-import { CityType, DistrictType, SelectCity, SelectDistrict, VillageType, generateKaltengVillageLayer } from "@/features/Territory";
-import { SelectVillage } from "@/features/Territory/components/SelectVillage";
+import { CityType, DistrictType, SelectCity, SelectDistrict, SelectVillage, VillageType, generateKaltengCityLayer, generateKaltengDistrictLayer, generateKaltengVillageLayer } from '@/features/Territory'
 import { VillageElectricityDTO, VillageElectricityType } from "@/features/VillageElectricity";
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
@@ -19,6 +18,9 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
     const [districtCode, setDistrictCode] = useState<string | number>()
     const [villageCode, setVillageCode] = useState<string | number>()
     const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [citiesLayer, setCitiesLayer] = useState<L.LayerGroup>(L.layerGroup())
+    const [districtsLayer, setDistrictsLayer] = useState<L.LayerGroup>(L.layerGroup())
+    const [villagesLayer, setVillagesLayer] = useState<L.LayerGroup>(L.layerGroup())
     const drawnItems = new L.FeatureGroup();
     const drawControl = new L.Control.Draw({
         draw: {
@@ -62,22 +64,15 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
     }, [])
 
     useEffect(() => {
-        let villages = L.layerGroup()
         if (map) {
             (async () => {
-                villages = await generateKaltengVillageLayer((village) => {
-                    if (villageElectricity) return
-                    setCityCode(village?.city.code)
-                    setDistrictCode(village.district.code)
-                    setVillageCode(village.code)
-                    setData('village_code', village.code)
-                }, true)
-                map.addLayer(villages)
+                const cities = await generateKaltengCityLayer((city) => {
+                    setCityCode(city.code)
+                    map.setView([Number(city.latitude), Number(city.longitude)], 9, { animate: true })
+                })
+                setCitiesLayer(cities)
+                map.addLayer(cities)
                 setIsLoading(false)
-
-                L.control.layers(undefined, {
-                    "Desa": villages
-                }, { position: 'topleft' }).addTo(map);
             })()
 
             map.addLayer(drawnItems);
@@ -113,12 +108,51 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
         }
     }, [map])
 
+    useEffect(() => {
+        let districts = L.layerGroup()
+        if (map && cityCode) {
+            (async () => {
+                districts = await generateKaltengDistrictLayer(cityCode, (district) => {
+                    setDistrictCode(district.code)
+                    map.setView([Number(district.latitude), Number(district.longitude)], 10, { animate: true })
+                })
+                setDistrictsLayer(districts)
+                map.addLayer(districts)
+
+            })()
+
+        }
+
+        return (() => {
+            districts.remove()
+        })
+    }, [cityCode])
+
+    useEffect(() => {
+        let villages = L.layerGroup()
+        if (map && districtCode) {
+            (async () => {
+                villages = await generateKaltengVillageLayer(districtCode, (village) => {
+                    setVillageCode(village.code)
+                    setData('village_code', village.code)
+                })
+                setVillagesLayer(villages)
+                map.addLayer(villages)
+            })()
+        }
+
+        return (() => {
+            villages.remove()
+        })
+    }, [districtCode])
+
     const handleCityChange = (e: OptionType<CityType>) => {
         setCityCode(e.value.code)
     }
 
     const handleDistrictChange = (e: OptionType<DistrictType>) => {
         setDistrictCode(e.value.code)
+        mapZoom(e.value.latitude, e.value.longitude, 2)
     }
 
     const handleVillageChange = (e: OptionType<VillageType>) => {
