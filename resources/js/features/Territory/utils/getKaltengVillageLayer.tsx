@@ -2,10 +2,10 @@ import { renderToString } from "react-dom/server";
 import { VillageType, getKaltengVillages } from "..";
 import L from 'leaflet'
 
-export const generateKaltengVillageLayer = async (onBorderClick?: (village: VillageType) => void, isShowPopup?: boolean): Promise<L.LayerGroup> => {
+export const generateKaltengVillageLayer = async (districtId: string | number, onBorderClick?: (village: VillageType) => void, isShowPopup?: boolean): Promise<L.LayerGroup> => {
     let villages = L.layerGroup();
     try {
-        const { data: { data } } = await getKaltengVillages()
+        const { data: { data } } = await getKaltengVillages(districtId)
         for (let i = 0; i < data.length; i++) {
             const element = data[i];
             try {
@@ -14,10 +14,7 @@ export const generateKaltengVillageLayer = async (onBorderClick?: (village: Vill
                     features: [
                         {
                             type: 'Feature',
-                            geometry: {
-                                type: 'Polygon',
-                                coordinates: [JSON.parse(element.borders ?? "[]")]
-                            },
+                            geometry: JSON.parse(element.borders ?? "null"),
                             properties: {}
                         }
                     ]

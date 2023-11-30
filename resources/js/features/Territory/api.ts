@@ -10,4 +10,4 @@ export const getDistricts = async (cityCode: number | string): Promise<AxiosResp
 
 export const getVillages = async (districtCode: number | string): Promise<AxiosResponse<{ data: VillageType[] }>> => await axios.get(`${URL}/villages`, { params: { 'district_code': districtCode } })
 
-export const getKaltengVillages = async (): Promise<AxiosResponse<{ data: VillageType[] }>> => await axios.get(`${URL}/kalteng/villages`)
+export const getKaltengVillages = async (districtCode?: number | string): Promise<AxiosResponse<{ data: VillageType[] }>> => await axios.get(`${URL}/kalteng/villages`, { params: { 'district_code': districtCode } })

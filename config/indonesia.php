@@ -43,13 +43,10 @@ return [
          */
         'response_columns' => [
             //.
-            'province' => ['code', 'name'],
-
-            'city' => ['code', 'province_code', 'name'],
-
-            'district' => ['code', 'city_code', 'name', 'latitude', 'longitude'],
-
-            'village' => ['code', 'district_code', 'name', 'borders'],
+            'province' => ['code', 'name', 'borders'],
+            'city' => ['code', 'province_code', 'name', 'borders', 'latitude', 'longitude'],
+            'district' => ['code', 'city_code', 'name', 'latitude', 'longitude', "borders"],
+            'village' => ['code', 'district_code', 'name', 'borders', "latitude", "longitude"],
         ],
     ],
 ];

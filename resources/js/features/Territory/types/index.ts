@@ -7,4 +7,7 @@ export * from "./VillageType"
 export interface TerritoryType extends CommonTableInterface {
     name: string
     code: string
+    borders: string | null
+    latitude: string | null
+    longitude: string | null
 }

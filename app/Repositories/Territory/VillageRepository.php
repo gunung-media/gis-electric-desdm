@@ -4,6 +4,7 @@ namespace App\Repositories\Territory;
 
 use App\Models\Territory\Village;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 
 class VillageRepository
 {
@@ -20,11 +21,15 @@ class VillageRepository
         return $village;
     }
 
-    public function getVillageBorders(): Collection
+    public function getVillageBorders(Request $request): Collection
     {
         $query = $this->model
             ->whereRelation('province', 'indonesia_provinces.code', 62)
             ->with(['district', 'city', 'electricity']);
+
+        if ($request->query('district_code', false)) {
+            $query->where('district_code', $request->query('district_code'));
+        }
 
         return $query->get();
     }

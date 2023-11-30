@@ -19,7 +19,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/indonesia/kalteng/villages', function () {
+Route::get('/indonesia/kalteng/villages', function (Request $request) {
+    ini_set('memory_limit', '1024M');
     $villageRepository = new VillageRepository();
-    return response()->json(['data' => $villageRepository->getVillageBorders()->toArray()]);
+    return response()->json(['data' => $villageRepository->getVillageBorders($request)->toArray()]);
 });
