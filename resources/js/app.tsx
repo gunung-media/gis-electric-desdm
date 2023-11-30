@@ -1,5 +1,6 @@
 import './bootstrap';
 import 'leaflet/dist/leaflet.css';
+import 'sweetalert2/src/sweetalert2.scss'
 
 import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';

@@ -2,15 +2,10 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use KodePandai\Indonesia\IndonesiaDatabaseSeeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
         \App\Models\User::factory()->create([
@@ -23,6 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CitiesSeeder::class);
         $this->call(DistrictsSeeder::class);
         $this->call(VillagesSeeder::class);
-        // $this->call(IndonesianVillagesBorderSeeder::class);
+        $this->call(IndonesianVillagesBorderSeeder::class);
     }
 }

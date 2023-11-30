@@ -1,6 +1,6 @@
 import { InputError, FormGroup, OptionType, Loader } from "@/common/components";
 import { useMap } from "@/common/hooks";
-import { swalError, swalSuccess } from "@/common/utils";
+import { swalError, swalSuccess, swalToast } from "@/common/utils";
 import { CityType, DistrictType, SelectCity, SelectDistrict, VillageType, generateKaltengVillageLayer } from "@/features/Territory";
 import { SelectVillage } from "@/features/Territory/components/SelectVillage";
 import { VillageElectricityDTO, VillageElectricityType } from "@/features/VillageElectricity";
@@ -115,24 +115,29 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
 
     const handleDistrictChange = (e: OptionType<DistrictType>) => {
         setDistrictCode(e.value.code)
-        mapZoom(e.value.latitude, e.value.longitude, 2)
     }
 
     const handleVillageChange = (e: OptionType<VillageType>) => {
         setVillageCode(e.value.code)
         setData('village_code', e.value.code.toString())
-        mapZoom(e.value.latitude, e.value.longitude, 3)
+        console.log(e.value.borders)
+        if (!e.value.borders) {
+            swalToast.fire({
+                icon: 'info',
+                title: 'Desa tidak memiliki arsiran, silahkan tambah arsir',
+            })
+            mapZoom(e.value.latitude, e.value.longitude, 3)
+            return
+        }
+        const bordersArray = JSON.parse(e.value.borders)
+        mapZoom(bordersArray[0][1], bordersArray[0][0], 3)
     }
 
-    const mapZoom = (latitude: string | null, longitude: string | null, mapZoomLevel: number) => {
+    const mapZoom = (latitude: string | number | null, longitude: string | number | null, mapZoomLevel: number) => {
         try {
             const latLang = [Number(latitude), Number(longitude)]
             console.log(map?.getZoom())
-            if (map && map.getZoom() > 7) {
-                map?.setZoom(7)
-            }
-            map?.setZoom(7 + mapZoomLevel, { animate: true })
-            map?.panTo(latLang as L.LatLngExpression)
+            map?.setView(latLang as L.LatLngExpression, 7 + mapZoomLevel, { animate: true })
         } catch (error) {
             return;
         }
