@@ -49,7 +49,7 @@ return [
 
             'district' => ['code', 'city_code', 'name', 'latitude', 'longitude'],
 
-            'village' => ['code', 'district_code', 'name'],
+            'village' => ['code', 'district_code', 'name', 'borders'],
         ],
     ],
 ];

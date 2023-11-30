@@ -25,7 +25,6 @@ export const SelectDistrict: FC<{
 
     useEffect(() => {
         if (selectedDistrict) {
-            console.log(selectedDistrict);
             (async () => await fetchDistricts())()
         }
 

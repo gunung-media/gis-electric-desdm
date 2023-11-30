@@ -18,8 +18,20 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
     const [cityCode, setCityCode] = useState<string | number>()
     const [districtCode, setDistrictCode] = useState<string | number>()
     const [villageCode, setVillageCode] = useState<string | number>()
-    const [borders, setBorders] = useState<number[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(true)
+    const drawnItems = new L.FeatureGroup();
+    const drawControl = new L.Control.Draw({
+        draw: {
+            marker: false,
+            circle: false,
+            circlemarker: false,
+            rectangle: false,
+            polyline: false,
+        },
+        edit: {
+            featureGroup: drawnItems
+        }
+    });
 
     useEffect(() => {
         if (!villageElectricity || !(villageElectricity!.village)) return;
@@ -37,7 +49,6 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
             network_length,
             village_potential
         } = villageElectricity
-        setBorders(JSON.parse(borders ?? "[]"))
         setVillageCode(village_code)
         setDistrictCode(districtCode)
         setCityCode(city_code)
@@ -55,25 +66,16 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
         let villages = L.layerGroup()
         if (map) {
             (async () => {
-                villages = await generateKaltengVillageLayer()
+                villages = await generateKaltengVillageLayer(undefined, true)
                 map.addLayer(villages)
                 setIsLoading(false)
+
+                L.control.layers(undefined, {
+                    "Desa": villages
+                }, { position: 'topleft' }).addTo(map);
             })()
 
-            const drawnItems = new L.FeatureGroup();
             map.addLayer(drawnItems);
-            const drawControl = new L.Control.Draw({
-                draw: {
-                    marker: false,
-                    circle: false,
-                    circlemarker: false,
-                    rectangle: false,
-                    polyline: false,
-                },
-                edit: {
-                    featureGroup: drawnItems
-                }
-            });
             map.addControl(drawControl);
 
             map.on('draw:created', function(event) {
@@ -113,7 +115,6 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
 
     const handleDistrictChange = (e: OptionType<DistrictType>) => {
         setDistrictCode(e.value.code)
-        const latLang = [Number(e.value.latitude), Number(e.value.longitude)]
         mapZoom(e.value.latitude, e.value.longitude, 2)
     }
 
@@ -126,7 +127,11 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
     const mapZoom = (latitude: string | null, longitude: string | null, mapZoomLevel: number) => {
         try {
             const latLang = [Number(latitude), Number(longitude)]
-            map?.zoomIn(mapZoomLevel, { animate: true })
+            console.log(map?.getZoom())
+            if (map && map.getZoom() > 7) {
+                map?.setZoom(7)
+            }
+            map?.setZoom(7 + mapZoomLevel, { animate: true })
             map?.panTo(latLang as L.LatLngExpression)
         } catch (error) {
             return;

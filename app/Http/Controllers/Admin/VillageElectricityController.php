@@ -33,7 +33,7 @@ class VillageElectricityController extends Controller
     public function store(Request $request): mixed
     {
         $request->validate([
-            'village_code' => 'required',
+            'village_code' => 'required|unique:village_electricities,village_code',
             'households_with_electricity' => 'required|integer',
             'households_without_electricity' => 'required|integer',
             'network_length' => 'required|numeric',
@@ -41,8 +41,8 @@ class VillageElectricityController extends Controller
         ]);
 
         try {
-            if ($request->has('borders')) {
-                $this->villageRepository->updateBorderVillage($request->input('village_code'), $request->input('borders'));
+            if ($request->has('borders') && !is_null($request->input('borders'))) {
+                $this->villageRepository->updateBorderVillage($request->input('village_code'), json_decode($request->input('borders')));
             }
             $this->villageElectricityRepository->insertVillageElectricity($request->all());
             return redirect(route('admin.village_electricity.index'))->with('status', 'Sukses Menambah Rencana Pembangunan');
@@ -71,7 +71,7 @@ class VillageElectricityController extends Controller
         ]);
 
         try {
-            if ($request->has('borders')) {
+            if ($request->has('borders') && !is_null($request->input('borders'))) {
                 $this->villageRepository->updateBorderVillage($request->input('village_code'), json_decode($request->input('borders')));
             }
             $villageElectricity = $this->villageElectricityRepository->getVillageElectricity($id);

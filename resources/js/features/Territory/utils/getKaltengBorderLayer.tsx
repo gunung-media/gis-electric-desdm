@@ -2,7 +2,7 @@ import { renderToString } from "react-dom/server";
 import { VillageType, getKaltengVillages } from "..";
 import L from 'leaflet'
 
-export const generateKaltengVillageLayer = async (onBorderClick?: (village: VillageType) => void): Promise<L.LayerGroup> => {
+export const generateKaltengVillageLayer = async (onBorderClick?: (village: VillageType) => void, isShowPopup?: boolean): Promise<L.LayerGroup> => {
     let villages = L.layerGroup();
     try {
         const { data: { data } } = await getKaltengVillages()
@@ -25,7 +25,7 @@ export const generateKaltengVillageLayer = async (onBorderClick?: (village: Vill
                 let village = L.geoJson(featureCollection, {
                     style: {
                         color: element.electricity?.electricity ? 'green' : 'white',
-                        dashArray: 0,
+                        dashArray: '0',
                         lineCap: 'butt',
                         lineJoin: 'miter',
                         fillColor: element.electricity?.electricity ? 'green' : '#111',
@@ -53,6 +53,9 @@ export const generateKaltengVillageLayer = async (onBorderClick?: (village: Vill
                             </div>
                         </>
                     )
+                    if (isShowPopup) {
+                        layer.bindPopup(popUpContent)
+                    }
                 });
             } catch (error) {
                 console.error(error)
