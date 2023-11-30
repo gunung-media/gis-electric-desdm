@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.scss'
+import SearchBtn from '@/assets/icons/search-svgrepo-com.svg?react'
 import { useMap } from '@/common/hooks'
 import { Loader } from '@/common/components'
 import { useEffect, useState } from 'react'
@@ -27,9 +28,9 @@ export default function Map({ electricSubstationData }: PageProps & { electricSu
     const [esLayer, setEsLayer] = useState<L.LayerGroup>(L.layerGroup())
 
     useEffect(() => {
-        const electricSubstations = generateESLayerGroup(electricSubstationData);
-        setEsLayer(electricSubstations)
         if (map) {
+            const electricSubstations = generateESLayerGroup(electricSubstationData);
+            setEsLayer(electricSubstations)
             map.addLayer(electricSubstations);
             (async () => {
                 const cities = await generateKaltengCityLayer((city) => {
@@ -43,12 +44,11 @@ export default function Map({ electricSubstationData }: PageProps & { electricSu
                 map.addLayer(cities)
 
                 L.control.layers(undefined, {
-                    "Gardu Listrik": esLayer,
+                    "Gardu Listrik": electricSubstations,
                     "Kota": cities,
                 }, { position: 'topleft' }).addTo(map);
                 setIsLoading(false)
             })()
-
             L.control.zoom({
                 position: 'bottomleft'
             }).addTo(map)
@@ -134,6 +134,9 @@ export default function Map({ electricSubstationData }: PageProps & { electricSu
             <div className="header">
                 <div className="header-box" onClick={() => router.visit(route('landing'))}>Silisda <span>peta</span></div>
                 <div className="header-actions">
+                    <button>
+                        <SearchBtn />
+                    </button>
                 </div>
             </div>
 
