@@ -25,11 +25,11 @@ export const generateKaltengVillageLayer = async (onBorderClick?: (village: Vill
                 let village = L.geoJson(featureCollection, {
                     style: {
                         color: element.electricity?.electricity ? 'green' : 'white',
-                        dashArray: '1',
+                        dashArray: 0,
                         lineCap: 'butt',
                         lineJoin: 'miter',
                         fillColor: element.electricity?.electricity ? 'green' : '#111',
-                        fillOpacity: 0.1,
+                        fillOpacity: .5,
                     }
                 }).addTo(villages)
 
@@ -55,6 +55,7 @@ export const generateKaltengVillageLayer = async (onBorderClick?: (village: Vill
                     )
                 });
             } catch (error) {
+                console.error(error)
                 continue;
             }
         }
