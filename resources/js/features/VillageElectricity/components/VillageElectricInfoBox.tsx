@@ -69,7 +69,7 @@ export const VillageElectricInfoBox: FC<{
                 <Card className='graphics' >
                     <Card.Body className='content'>
                         <Card.Title style={{ display: 'flex', justifyContent: 'center' }}>
-                            <p style={{ marginLeft: 'auto' }}>Tracking</p>
+                            <p style={{ marginLeft: 'auto' }}>Desa</p>
                             <CloseButton onClick={onClose} style={{ marginLeft: 'auto' }} />
                         </Card.Title>
                         <BootstrapInputGroup

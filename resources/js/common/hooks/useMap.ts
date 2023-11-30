@@ -7,16 +7,7 @@ export const useMap = (mapId: string = "map") => {
 
     useEffect(() => {
         const mapRef = L.map("map").setView(latLangKalteng as L.LatLngExpression, 8);
-        var popup = L.popup();
-
-        function onMapClick(e: any) {
-            popup
-                .setLatLng(e.latlng)
-                .setContent("You clicked the map at " + e.latlng.toString())
-                .openOn(mapRef);
-        }
-
-        mapRef.on('click', onMapClick);
+        mapRef.on('click', (e) => console.log(e.latlng.toString()));
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
