@@ -38,7 +38,7 @@ export const generateKaltengVillageLayer = async (onBorderClick?: (village: Vill
                         if (onBorderClick)
                             onBorderClick(element)
                     })
-                    layer.bindPopup(renderToString(
+                    const popUpContent = renderToString(
                         <>
                             <div>
                                 <h5>Desa: {element.name}</h5>
@@ -52,7 +52,7 @@ export const generateKaltengVillageLayer = async (onBorderClick?: (village: Vill
                                 <p>Potensi Desa: {element.electricity?.village_potential ?? '-'}</p>
                             </div>
                         </>
-                    ));
+                    )
                 });
             } catch (error) {
                 continue;

@@ -13,7 +13,7 @@ export function GuestLayout({ children }: PropsWithChildren) {
                         <div className="col-lg-6 d-flex align-items-center justify-content-center">
                             <div className="auth-form-transparent text-left p-3">
                                 <div className="brand-logo">
-                                    <img src={`${page.props.assets}/images/logo.svg`} alt="logo" />
+                                    <img src={`${page.props.assets}/images/silisda.png`} alt="logo" />
                                 </div>
                                 <h4>Welcome back!</h4>
                                 <h6 className="font-weight-light">Happy to see you again!</h6>

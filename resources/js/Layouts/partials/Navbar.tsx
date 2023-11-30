@@ -9,10 +9,10 @@ export const Navbar = () => {
         <nav className="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
                 <a className="navbar-brand brand-logo me-5" href={route('admin.dashboard')}>
-                    <img src={`${assets}/images/logo.svg`} className="me-2" alt="logo" />
+                    <img src={`${assets}/images/silisda.png`} className="me-2" alt="logo" />
                 </a>
                 <a className="navbar-brand brand-logo-mini" href={route('admin.dashboard')}>
-                    <img src={`${assets}/images/logo-mini.svg`} alt="logo" />
+                    <img src={`${assets}/images/logo-kalteng.png`} alt="logo" />
                 </a>
             </div>
             <div className="navbar-menu-wrapper d-flex align-items-center justify-content-end">

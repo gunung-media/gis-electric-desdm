@@ -8,8 +8,8 @@ export const NavbarHorizontal = () => {
             <nav className="navbar top-navbar col-lg-12 col-12 p-0">
                 <div className="container">
                     <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                        <a className="navbar-brand brand-logo" href={route('landing')}><img src={`${assets}/images/logo.svg`} alt="logo" /></a>
-                        <a className="navbar-brand brand-logo-mini" href={route('landing')}><img src={`${assets}/images/logo-mini.svg`} alt="logo" /></a>
+                        <a className="navbar-brand brand-logo" href={route('landing')}><img src={`${assets}/images/silisda-light.png`} alt="logo" /></a>
+                        <a className="navbar-brand brand-logo-mini" href={route('landing')}><img src={`${assets}/images/logo-kalteng.png`} alt="logo" /></a>
                     </div>
                     <div className="navbar-menu-wrapper d-flex align-items-center justify-content-end">
                     </div>
