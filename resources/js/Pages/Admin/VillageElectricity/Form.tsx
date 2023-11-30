@@ -38,7 +38,6 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
         const {
             village: {
                 code: village_code,
-                borders,
                 district: {
                     code: districtCode,
                     city_code,
@@ -66,7 +65,13 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
         let villages = L.layerGroup()
         if (map) {
             (async () => {
-                villages = await generateKaltengVillageLayer(undefined, true)
+                villages = await generateKaltengVillageLayer((village) => {
+                    if (villageElectricity) return
+                    setCityCode(village?.city.code)
+                    setDistrictCode(village.district.code)
+                    setVillageCode(village.code)
+                    setData('village_code', village.code)
+                }, true)
                 map.addLayer(villages)
                 setIsLoading(false)
 
@@ -94,16 +99,15 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
                     village: {
                         latitude,
                         longitude,
-                        district: {
-                            latitude: districtLatitude,
-                            longitude: districtLongitude
-                        }
+                        borders
                     },
                 } = villageElectricity
                 try {
-                    mapZoom(latitude, longitude, 3)
+                    if (!borders) throw 'error'
+                    const bordersArray = JSON.parse(borders)
+                    mapZoom(bordersArray[0][1], bordersArray[0][0], 3)
                 } catch (error) {
-                    mapZoom(districtLatitude, districtLongitude, 2)
+                    mapZoom(latitude, longitude, 3)
                 }
             }
         }

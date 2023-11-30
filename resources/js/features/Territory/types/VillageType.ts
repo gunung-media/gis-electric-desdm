@@ -10,4 +10,5 @@ export interface VillageType extends TerritoryType {
     city: CityType
     district: DistrictType
     electricity?: VillageElectricityType | null
+    city?: CityType
 }
