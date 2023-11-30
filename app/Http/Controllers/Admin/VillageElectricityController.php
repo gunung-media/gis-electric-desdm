@@ -44,7 +44,7 @@ class VillageElectricityController extends Controller
             if ($request->has('borders') && !is_null($request->input('borders'))) {
                 $this->villageRepository->updateBorderVillage($request->input('village_code'), json_decode($request->input('borders')));
             }
-            $this->villageElectricityRepository->insertVillageElectricity($request->all());
+            $this->villageElectricityRepository->insertVillageElectricity([...$request->all(), 'village_code' => (string) $request->input('village_code')]);
             return redirect(route('admin.village_electricity.index'))->with('status', 'Sukses Menambah Rencana Pembangunan');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));
