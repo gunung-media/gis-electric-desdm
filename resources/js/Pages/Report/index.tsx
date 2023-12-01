@@ -13,7 +13,7 @@ export default function Report({ datas }: PageProps & { datas: ReportType[] }) {
     const { map } = useMap()
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [isShowTracking, setIsShowTracking] = useState<boolean>(false)
-    const [isShowAdd, setIsShowAdd] = useState<boolean>(false)
+    const [isShowAdd, setIsShowAdd] = useState<boolean>(true)
     const [reportId, setReportId] = useState<number>()
 
     useEffect(() => {

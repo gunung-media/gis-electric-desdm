@@ -85,7 +85,7 @@ export const ModalFormReport: FC<{
                 size='xl'
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Tambah Usulan</Modal.Title>
+                    <Modal.Title>Tambah Laporan</Modal.Title>
                 </Modal.Header>
                 <Form onSubmit={handleSubmit}>
                     <Modal.Body>

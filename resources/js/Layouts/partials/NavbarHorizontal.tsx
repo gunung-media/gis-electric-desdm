@@ -25,9 +25,15 @@ export const NavbarHorizontal = () => {
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href={route('map')}>
+                            <a className="nav-link" href={route('statistic')}>
                                 <i className="icon-map menu-icon"></i>
                                 <span className="menu-title">Map</span>
+                            </a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href={route('map')}>
+                                <i className="icon-map menu-icon"></i>
+                                <span className="menu-title">Statistik Kelistrikan Daerah</span>
                             </a>
                         </li>
                         <li className="nav-item">

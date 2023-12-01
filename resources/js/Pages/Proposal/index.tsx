@@ -13,7 +13,7 @@ export default function Proposal({ datas }: PageProps & { datas: ProposalType[] 
     const { map } = useMap()
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [isShowTracking, setIsShowTracking] = useState<boolean>(false)
-    const [isShowAdd, setIsShowAdd] = useState<boolean>(false)
+    const [isShowAdd, setIsShowAdd] = useState<boolean>(true)
     const [proposalId, setProposalId] = useState<number>()
 
     useEffect(() => {

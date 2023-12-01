@@ -58,7 +58,7 @@ export default function Form({ electricSubstation }: PageProps & { electricSubst
 
     const handleDistrictChange = async (e: OptionType<DistrictType>) => {
         setData("district_code", e.value.code)
-        const latLang = [parseInt(e.value.latitude), parseInt(e.value.longitude)]
+        const latLang = [Number(e.value.latitude), Number(e.value.longitude)]
         map!.panTo(latLang as L.LatLngExpression)
         marker!.setLatLng(latLang as L.LatLngExpression)
         setData(data => ({ ...data, latitude: latLang[0], longitude: latLang[1] }))
