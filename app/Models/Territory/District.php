@@ -10,6 +10,8 @@ use KodePandai\Indonesia\Models\District as ModelsDistrict;
  */
 class District extends ModelsDistrict
 {
+    protected $hidden = ['borders'];
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);

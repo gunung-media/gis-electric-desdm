@@ -3,6 +3,7 @@
 namespace App\Repositories\Territory;
 
 use App\Models\Territory\City;
+use Illuminate\Database\Eloquent\Collection;
 
 class CityRepository
 {
@@ -11,7 +12,15 @@ class CityRepository
     ) {
     }
 
-    public function getCityInfo(mixed $cityCode)
+    public function getCities(): Collection
+    {
+        $query = $this->city
+            ->with(['districts.villages.electricity'])
+            ->where('province_code', '62');
+        return $query->get();
+    }
+
+    public function getCityInfo(mixed $cityCode): ?City
     {
         $query = $this->city
             ->with(['villages', 'villages.electricity'])

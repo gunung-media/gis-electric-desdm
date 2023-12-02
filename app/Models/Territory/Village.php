@@ -13,6 +13,7 @@ use KodePandai\Indonesia\Models\Village as KodePandaiVillage;
 class Village extends KodePandaiVillage
 {
     public $appends = ['latitude', 'longitude'];
+    protected $hidden = ['borders'];
 
     public function latitude(): Attribute
     {
