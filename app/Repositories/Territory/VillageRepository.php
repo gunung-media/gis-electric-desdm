@@ -31,6 +31,6 @@ class VillageRepository
             $query->where('district_code', $request->query('district_code'));
         }
 
-        return $query->get();
+        return $query->get()->makeVisible(['borders']);
     }
 }
