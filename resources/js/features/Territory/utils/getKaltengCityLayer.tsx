@@ -31,19 +31,21 @@ export const generateKaltengCityLayer = async (onBorderClick?: (city: CityType) 
                 }).addTo(cities)
 
                 city.eachLayer(function(layer) {
+                    const popUpContent = renderToString(
+                        <>
+                            <div>
+                                <h5>Kabupaten/Kota: {element.name}</h5>
+                            </div>
+                        </>
+                    )
+                    layer.bindPopup(popUpContent)
+                    layer.on('mouseover', () => {
+                        layer.openPopup()
+                    })
                     layer.on('click', () => {
                         if (onBorderClick)
                             onBorderClick(element)
                     })
-                    const popUpContent = renderToString(
-                        <>
-                            <div>
-                            </div>
-                        </>
-                    )
-                    if (isShowPopup) {
-                        layer.bindPopup(popUpContent)
-                    }
                 });
             } catch (error) {
                 console.error(error)

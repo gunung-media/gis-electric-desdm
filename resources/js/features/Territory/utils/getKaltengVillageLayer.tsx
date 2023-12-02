@@ -31,28 +31,23 @@ export const generateKaltengVillageLayer = async (districtId: string | number, o
                 }).addTo(villages)
 
                 village.eachLayer(function(layer) {
-                    layer.on('click', () => {
-                        if (onBorderClick)
-                            onBorderClick(element)
-                    })
                     const popUpContent = renderToString(
                         <>
                             <div>
                                 <h5>Desa: {element.name}</h5>
                                 <p>Kabupaten/Kota: {element.city.name}</p>
                                 <p>Kecamatan: {element.district.name}</p>
-                                <hr />
-                                <p>Kelistrikan: {element.electricity?.electricity ? 'Berlistrik' : '-'}</p>
-                                <p>Jumlah KK Berlistrik: {element.electricity?.households_with_electricity ?? '-'}</p>
-                                <p>Jumlah KK Tidak Berlistrik: {element.electricity?.households_without_electricity ?? '-'}</p>
-                                <p>Jumlah Jaringan: {element.electricity?.network_length ?? '-'}</p>
-                                <p>Potensi Desa: {element.electricity?.village_potential ?? '-'}</p>
                             </div>
                         </>
                     )
-                    if (isShowPopup) {
-                        layer.bindPopup(popUpContent)
-                    }
+                    layer.bindPopup(popUpContent)
+                    layer.on('mouseover', () => {
+                        layer.openPopup()
+                    })
+                    layer.on('click', () => {
+                        if (onBorderClick)
+                            onBorderClick(element)
+                    })
                 });
             } catch (error) {
                 console.error(error)
