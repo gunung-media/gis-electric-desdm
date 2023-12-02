@@ -37,13 +37,13 @@ export default function Index({ datas }: PageProps & { datas: CityType[] }) {
     return (
         <HorizontalLayout>
             <Head title="Statistik Kelistrikan Daearah" />
-            <div className="card">
+            <div className="card table-fixed">
                 <div className="card-body">
                     <div className="card-title d-flex justify-content-between">
                         <p>Statistik Kelistrikan Daerah</p>
                     </div>
                     <div className="row">
-                        <div className="col-12">
+                        <div className="col-12 ">
                             <table className="table table-responsive table-hover table-bordered">
                                 <thead>
                                     <tr>
@@ -55,7 +55,7 @@ export default function Index({ datas }: PageProps & { datas: CityType[] }) {
                                         <th colSpan={2}>Rumah Tinggal Berlistrik</th>
                                         <th colSpan={2} rowSpan={2}>Rumah Tinggal Belum Berlistrik</th>
                                     </tr>
-                                    <tr>
+                                    <tr className='info'>
                                         <th>Rumah Tinggal</th>
                                         <th>KK</th>
                                         <th>PLN</th>
