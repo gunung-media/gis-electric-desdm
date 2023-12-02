@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.scss'
 import SearchBtn from '@/assets/icons/search-svgrepo-com.svg?react'
 import { useMap } from '@/common/hooks'
-import { Loader } from '@/common/components'
+import { Legend, Loader } from '@/common/components'
 import { useEffect, useState } from 'react'
 import L from 'leaflet'
 import { CityInfoBox, CityType, DistrictType, VillageType, generateKaltengCityLayer, generateKaltengVillageLayer } from '@/features/Territory'
@@ -12,6 +12,7 @@ import { ElectricSubstationType, generateESLayerGroup } from '@/features/Electri
 import { VillageElectricInfoBox } from '@/features/VillageElectricity/components';
 import { generateKaltengDistrictLayer } from '@/features/Territory/utils/getKaltengDistrictLayer';
 import { DistrictInfoBox } from '@/features/Territory/components/DistrictInfoBox';
+import { Card } from 'react-bootstrap';
 
 export default function Map({ electricSubstationData }: PageProps & { electricSubstationData: ElectricSubstationType[] }) {
     const { map } = useMap()
@@ -139,6 +140,8 @@ export default function Map({ electricSubstationData }: PageProps & { electricSu
                     </button>
                 </div>
             </div>
+
+            <Legend />
 
             <CityInfoBox
                 isShow={isShowCityInfo}

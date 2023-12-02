@@ -1,0 +1,39 @@
+@import '@/common/styles/map.scss';
+
+
+
+.legend {
+    @include additional-bx(12rem);
+    .card-title{
+        margin-bottom: 0;
+    }
+    .card-body{
+        padding: 1rem 10px!important;
+    }
+    min-height: 20vh;
+    bottom:0;
+    margin :0rem;
+    margin-bottom: 9px;
+    top: unset;
+    right: unset;
+    left: 3rem;
+    padding: 10px!important;
+
+    .content-legend{
+        display: flex;
+        flex-direction:column;
+        gap: 10px;
+        p{
+            font-weight: 400;
+            font-size: 12px;
+            margin-bottom: 0;
+            text-align:left;
+        }
+        .legend-item{
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+    }
+}
+
