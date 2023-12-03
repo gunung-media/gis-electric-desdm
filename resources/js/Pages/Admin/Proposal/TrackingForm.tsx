@@ -5,7 +5,7 @@ import { enumToStringArray, swalError, swalSuccess } from "@/common/utils";
 import { ProposalTracking } from "@/features/Proposal";
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
-import { router, useForm, usePage } from "@inertiajs/react";
+import { Head, router, useForm, usePage } from "@inertiajs/react";
 import { FormEventHandler, useEffect } from "react";
 
 export default function TrackingForm({ tracking }: PageProps & { tracking?: ProposalTracking }) {
@@ -48,6 +48,7 @@ export default function TrackingForm({ tracking }: PageProps & { tracking?: Prop
 
     return (
         <AuthenticatedLayout>
+            <Head title="Usulan Tracking" />
             <div className="row">
                 <div className="col-12 grid-margin stretch-card">
                     <div className="card">

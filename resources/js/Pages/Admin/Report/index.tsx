@@ -23,7 +23,7 @@ export default function Index({ datas }: PageProps & { datas: ReportType[] }) {
     }))
     return (
         <AuthenticatedLayout>
-            <Head title="Usulan" />
+            <Head title="Laporan" />
             <div className="card">
                 <div className="card-body">
                     <div className="card-title d-flex justify-content-between">

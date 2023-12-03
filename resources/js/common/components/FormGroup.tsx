@@ -29,7 +29,7 @@ export const FormGroup: FC<{
                     <CKEditor
                         editor={ClassicEditor}
                         data={editorData}
-                        onChange={(event, editor) => {
+                        onChange={(_event, editor) => {
                             const data = editor.getData();
                             if (onChange)
                                 onChange(data)

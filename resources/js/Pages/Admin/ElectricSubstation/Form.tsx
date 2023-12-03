@@ -4,7 +4,7 @@ import L from "leaflet"
 import { Input, InputError, OptionType } from "@/common/components"
 import latLangKalteng from "@/common/constants/latLangKalteng"
 import { DistrictType, CityType, SelectCity, SelectDistrict } from "@/features/Territory"
-import { useForm, usePage } from "@inertiajs/react"
+import { Head, useForm, usePage } from "@inertiajs/react"
 import { ElectricSubstationDTO, ElectricSubstationType } from "@/features/ElectricSubstation"
 import { PageProps } from "@/types"
 import { useMap } from "@/common/hooks"
@@ -89,6 +89,7 @@ export default function Form({ electricSubstation }: PageProps & { electricSubst
 
     return (
         <AuthenticatedLayout>
+            <Head title="Gardu Listrik Form" />
             <div className="row">
                 <div className="col-md-6 grid-margin stretch-card">
                     <div className="card">

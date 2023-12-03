@@ -15,7 +15,7 @@ export default function Detail({ data }: PageProps & { data: ProposalType }) {
     }))
     return (
         <AuthenticatedLayout>
-            <Head title="Usulan" />
+            <Head title="Usulan Form" />
             <div className="card mb-3">
                 <div className="card-body">
                     <div className="card-title d-flex justify-content-between">

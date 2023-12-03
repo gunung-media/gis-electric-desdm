@@ -15,7 +15,7 @@ export default function Detail({ data }: PageProps & { data: ReportType }) {
     }))
     return (
         <AuthenticatedLayout>
-            <Head title="Usulan" />
+            <Head title="Laporan Detail" />
             <div className="card mb-3">
                 <div className="card-body">
                     <div className="card-title d-flex justify-content-between">
