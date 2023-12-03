@@ -18,11 +18,11 @@ export const ModalFormProposal: FC<{
     onClose: () => void,
 }> = ({ isShow, onClose }) => {
     const { errors } = usePage<PageProps>().props
-    const { map, setMap } = useMap('map-picker')
     const [cityCode, setCityCode] = useState<string | number>()
     const [districtCode, setDistrictCode] = useState<string | number>()
     const [villageCode, setVillageCode] = useState<string | number>()
     const { data, setData, post } = useForm<ProposalDTO>()
+    const { map, setMap } = useMap('map-picker')
     const { latLang, setLatLang } = useGetLocation()
     const [marker, setMarker] = useState<L.Marker>()
 
@@ -51,7 +51,7 @@ export const ModalFormProposal: FC<{
 
     useEffect(() => {
         if (map) {
-            const marker = L.marker((latLang ? Object.values(latLang) : latLangKalteng) as L.LatLngExpression, {
+            const marker = L.marker((latLang ? [Number(latLang.latitude), Number(latLang.longitude)] : latLangKalteng) as L.LatLngExpression, {
                 draggable: true,
             }).addTo(map);
 

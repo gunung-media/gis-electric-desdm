@@ -8,8 +8,10 @@ import { FormControlElement, PageProps } from "@/types"
 import { ReportDTO } from ".."
 import { FormGroup, InputType, OptionalSelect, InputError, OptionType } from '@/common/components';
 import { useForm, usePage } from "@inertiajs/react"
-import { useGetLocation } from "@/common/hooks"
+import { useGetLocation, useMap } from "@/common/hooks"
 import { CityType, DistrictType, SelectCity, SelectDistrict, VillageType } from "@/features/Territory"
+import latLangKalteng from '@/common/constants/latLangKalteng'
+import L from 'leaflet'
 
 export const ModalFormReport: FC<{
     isShow: boolean,
@@ -20,17 +22,19 @@ export const ModalFormReport: FC<{
     const [districtCode, setDistrictCode] = useState<string | number>()
     const [villageCode, setVillageCode] = useState<string | number>()
     const { data, setData, post } = useForm<ReportDTO>()
-    const { latLang } = useGetLocation()
+    const { map, setMap } = useMap('map-picker')
+    const { latLang, setLatLang } = useGetLocation()
+    const [marker, setMarker] = useState<L.Marker>()
 
     const identityReport: InputType<ReportDTO>[] = [
         { title: 'Nama Lengkap', name: 'full_name', type: "text" },
         { title: 'Nomor Identitas', name: 'identity_number', type: "text" },
         { title: 'Email', name: 'email', type: 'email' },
         { title: 'Nomor Telepon', name: 'phone_number', type: 'number' },
-        { title: 'Alamat', name: 'address', type: 'text' },
     ]
 
     const additionalFields: InputType<ReportDTO>[] = [
+        { title: 'Alamat', name: 'address', type: 'text' },
         { title: 'Waktu Kejadian', name: 'date_happen', type: "datetime-local" },
         { title: 'Deskripsi Laporan', name: 'description', type: "text" },
         { title: 'Foto/Dokumen Pendukung', name: 'document_path', type: "file" },
@@ -43,6 +47,32 @@ export const ModalFormReport: FC<{
             longitude: latLang.longitude
         }))
     }, [latLang])
+
+    useEffect(() => {
+        if (map) {
+            const marker = L.marker((latLang ? [Number(latLang.latitude), Number(latLang.longitude)] : latLangKalteng) as L.LatLngExpression, {
+                draggable: true,
+            }).addTo(map);
+
+            marker.on('dragend', function() {
+                const position = marker.getLatLng();
+                setLatLang({
+                    latitude: position.lat.toString(),
+                    longitude: position.lng.toString()
+                })
+                setData((data) => ({
+                    ...data,
+                    latitude: position.lat.toString(),
+                    longitude: position.lng.toString(),
+                }))
+            });
+            setMarker(marker)
+
+            return () => {
+                marker.remove()
+            }
+        }
+    }, [map])
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement> | string | ChangeEvent<FormControlElement>) => {
         if (typeof e !== 'string') {
@@ -78,14 +108,35 @@ export const ModalFormReport: FC<{
             forceFormData: true
         })
     }
+
+    const handleLatLangChange = (name: 'latitude' | 'longitude', val: string) => {
+        try {
+            setData(name, val)
+            if (!map || !marker) return
+            let latLang
+            if (name === 'latitude') {
+                latLang = [Number(val), Number(data.latitude)] as L.LatLngExpression
+            } else {
+                latLang = [Number(data.longitude), Number(val)] as L.LatLngExpression
+            }
+
+            setLatLang(data => ({
+                ...data,
+                [name]: val
+            }))
+            map.setView(latLang)
+            marker.setLatLng(latLang)
+        } catch (error) {
+            return
+        }
+    }
     return (
         <>
             <Modal
                 show={isShow}
                 onHide={onClose}
-                backdrop="static"
                 keyboard={false}
-                size='xl'
+                fullscreen={true}
             >
                 <Modal.Header closeButton>
                     <Modal.Title>Tambah Laporan</Modal.Title>
@@ -94,6 +145,10 @@ export const ModalFormReport: FC<{
                     <Modal.Body>
                         <Container>
                             <Row>
+
+                                <Col>
+                                    <div id="map-picker" style={{ height: "95%" }}></div>
+                                </Col>
                                 <Col>
                                     {identityReport.map((val, i) => (
                                         <FormGroup
@@ -109,6 +164,20 @@ export const ModalFormReport: FC<{
                                     <SelectDistrict handleDistrictChange={handleDistrictChange} selectedCityId={cityCode} />
                                     <SelectVillage handleVillageChange={handleVillageChange} selectedDistrictId={districtCode} />
                                     <InputError message={errors.village_code} />
+                                    <FormGroup
+                                        title="Latitude"
+                                        type="number"
+                                        name="latitude"
+                                        value={latLang.latitude ?? ""}
+                                        onChange={(e) => handleLatLangChange('latitude', (e as ChangeEvent<HTMLInputElement>).target.value)}
+                                    />
+                                    <FormGroup
+                                        title="Longitude"
+                                        type="number"
+                                        name="longitude"
+                                        value={latLang.longitude ?? ""}
+                                        onChange={(e) => handleLatLangChange('longitude', (e as ChangeEvent<HTMLInputElement>).target.value)}
+                                    />
                                 </Col>
                                 <Col>
                                     <OptionalSelect
