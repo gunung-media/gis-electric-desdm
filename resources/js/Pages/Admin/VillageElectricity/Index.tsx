@@ -12,7 +12,6 @@ export default function Index({ villageElectricitys }: PageProps & { villageElec
         'Jumlah KK Berlistrik Non PLN',
         'Jumlah KK Tidak Berlistrik',
         'Panjang Jaringan',
-        'Potensial Desa',
         'Tanggal Update',
     ]
 
@@ -31,7 +30,6 @@ export default function Index({ villageElectricitys }: PageProps & { villageElec
         households_with_electricity_non_pln,
         households_without_electricity,
         network_length,
-        village_potential,
         updated_at
     }) => ({
         id,
@@ -41,7 +39,6 @@ export default function Index({ villageElectricitys }: PageProps & { villageElec
         households_with_electricity_non_pln,
         households_without_electricity,
         network_length,
-        village_potential: village_potential ?? '-',
         updated_at
     }))
 

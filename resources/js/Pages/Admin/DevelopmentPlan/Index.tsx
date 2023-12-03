@@ -7,14 +7,13 @@ import { Head, router } from "@inertiajs/react";
 export default function Index({ developmentPlans }: PageProps & { developmentPlans: DevelopmentPlanType[] }) {
     const column: string[] = [
         'Judul Rencana Pembangunan',
-        'Deskripsi Singkat',
         'Status',
         'File',
         'Tanggal Rencana Dibuat',
         'Tanggal Update',
     ]
-    const dataTable = developmentPlans.map(({ id, title, description, status, document_path, created_at, updated_at }) => ({
-        id, title, description, status, document_path: (<RenderDownloadBtn documentPath={document_path} />), created_at, updated_at
+    const dataTable = developmentPlans.map(({ id, title, status, document_path, created_at, updated_at }) => ({
+        id, title, status, document_path: (<RenderDownloadBtn documentPath={document_path} />), created_at, updated_at
     }))
 
     return (

@@ -5,9 +5,9 @@ import { PageProps } from "@/types"
 import { Head, router } from "@inertiajs/react"
 
 export default function Index({ datas }: PageProps & { datas: ElectricSubstationType[] }) {
-    const column = ['Nama', 'Kabupaten', 'Kecamatan', 'Deskripsi']
-    const dataTable = datas.map(({ id, name, city_name, district: { name: districtName }, description }) => ({
-        id, name, city_name, districtName, description
+    const column = ['Nama', 'Kabupaten', 'Kecamatan']
+    const dataTable = datas.map(({ id, name, city_name, district: { name: districtName } }) => ({
+        id, name, city_name, districtName,
     }))
     return (
         <AuthenticatedLayout>
