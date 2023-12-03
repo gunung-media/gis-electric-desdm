@@ -55,7 +55,14 @@ export default function Form({ developmentPlan }: PageProps & { developmentPlan?
                             <InputError message={errors.error} />
                             <form className="forms-sample" onSubmit={handleSubmit}>
                                 <Input title="Judul Rencana" onChange={(e) => setData("title", e.target.value)} value={dto.title} />
-                                <Input title="Deskripsi" onChange={(e) => setData("description", e.target.value)} value={dto.description} />
+                                <FormGroup
+                                    title="Deskripsi"
+                                    name="description"
+                                    errorMsg={errors.description}
+                                    value={dto.description}
+                                    type="textarea"
+                                    onChange={(e) => setData('description', e as string)}
+                                />
                                 <InputError message={errors.description} />
                                 <OptionalSelect
                                     title='Status'
@@ -69,7 +76,7 @@ export default function Form({ developmentPlan }: PageProps & { developmentPlan?
                                     name="document_path"
                                     errorMsg={errors.document_path}
                                     type="file"
-                                    onChange={(e: ChangeEvent<HTMLInputElement>) => setData('document_path', e.target.files![0])}
+                                    onChange={(e) => setData('document_path', (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                 />
                                 <button type="submit" className="btn btn-primary me-2">Submit</button>
                                 <button type="button" className="btn btn-light" onClick={() => router.visit(route('admin.development-plan.index'))}>Cancel</button>
