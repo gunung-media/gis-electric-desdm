@@ -5,6 +5,7 @@ export interface VillageElectricityDTO {
     households_without_electricity: number
     network_length: number
     village_potential: string
+    energy_potential: string
     village_code: string | number
     borders?: string | null
 }

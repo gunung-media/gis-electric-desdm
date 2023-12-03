@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('households_without_electricity')->default(0);
             $table->float('network_length')->default(0)->nullable();
             $table->text('village_potential')->nullable();
+            $table->text('energy_potential')->nullable();
             $table->timestamps();
 
             $table->foreign('village_code')

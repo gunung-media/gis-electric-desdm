@@ -20,6 +20,7 @@ class VillageElectricity extends Model
         'households_without_electricity',
         'network_length',
         'village_potential',
+        'energy_potential',
     ];
 
     public $appends = ['electricity', 'is_village_electric_pln', 'is_village_electric_non_pln', 'is_village_no_electric', 'households_count'];
