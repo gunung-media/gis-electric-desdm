@@ -1,7 +1,7 @@
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
 import { FormEventHandler, useEffect, useState } from "react"
 import L from "leaflet"
-import { Input, InputError, OptionType } from "@/common/components"
+import { FormGroup, Input, InputError, OptionType } from "@/common/components"
 import latLangKalteng from "@/common/constants/latLangKalteng"
 import { DistrictType, CityType, SelectCity, SelectDistrict } from "@/features/Territory"
 import { Head, useForm, usePage } from "@inertiajs/react"
@@ -87,6 +87,17 @@ export default function Form({ electricSubstation }: PageProps & { electricSubst
         })
     }
 
+    const handleLatLangChange = (name: 'latitude' | 'longitude', val: string) => {
+        try {
+            setData(name, val)
+            if (!map) return
+            if (name === 'latitude') map.setView([Number(val), Number(dto.longitude)])
+            if (name === 'longitude') map.setView([Number(dto.latitude), Number(val)])
+        } catch (error) {
+            return
+        }
+    }
+
     return (
         <AuthenticatedLayout>
             <Head title="Gardu Listrik Form" />
@@ -110,10 +121,17 @@ export default function Form({ electricSubstation }: PageProps & { electricSubst
                                 <InputError message={errors.district_code} />
                                 <Input title="Nama Gardu Listrik" onChange={(e) => setData("name", e.target.value)} value={dto.name} />
                                 <InputError message={errors.name} />
-                                <Input title="Deskripsi" onChange={(e) => setData("description", e.target.value)} value={dto.description} />
-                                <Input title="latitude" readOnly={true} value={dto.latitude} />
+                                <FormGroup
+                                    title="Deskripsi"
+                                    name="description"
+                                    errorMsg={errors.energy_potential}
+                                    onChange={(e) => setData('description', e as string)}
+                                    value={dto.description}
+                                    type="textarea"
+                                />
+                                <Input title="latitude" value={dto.latitude} onChange={(e) => handleLatLangChange('latitude', e.target.value)} />
                                 <InputError message={errors.latitude} />
-                                <Input title="longitude" readOnly={true} value={dto.longitude} />
+                                <Input title="longitude" value={dto.longitude} onChange={(e) => handleLatLangChange('longitude', e.target.value)} />
                                 <InputError message={errors.longitude} />
                                 <button type="submit" className="btn btn-primary me-2">Submit</button>
                                 <button type="button" className="btn btn-light">Cancel</button>
