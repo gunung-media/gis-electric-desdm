@@ -42,7 +42,9 @@ export const generateKaltengVillageLayer = async (districtId: string | number, o
                     )
                     layer.bindPopup(popUpContent)
                     layer.on('mouseover', () => {
-                        layer.openPopup()
+                        setTimeout(() => {
+                            layer.openPopup()
+                        }, 100)
                     })
                     layer.on('click', () => {
                         if (onBorderClick)

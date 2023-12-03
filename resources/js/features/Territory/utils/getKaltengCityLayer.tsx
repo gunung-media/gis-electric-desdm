@@ -40,7 +40,9 @@ export const generateKaltengCityLayer = async (onBorderClick?: (city: CityType) 
                     )
                     layer.bindPopup(popUpContent)
                     layer.on('mouseover', () => {
-                        layer.openPopup()
+                        setTimeout(() => {
+                            layer.openPopup()
+                        }, 100)
                     })
                     layer.on('click', () => {
                         if (onBorderClick)
