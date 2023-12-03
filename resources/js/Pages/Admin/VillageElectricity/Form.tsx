@@ -8,7 +8,10 @@ import { PageProps } from "@/types";
 import { Head, router, useForm, usePage } from "@inertiajs/react";
 import L from "leaflet";
 import "leaflet-draw";
-import { FormEventHandler, useEffect, useState } from "react";
+import { ChangeEvent, FormEventHandler, useEffect, useState } from "react";
+
+
+type FormControlElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
 
 export default function Form({ villageElectricity }: PageProps & { villageElectricity?: VillageElectricityType }) {
     const { map } = useMap()
@@ -50,13 +53,13 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
             households_with_electricity,
             households_with_electricity_non_pln,
             network_length,
-            village_potential
+            village_potential,
+            energy_potential
         } = villageElectricity
         setVillageCode(village_code)
         setDistrictCode(districtCode)
         setCityCode(city_code)
-        setData(data => ({
-            ...data,
+        setData(() => ({
             village_code,
             kk,
             households_with_electricity,
@@ -64,6 +67,7 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
             households_without_electricity,
             network_length,
             village_potential,
+            energy_potential
         }))
     }, [])
 
@@ -208,6 +212,14 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
         })
     }
 
+    const handleFormGroupChange = (name: keyof VillageElectricityDTO, e: ChangeEvent<HTMLInputElement> | string | ChangeEvent<FormControlElement>, isNumber: boolean = false) => {
+        if (typeof e === 'string') {
+            setData(name, e)
+        } else {
+            setData(name, isNumber ? Number(e.target.value) : e.target.value)
+        }
+    }
+
     return (
         <>
             <Loader isShow={isLoading} />
@@ -248,7 +260,7 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
                                         name="kk"
                                         errorMsg={errors.kk}
                                         type="number"
-                                        onChange={(e) => setData('kk', Number(e.target.value))}
+                                        onChange={(e) => handleFormGroupChange("kk", e, true)}
                                         value={dto.kk}
                                     />
                                     <FormGroup
@@ -256,7 +268,7 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
                                         name="households_with_electricity"
                                         errorMsg={errors.households_with_electricity}
                                         type="number"
-                                        onChange={(e) => setData('households_with_electricity', Number(e.target.value))}
+                                        onChange={(e) => handleFormGroupChange('households_with_electricity', e, true)}
                                         value={dto.households_with_electricity}
                                     />
                                     <FormGroup
@@ -264,7 +276,7 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
                                         name="households_with_electricity_non_pln"
                                         errorMsg={errors.households_with_electricity_non_pln}
                                         type="number"
-                                        onChange={(e) => setData('households_with_electricity_non_pln', Number(e.target.value))}
+                                        onChange={(e) => handleFormGroupChange('households_with_electricity_non_pln', e, true)}
                                         value={dto.households_with_electricity_non_pln}
                                     />
                                     <FormGroup
@@ -272,7 +284,7 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
                                         name="households_without_electricity"
                                         errorMsg={errors.households_without_electricity}
                                         type="number"
-                                        onChange={(e) => setData('households_without_electricity', Number(e.target.value))}
+                                        onChange={(e) => handleFormGroupChange('households_without_electricity', e, true)}
                                         value={dto.households_without_electricity}
                                     />
                                     <FormGroup
@@ -280,15 +292,24 @@ export default function Form({ villageElectricity }: PageProps & { villageElectr
                                         name="network_length"
                                         errorMsg={errors.network_length}
                                         type="number"
-                                        onChange={(e) => setData('network_length', Number(e.target.value))}
+                                        onChange={(e) => handleFormGroupChange('network_length', e, true)}
                                         value={dto.network_length}
                                     />
                                     <FormGroup
                                         title="Potensi Desa"
                                         name="village_potential"
                                         errorMsg={errors.village_potential}
-                                        onChange={(e) => setData('village_potential', e.target.value)}
+                                        onChange={(e) => handleFormGroupChange('village_potential', e)}
                                         value={dto.village_potential}
+                                        type="textarea"
+                                    />
+                                    <FormGroup
+                                        title="Potensi Energi"
+                                        name="energy_potential"
+                                        errorMsg={errors.energy_potential}
+                                        onChange={(e) => handleFormGroupChange('energy_potential', e)}
+                                        value={dto.energy_potential}
+                                        type="textarea"
                                     />
                                     <button type="submit" className="btn btn-primary me-2">Submit</button>
                                     <button type="button" className="btn btn-light" onClick={() => router.visit(route('admin.village_electricity.index'))}>Cancel</button>
