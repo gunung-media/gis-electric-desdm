@@ -1,4 +1,4 @@
-import { FC, useState } from "react"
+import { ChangeEvent, ChangeEventHandler, FC, useState } from "react"
 import { FormGroup, OptionType } from "."
 import ReactSelect, { Props } from "react-select"
 
@@ -30,7 +30,7 @@ export const OptionalSelect: FC<{
             {selected?.value === "Lainnya" && (
                 <FormGroup
                     title={`${title}(Lainnya)`}
-                    onChange={(e) => onSelected(e.target.value)}
+                    onChange={(e) => onSelected((e as ChangeEvent<HTMLInputElement>).target.value)}
                     name={title}
                 />
             )}

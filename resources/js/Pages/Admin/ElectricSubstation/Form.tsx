@@ -90,9 +90,15 @@ export default function Form({ electricSubstation }: PageProps & { electricSubst
     const handleLatLangChange = (name: 'latitude' | 'longitude', val: string) => {
         try {
             setData(name, val)
-            if (!map) return
-            if (name === 'latitude') map.setView([Number(val), Number(dto.longitude)])
-            if (name === 'longitude') map.setView([Number(dto.latitude), Number(val)])
+            if (!map || !marker) return
+            let latLang
+            if (name === 'latitude') {
+                latLang = [Number(val), Number(dto.latitude)] as L.LatLngExpression
+            } else {
+                latLang = [Number(dto.longitude), Number(val)] as L.LatLngExpression
+            }
+            map.setView(latLang)
+            marker.setLatLng(latLang)
         } catch (error) {
             return
         }

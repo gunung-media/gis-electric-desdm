@@ -1,9 +1,10 @@
+import '@/common/styles/modal.scss'
 import { ChangeEvent, FC, FormEventHandler, useEffect, useState } from "react"
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap"
 import { SelectVillage } from '@/features/Territory/components/SelectVillage'
 import { enumToStringArray, swalError, swalSuccess } from '@/common/utils'
 import { PriorityEnum } from '@/common/enums'
-import { PageProps } from "@/types"
+import { FormControlElement, PageProps } from "@/types"
 import { ReportDTO } from ".."
 import { FormGroup, InputType, OptionalSelect, InputError, OptionType } from '@/common/components';
 import { useForm, usePage } from "@inertiajs/react"
@@ -43,12 +44,14 @@ export const ModalFormReport: FC<{
         }))
     }, [latLang])
 
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target
-        setData((prevData) => ({
-            ...prevData,
-            [name]: name !== "document_path" ? value : e.target.files![0]
-        }))
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement> | string | ChangeEvent<FormControlElement>) => {
+        if (typeof e !== 'string') {
+            const { name, value } = (e).target
+            setData((prevData) => ({
+                ...prevData,
+                [name]: name !== "document_path" ? value : (e as ChangeEvent<HTMLInputElement>).target.files![0]
+            }))
+        }
     }
 
     const handleCityChange = (e: OptionType<CityType>) => {
@@ -97,7 +100,7 @@ export const ModalFormReport: FC<{
                                             key={i}
                                             title={val.title}
                                             type={val.type}
-                                            onChange={handleInputChange}
+                                            onChange={(e) => handleInputChange(e)}
                                             name={val.name}
                                             errorMsg={errors[val.name]}
                                         />

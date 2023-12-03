@@ -1,39 +1,44 @@
+import '@/common/styles/modal.scss'
 import { ChangeEvent, FC, FormEventHandler, useEffect, useState } from "react"
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap"
 import { SelectVillage } from '@/features/Territory/components/SelectVillage'
 import { enumToStringArray, swalError, swalSuccess } from '@/common/utils'
 import { PriorityEnum } from '@/common/enums'
-import { PageProps } from "@/types"
+import { FormControlElement, PageProps } from "@/types"
 import { ProposalDTO } from ".."
 import { FormGroup, InputType, OptionalSelect, InputError, OptionType } from '@/common/components';
 import { useForm, usePage } from "@inertiajs/react"
-import { useGetLocation } from "@/common/hooks"
+import { useGetLocation, useMap } from "@/common/hooks"
 import { CityType, DistrictType, SelectCity, SelectDistrict, VillageType } from "@/features/Territory"
+import L from 'leaflet'
+import latLangKalteng from '@/common/constants/latLangKalteng'
 
 export const ModalFormProposal: FC<{
     isShow: boolean,
     onClose: () => void,
 }> = ({ isShow, onClose }) => {
     const { errors } = usePage<PageProps>().props
+    const { map, setMap } = useMap('map-picker')
     const [cityCode, setCityCode] = useState<string | number>()
     const [districtCode, setDistrictCode] = useState<string | number>()
     const [villageCode, setVillageCode] = useState<string | number>()
     const { data, setData, post } = useForm<ProposalDTO>()
-    const { latLang } = useGetLocation()
+    const { latLang, setLatLang } = useGetLocation()
+    const [marker, setMarker] = useState<L.Marker>()
 
     const identityProposal: InputType<ProposalDTO>[] = [
         { title: 'Nama Lengkap', name: 'full_name', type: "text" },
         { title: 'Nomor Identitas', name: 'identity_number', type: "text" },
         { title: 'Email', name: 'email', type: 'email' },
         { title: 'Nomor Telepon', name: 'phone_number', type: 'number' },
-        { title: 'Alamat', name: 'address', type: 'text' },
     ]
 
     const additionalFields: InputType<ProposalDTO>[] = [
-        { title: 'Deskripsi Usulan', name: 'description', type: "text" },
+        { title: 'Alamat', name: 'address', type: 'text' },
+        { title: 'Deskripsi Usulan', name: 'description', type: "textarea" },
         { title: 'Foto/Dokumen Pendukung', name: 'document_path', type: "file" },
         { title: 'Estimasi Biaya', name: 'estimated_cost', type: "number" },
-        { title: 'Catatan Tambahan', name: 'additional_note', type: "text" },
+        { title: 'Catatan Tambahan', name: 'additional_note', type: "textarea" },
     ]
 
     useEffect(() => {
@@ -44,12 +49,40 @@ export const ModalFormProposal: FC<{
         }))
     }, [latLang])
 
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target
-        setData((prevData) => ({
-            ...prevData,
-            [name]: name !== "document_path" ? value : e.target.files![0]
-        }))
+    useEffect(() => {
+        if (map) {
+            const marker = L.marker((latLang ? Object.values(latLang) : latLangKalteng) as L.LatLngExpression, {
+                draggable: true,
+            }).addTo(map);
+
+            marker.on('dragend', function() {
+                const position = marker.getLatLng();
+                setLatLang({
+                    latitude: position.lat.toString(),
+                    longitude: position.lng.toString()
+                })
+                setData((data) => ({
+                    ...data,
+                    latitude: position.lat.toString(),
+                    longitude: position.lng.toString(),
+                }))
+            });
+            setMarker(marker)
+
+            return () => {
+                marker.remove()
+            }
+        }
+    }, [map])
+
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement> | string | ChangeEvent<FormControlElement>) => {
+        if (typeof e !== 'string') {
+            const { name, value } = (e).target
+            setData((prevData) => ({
+                ...prevData,
+                [name]: name !== "document_path" ? value : (e as ChangeEvent<HTMLInputElement>).target.files![0]
+            }))
+        }
     }
 
     const handleCityChange = (e: OptionType<CityType>) => {
@@ -76,14 +109,35 @@ export const ModalFormProposal: FC<{
             forceFormData: true
         })
     }
+
+    const handleLatLangChange = (name: 'latitude' | 'longitude', val: string) => {
+        try {
+            setData(name, val)
+            if (!map || !marker) return
+            let latLang
+            if (name === 'latitude') {
+                latLang = [Number(val), Number(data.latitude)] as L.LatLngExpression
+            } else {
+                latLang = [Number(data.longitude), Number(val)] as L.LatLngExpression
+            }
+
+            setLatLang(data => ({
+                ...data,
+                [name]: val
+            }))
+            map.setView(latLang)
+            marker.setLatLng(latLang)
+        } catch (error) {
+            return
+        }
+    }
     return (
         <>
             <Modal
                 show={isShow}
                 onHide={onClose}
-                backdrop="static"
                 keyboard={false}
-                size='xl'
+                fullscreen={true}
             >
                 <Modal.Header closeButton>
                     <Modal.Title>Tambah Usulan</Modal.Title>
@@ -92,6 +146,9 @@ export const ModalFormProposal: FC<{
                     <Modal.Body>
                         <Container>
                             <Row>
+                                <Col>
+                                    <div id="map-picker" style={{ height: "95%" }}></div>
+                                </Col>
                                 <Col>
                                     {identityProposal.map((val, i) => (
                                         <FormGroup
@@ -107,6 +164,20 @@ export const ModalFormProposal: FC<{
                                     <SelectDistrict handleDistrictChange={handleDistrictChange} selectedCityId={cityCode} />
                                     <SelectVillage handleVillageChange={handleVillageChange} selectedDistrictId={districtCode} />
                                     <InputError message={errors.village_code} />
+                                    <FormGroup
+                                        title="Latitude"
+                                        type="number"
+                                        name="latitude"
+                                        value={latLang.latitude ?? ""}
+                                        onChange={(e) => handleLatLangChange('latitude', (e as ChangeEvent<HTMLInputElement>).target.value)}
+                                    />
+                                    <FormGroup
+                                        title="Longitude"
+                                        type="number"
+                                        name="longitude"
+                                        value={latLang.longitude ?? ""}
+                                        onChange={(e) => handleLatLangChange('longitude', (e as ChangeEvent<HTMLInputElement>).target.value)}
+                                    />
                                 </Col>
                                 <Col>
                                     <OptionalSelect

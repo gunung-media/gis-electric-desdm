@@ -4,14 +4,12 @@ import { swalError, swalSuccess, swalToast } from "@/common/utils";
 import { CityType, DistrictType, SelectCity, SelectDistrict, SelectVillage, VillageType, generateKaltengCityLayer, generateKaltengDistrictLayer, generateKaltengVillageLayer } from '@/features/Territory'
 import { VillageElectricityDTO, VillageElectricityType } from "@/features/VillageElectricity";
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout";
-import { PageProps } from "@/types";
+import { FormControlElement, PageProps } from "@/types";
 import { Head, router, useForm, usePage } from "@inertiajs/react";
 import L from "leaflet";
 import "leaflet-draw";
 import { ChangeEvent, FormEventHandler, useEffect, useState } from "react";
 
-
-type FormControlElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
 
 export default function Form({ villageElectricity }: PageProps & { villageElectricity?: VillageElectricityType }) {
     const { map } = useMap()
