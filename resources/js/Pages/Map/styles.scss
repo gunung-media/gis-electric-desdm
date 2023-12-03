@@ -3,3 +3,10 @@
 .graphics {
     @include additional-bx(40rem)
 }
+
+.action-group{
+    .search-box{
+        margin-top: 1rem;
+        width: 15rem!important;
+    }
+}

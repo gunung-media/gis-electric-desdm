@@ -2,22 +2,23 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.scss'
 import SearchBtn from '@/assets/icons/search-svgrepo-com.svg?react'
 import { useMap } from '@/common/hooks'
-import { Legend, Loader } from '@/common/components'
+import { Legend, Loader, OptionType } from '@/common/components'
 import { useEffect, useState } from 'react'
 import L from 'leaflet'
-import { CityInfoBox, CityType, DistrictType, VillageType, generateKaltengCityLayer, generateKaltengVillageLayer } from '@/features/Territory'
+import { CityInfoBox, CityType, DistrictType, TerritoryType, VillageType, generateKaltengCityLayer, generateKaltengVillageLayer } from '@/features/Territory'
 import { Head, router } from '@inertiajs/react'
 import { PageProps } from '@/types';
 import { ElectricSubstationType, generateESLayerGroup } from '@/features/ElectricSubstation';
 import { VillageElectricInfoBox } from '@/features/VillageElectricity/components';
 import { generateKaltengDistrictLayer } from '@/features/Territory/utils/getKaltengDistrictLayer';
 import { DistrictInfoBox } from '@/features/Territory/components/DistrictInfoBox';
-import { Card } from 'react-bootstrap';
+import AsyncSelect from 'react-select/async';
 
 export default function Map({ electricSubstationData }: PageProps & { electricSubstationData: ElectricSubstationType[] }) {
     const { map } = useMap()
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [isShowCityInfo, setIsShowCityInfo] = useState<boolean>(false)
+    const [isSearchClick, setIsSearchClick] = useState<boolean>(false)
     const [selectedCity, setSelectedCity] = useState<CityType | null>(null)
     const [isShowDistrictInfo, setIsShowDistrictInfo] = useState<boolean>(false)
     const [selectedDistrict, setSelectedDistrict] = useState<DistrictType | null>(null)
@@ -127,6 +128,10 @@ export default function Map({ electricSubstationData }: PageProps & { electricSu
         setIsShowVillageInfo(false)
         setSelectedVillage(null)
     }
+
+    const handleSearchBox = async (input: string, callback: (options: OptionType<TerritoryType>[]) => void) => {
+        return "test"
+    }
     return (
         <>
             <Head title='Peta' />
@@ -135,9 +140,19 @@ export default function Map({ electricSubstationData }: PageProps & { electricSu
             <div className="header">
                 <div className="header-box" onClick={() => router.visit(route('landing'))}>Silisda <span>peta</span></div>
                 <div className="header-actions">
-                    <button>
-                        <SearchBtn />
-                    </button>
+                    <div className="action-group">
+                        <button onClick={() => setIsSearchClick(!isSearchClick)}>
+                            <SearchBtn />
+                        </button>
+                        {isSearchClick && (
+                            <AsyncSelect
+                                cacheOptions
+                                defaultOptions
+                                loadOptions={handleSearchBox}
+                                className='search-box'
+                            />
+                        )}
+                    </div>
                 </div>
             </div>
 
