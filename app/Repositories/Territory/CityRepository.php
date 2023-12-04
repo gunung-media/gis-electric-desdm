@@ -31,6 +31,7 @@ class CityRepository
     public function search(string $input): Collection
     {
         $query = $this->city
+            ->with(['villages', 'villages.electricity'])
             ->where('province_code', 62)
             ->where('name', 'LIKE', "%$input%");
 

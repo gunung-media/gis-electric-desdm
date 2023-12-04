@@ -24,6 +24,7 @@ class DistrictRepository
     {
         $query = $this->district
             ->whereRelation('province', 'indonesia_provinces.code', 62)
+            ->with(['villages', 'villages.electricity'])
             ->where('name', 'LIKE', "%$input%");
 
         return $query->get();

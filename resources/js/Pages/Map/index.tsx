@@ -161,7 +161,6 @@ export default function Map({ electricSubstationData }: PageProps & { electricSu
 
     const handleSearchClick = (newValue: SingleValue<OptionType<TerritoryType>>) => {
         if (newValue) {
-            map?.setView([Number(newValue.value.latitude), Number(newValue.value.longitude)], 10)
             if (newValue.value.province_code)
                 handleCityChange(newValue.value as CityType)
             if (newValue.value.city_code)
