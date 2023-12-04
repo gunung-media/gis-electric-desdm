@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { CityType, DistrictType, VillageType } from "./types";
+import { CityType, DistrictType, TerritoryType, VillageType } from "./types";
 
 const URL = `${import.meta.env.VITE_APP_URL}/api/indonesia`
 const PROVINCE_NAME = "Kalimantan Tengah"
@@ -15,3 +15,5 @@ export const getDistrict = async (districtId: number | string): Promise<AxiosRes
 export const getVillages = async (districtCode: number | string): Promise<AxiosResponse<{ data: VillageType[] }>> => await axios.get(`${URL}/villages`, { params: { 'district_code': districtCode } })
 
 export const getKaltengVillages = async (districtCode?: number | string): Promise<AxiosResponse<{ data: VillageType[] }>> => await axios.get(`${URL}/kalteng/villages`, { params: { 'district_code': districtCode } })
+
+export const searchTerritory = async (input: string): Promise<AxiosResponse<{ data: TerritoryType[] }>> => await axios.get(route('api.searcher'), { params: { 'input': input } })

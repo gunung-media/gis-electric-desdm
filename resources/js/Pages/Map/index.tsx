@@ -5,7 +5,7 @@ import { useMap } from '@/common/hooks'
 import { Legend, Loader, OptionType } from '@/common/components'
 import { useEffect, useState } from 'react'
 import L from 'leaflet'
-import { CityInfoBox, CityType, DistrictType, TerritoryType, VillageType, generateKaltengCityLayer, generateKaltengVillageLayer } from '@/features/Territory'
+import { CityInfoBox, CityType, DistrictType, TerritoryType, VillageType, generateKaltengCityLayer, generateKaltengVillageLayer, searchTerritory } from '@/features/Territory'
 import { Head, router } from '@inertiajs/react'
 import { PageProps } from '@/types';
 import { ElectricSubstationType, generateESLayerGroup } from '@/features/ElectricSubstation';
@@ -13,6 +13,7 @@ import { VillageElectricInfoBox } from '@/features/VillageElectricity/components
 import { generateKaltengDistrictLayer } from '@/features/Territory/utils/getKaltengDistrictLayer';
 import { DistrictInfoBox } from '@/features/Territory/components/DistrictInfoBox';
 import AsyncSelect from 'react-select/async';
+import { ActionMeta, SingleValue } from 'react-select';
 
 export default function Map({ electricSubstationData }: PageProps & { electricSubstationData: ElectricSubstationType[] }) {
     const { map } = useMap()
@@ -36,11 +37,7 @@ export default function Map({ electricSubstationData }: PageProps & { electricSu
             map.addLayer(electricSubstations);
             (async () => {
                 const cities = await generateKaltengCityLayer((city) => {
-                    setIsShowCityInfo(true)
-                    setSelectedCity(city)
-                    handleCloseDistrict()
-                    handleCloseVillage()
-                    map.setView([Number(city.latitude), Number(city.longitude) + .6], 9, { animate: true })
+                    handleCityChange(city)
                 })
                 setCitiesLayer(cities)
                 map.addLayer(cities)
@@ -62,11 +59,7 @@ export default function Map({ electricSubstationData }: PageProps & { electricSu
         if (map && selectedCity) {
             (async () => {
                 districts = await generateKaltengDistrictLayer(selectedCity.code, (district) => {
-                    setIsShowDistrictInfo(true)
-                    setSelectedDistrict(district)
-                    handleCloseCity(true)
-                    handleCloseVillage()
-                    map.setView([Number(district.latitude), Number(district.longitude) + .6], 10, { animate: true })
+                    handleDistrictChange(district)
                 })
                 setDistrictsLayer(districts)
                 map.addLayer(districts)
@@ -90,9 +83,7 @@ export default function Map({ electricSubstationData }: PageProps & { electricSu
         if (map && selectedDistrict) {
             (async () => {
                 villages = await generateKaltengVillageLayer(selectedDistrict.code, (village) => {
-                    setIsShowVillageInfo(true)
-                    setSelectedVillage(village)
-                    handleCloseDistrict(true)
+                    handleVillageChange(village)
                 })
                 setVillagesLayer(villages)
                 map.addLayer(villages)
@@ -112,10 +103,28 @@ export default function Map({ electricSubstationData }: PageProps & { electricSu
         })
     }, [selectedDistrict])
 
+    const handleCityChange = (city: CityType) => {
+        setIsShowCityInfo(true)
+        setSelectedCity(city)
+        handleCloseDistrict()
+        handleCloseVillage()
+        if (map)
+            map.setView([Number(city.latitude), Number(city.longitude) + .6], 9, { animate: true })
+    }
+
     const handleCloseCity = (boxOnly?: boolean) => {
         setIsShowCityInfo(false)
         if (!boxOnly)
             setSelectedCity(null)
+    }
+
+    const handleDistrictChange = (district: DistrictType) => {
+        setIsShowDistrictInfo(true)
+        setSelectedDistrict(district)
+        handleCloseCity(true)
+        handleCloseVillage()
+        if (map)
+            map.setView([Number(district.latitude), Number(district.longitude) + .6], 10, { animate: true })
     }
 
     const handleCloseDistrict = (boxOnly?: boolean) => {
@@ -124,14 +133,43 @@ export default function Map({ electricSubstationData }: PageProps & { electricSu
             setSelectedDistrict(null)
     }
 
+    const handleVillageChange = (village: VillageType) => {
+        setIsShowVillageInfo(true)
+        setSelectedVillage(village)
+        handleCloseDistrict(true)
+    }
+
     const handleCloseVillage = () => {
         setIsShowVillageInfo(false)
         setSelectedVillage(null)
     }
 
-    const handleSearchBox = async (input: string, callback: (options: OptionType<TerritoryType>[]) => void) => {
-        return "test"
-    }
+    const handleSearchBox = async (inputValue: string): Promise<OptionType<TerritoryType>[]> => {
+        try {
+            const response = await searchTerritory(inputValue);
+            const territories = response.data.data;
+
+            return territories.map((territory) => ({
+                value: territory,
+                label: territory.name,
+            }));
+        } catch (error) {
+            console.error('Error loading options:', error);
+            return [];
+        }
+    };
+
+    const handleSearchClick = (newValue: SingleValue<OptionType<TerritoryType>>) => {
+        if (newValue) {
+            map?.setView([Number(newValue.value.latitude), Number(newValue.value.longitude)], 10)
+            if (newValue.value.province_code)
+                handleCityChange(newValue.value as CityType)
+            if (newValue.value.city_code)
+                handleDistrictChange(newValue.value as DistrictType)
+            if (newValue.value.district_code)
+                handleVillageChange(newValue.value as VillageType)
+        }
+    };
     return (
         <>
             <Head title='Peta' />
@@ -146,10 +184,12 @@ export default function Map({ electricSubstationData }: PageProps & { electricSu
                         </button>
                         {isSearchClick && (
                             <AsyncSelect
-                                cacheOptions
-                                defaultOptions
-                                loadOptions={handleSearchBox}
                                 className='search-box'
+                                cacheOptions
+                                loadOptions={handleSearchBox}
+                                defaultOptions
+                                placeholder="Search for territories..."
+                                onChange={handleSearchClick}
                             />
                         )}
                     </div>

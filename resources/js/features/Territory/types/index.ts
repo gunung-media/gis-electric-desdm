@@ -10,4 +10,8 @@ export interface TerritoryType extends CommonTableInterface {
     borders: string | null
     latitude: string | null
     longitude: string | null
+
+    province_code?: string
+    city_code?: string
+    district_code?: string
 }
