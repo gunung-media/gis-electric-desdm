@@ -2,7 +2,7 @@ import '@/common/styles/modal.scss'
 import { ChangeEvent, FC, FormEventHandler, useEffect, useState } from "react"
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap"
 import { SelectVillage } from '@/features/Territory/components/SelectVillage'
-import { enumToStringArray, swalError, swalSuccess } from '@/common/utils'
+import { electricIcon, enumToStringArray, swalError, swalSuccess } from '@/common/utils'
 import { PriorityEnum } from '@/common/enums'
 import { FormControlElement, PageProps } from "@/types"
 import { ProposalDTO } from ".."
@@ -53,6 +53,7 @@ export const ModalFormProposal: FC<{
         if (map) {
             const marker = L.marker((latLang ? [Number(latLang.latitude), Number(latLang.longitude)] : latLangKalteng) as L.LatLngExpression, {
                 draggable: true,
+                icon: electricIcon
             }).addTo(map);
 
             marker.on('dragend', function() {

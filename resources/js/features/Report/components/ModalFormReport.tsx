@@ -2,13 +2,13 @@ import '@/common/styles/modal.scss'
 import { ChangeEvent, FC, FormEventHandler, useEffect, useState } from "react"
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap"
 import { SelectVillage } from '@/features/Territory/components/SelectVillage'
-import { enumToStringArray, swalError, swalSuccess } from '@/common/utils'
+import { electricIcon, enumToStringArray, swalError, swalSuccess } from '@/common/utils'
 import { PriorityEnum } from '@/common/enums'
 import { FormControlElement, PageProps } from "@/types"
 import { ReportDTO } from ".."
 import { FormGroup, InputType, OptionalSelect, InputError, OptionType } from '@/common/components';
 import { useForm, usePage } from "@inertiajs/react"
-import { useGetLocation, useMap } from "@/common/hooks"
+import { initMap, useGetLocation, useMap } from "@/common/hooks"
 import { CityType, DistrictType, SelectCity, SelectDistrict, VillageType } from "@/features/Territory"
 import latLangKalteng from '@/common/constants/latLangKalteng'
 import L from 'leaflet'
@@ -36,7 +36,7 @@ export const ModalFormReport: FC<{
     const additionalFields: InputType<ReportDTO>[] = [
         { title: 'Alamat', name: 'address', type: 'text' },
         { title: 'Waktu Kejadian', name: 'date_happen', type: "datetime-local" },
-        { title: 'Deskripsi Laporan', name: 'description', type: "text" },
+        { title: 'Deskripsi Laporan', name: 'description', type: "textarea" },
         { title: 'Foto/Dokumen Pendukung', name: 'document_path', type: "file" },
     ]
 
@@ -52,6 +52,7 @@ export const ModalFormReport: FC<{
         if (map) {
             const marker = L.marker((latLang ? [Number(latLang.latitude), Number(latLang.longitude)] : latLangKalteng) as L.LatLngExpression, {
                 draggable: true,
+                icon: electricIcon
             }).addTo(map);
 
             marker.on('dragend', function() {
@@ -72,6 +73,7 @@ export const ModalFormReport: FC<{
                 marker.remove()
             }
         }
+
     }, [map])
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement> | string | ChangeEvent<FormControlElement>) => {
