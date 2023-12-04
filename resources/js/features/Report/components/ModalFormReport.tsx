@@ -50,10 +50,12 @@ export const ModalFormReport: FC<{
 
     useEffect(() => {
         if (map) {
-            const marker = L.marker((latLang ? [Number(latLang.latitude), Number(latLang.longitude)] : latLangKalteng) as L.LatLngExpression, {
+            const curLatLang = (latLang ? [Number(latLang.latitude), Number(latLang.longitude)] : latLangKalteng) as L.LatLngExpression
+            const marker = L.marker(curLatLang, {
                 draggable: true,
                 icon: electricIcon
             }).addTo(map);
+            map.setView(curLatLang)
 
             marker.on('dragend', function() {
                 const position = marker.getLatLng();
