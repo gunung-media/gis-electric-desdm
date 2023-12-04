@@ -2,7 +2,13 @@ import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
 import { PageProps } from "@/types"
 import { Head } from "@inertiajs/react"
 
-export default function Dashboard({ assets }: PageProps) {
+export default function Dashboard({ assets, proposalCount, reportCount, villageCount, villageElectricCount, villageNonElectricCount }: PageProps & {
+    proposalCount: number,
+    reportCount: number,
+    villageCount: number,
+    villageElectricCount: number,
+    villageNonElectricCount: number,
+}) {
     return (
         <AuthenticatedLayout>
             <Head title="Dashboard" />
@@ -27,18 +33,17 @@ export default function Dashboard({ assets }: PageProps) {
                         <div className="col-md-6 mb-4 stretch-card transparent">
                             <div className="card card-tale">
                                 <div className="card-body">
-                                    <p className="mb-4">Today’s Bookings</p>
-                                    <p className="fs-30 mb-2">4006</p>
-                                    <p>10.00% (30 days)</p>
+                                    <p className="mb-4">Total Keseluruhan Desa</p>
+                                    <p className="fs-30 mb-2">{villageCount}</p>
                                 </div>
                             </div>
                         </div>
                         <div className="col-md-6 mb-4 stretch-card transparent">
                             <div className="card card-dark-blue">
                                 <div className="card-body">
-                                    <p className="mb-4">Total Bookings</p>
-                                    <p className="fs-30 mb-2">61344</p>
-                                    <p>22.00% (30 days)</p>
+                                    <p className="mb-4">Kelistrikan Desa</p>
+                                    <p className="fs-30 mb-2">{villageElectricCount} Desa berlistik</p>
+                                    <p>{villageNonElectricCount} Desa tidak berlistrik</p>
                                 </div>
                             </div>
                         </div>
@@ -47,18 +52,16 @@ export default function Dashboard({ assets }: PageProps) {
                         <div className="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
                             <div className="card card-light-blue">
                                 <div className="card-body">
-                                    <p className="mb-4">Number of Meetings</p>
-                                    <p className="fs-30 mb-2">34040</p>
-                                    <p>2.00% (30 days)</p>
+                                    <p className="mb-4">Total Usulan</p>
+                                    <p className="fs-30 mb-2">{proposalCount}</p>
                                 </div>
                             </div>
                         </div>
                         <div className="col-md-6 stretch-card transparent">
                             <div className="card card-light-danger">
                                 <div className="card-body">
-                                    <p className="mb-4">Number of Clients</p>
-                                    <p className="fs-30 mb-2">47033</p>
-                                    <p>0.22% (30 days)</p>
+                                    <p className="mb-4">Total Laporan</p>
+                                    <p className="fs-30 mb-2">{reportCount}</p>
                                 </div>
                             </div>
                         </div>

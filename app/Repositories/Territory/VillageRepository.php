@@ -21,6 +21,15 @@ class VillageRepository
         return $village;
     }
 
+    public function getVillages(): Collection
+    {
+        $query = $this->model
+            ->whereRelation('province', 'indonesia_provinces.code', 62)
+            ->with(['electricity']);
+
+        return $query->get();
+    }
+
     public function getVillageBorders(Request $request): Collection
     {
         $query = $this->model

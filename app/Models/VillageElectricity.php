@@ -28,7 +28,7 @@ class VillageElectricity extends Model
     public function householdsCount(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->households_with_electricity + $this->households_with_electricity_non_pln
+            get: fn () => $this->households_with_electricity + $this->households_with_electricity_non_pln + $this->households_without_electricity
         );
     }
 
@@ -56,7 +56,7 @@ class VillageElectricity extends Model
     public function electricity(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->households_with_electricity > $this->households_without_electricity ? true : false
+            get: fn () => ($this->households_with_electricity + $this->households_with_electricity_non_pln) > $this->households_without_electricity ? true : false
         );
     }
 
