@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ElectricSubstationController;
 use App\Http\Controllers\Admin\ProposalController as AdminProposalController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\Admin\ProposalTrackingController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ReportTrackingController;
 use App\Http\Controllers\Admin\DevelopmentPlanController as AdminDevelopmentPlanController;
 use App\Http\Controllers\Admin\VillageElectricityController as AdminVillageElectricityController;
@@ -40,7 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('logout', [AuthenticateController::class, 'destroy'])->name('logout');
 
     Route::prefix('admin')->name('admin.')->group(function () {
-        Route::inertia('/', 'Dashboard')->name('dashboard');
+        Route::get('/', DashboardController::class)->name('dashboard');
 
         Route::resource('gardu_listrik', ElectricSubstationController::class)->except(['show']);
 
