@@ -7,43 +7,15 @@ export default function Dashboard({ assets }: PageProps) {
         <AuthenticatedLayout>
             <Head title="Dashboard" />
             <div className="row">
-                <div className="col-md-12 grid-margin">
-                    <div className="row">
-                        <div className="col-12 col-xl-8 mb-4 mb-xl-0">
-                            <h3 className="font-weight-bold">Welcome Aamir</h3>
-                            <h6 className="font-weight-normal mb-0">All systems are running smoothly! You have <span className="text-primary">3 unread alerts!</span></h6>
-                        </div>
-                        <div className="col-12 col-xl-4">
-                            <div className="justify-content-end d-flex">
-                                <div className="dropdown flex-md-grow-1 flex-xl-grow-0">
-                                    <button className="btn btn-sm btn-light bg-white dropdown-toggle" type="button" id="dropdownMenuDate2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <i className="mdi mdi-calendar"></i> Today (10 Jan 2021)
-                                    </button>
-                                    <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuDate2">
-                                        <a className="dropdown-item" href="#">January - March</a>
-                                        <a className="dropdown-item" href="#">March - June</a>
-                                        <a className="dropdown-item" href="#">June - August</a>
-                                        <a className="dropdown-item" href="#">August - November</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="row">
                 <div className="col-md-6 grid-margin stretch-card">
                     <div className="card tale-bg">
                         <div className="card-people mt-auto">
                             <img src={`${assets}/images/dashboard/people.svg`} alt="people" />
                             <div className="weather-info">
                                 <div className="d-flex">
-                                    <div>
-                                        <h2 className="mb-0 font-weight-normal"><i className="icon-sun me-2"></i>31<sup>C</sup></h2>
-                                    </div>
                                     <div className="ms-2">
-                                        <h4 className="location font-weight-normal">Chicago</h4>
-                                        <h6 className="font-weight-normal">Illinois</h6>
+                                        <h4 className="location font-weight-normal">Kalimantan Tengah</h4>
+                                        <h6 className="font-weight-normal">Kalimantan</h6>
                                     </div>
                                 </div>
                             </div>

@@ -134,9 +134,12 @@ export default function Map({ electricSubstationData }: PageProps & { electricSu
     }
 
     const handleVillageChange = (village: VillageType) => {
+        setSelectedDistrict(village.district)
         setIsShowVillageInfo(true)
         setSelectedVillage(village)
         handleCloseDistrict(true)
+        if (map)
+            map.setView([Number(village.latitude), Number(village.longitude) + .6], 10, { animate: true })
     }
 
     const handleCloseVillage = () => {

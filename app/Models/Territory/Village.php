@@ -17,12 +17,18 @@ class Village extends KodePandaiVillage
 
     public function latitude(): Attribute
     {
-        return Attribute::make(get: fn ($val) => $val ?? "0.064411");
+        return Attribute::make(get: function () {
+            $borders = json_decode($this->borders, 1);
+            return $borders['coordinates'][0][0][1] ?? 0;
+        });
     }
 
     public function longitude(): Attribute
     {
-        return Attribute::make(get: fn ($val) => $val ?? "114.921690");
+        return Attribute::make(get: function () {
+            $borders = json_decode($this->borders, 1);
+            return $borders['coordinates'][0][0][0] ?? 0;
+        });
     }
 
     public function electricity(): HasOne
