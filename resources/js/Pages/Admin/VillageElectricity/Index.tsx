@@ -1,10 +1,13 @@
 import { DataTable } from "@/common/components";
 import { VillageElectricityType } from "@/features/VillageElectricity";
+import { ImportModal } from "@/features/VillageElectricity/components";
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
 import { Head, router } from "@inertiajs/react";
+import { useState } from "react";
 
 export default function Index({ villageElectricitys }: PageProps & { villageElectricitys: VillageElectricityType[] }) {
+    const [isShowImport, setIsShowImport] = useState<boolean>(false)
     const column: string[] = [
         'Nama Desa/Kelurahan',
         'Kelistrikan',
@@ -50,9 +53,9 @@ export default function Index({ villageElectricitys }: PageProps & { villageElec
                     <div className="card-title d-flex justify-content-between">
                         <p>Kelistrikan Desa</p>
                         <div>
-                            <a href={route('admin.village_electricity.create')} type="button" className="btn btn-warning btn-icon-text" style={{ marginRight: '1rem' }}>
+                            <button className="btn btn-warning btn-icon-text" style={{ marginRight: '1rem' }} onClick={() => setIsShowImport(true)}>
                                 Impor
-                            </a>
+                            </button>
                             <a href={route('admin.village_electricity.create')} type="button" className="btn btn-primary btn-icon-text">
                                 <i className="ti-plus btn-icon-prepend"></i>
                                 Tambah
@@ -70,6 +73,7 @@ export default function Index({ villageElectricitys }: PageProps & { villageElec
                     </div>
                 </div>
             </div>
+            <ImportModal isShow={isShowImport} onClose={() => setIsShowImport(false)} />
         </AuthenticatedLayout >
     )
 }

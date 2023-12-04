@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Imports\VillageElectricityImport;
 use App\Repositories\Territory\VillageRepository;
 use App\Repositories\VillageElectricityRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VillageElectricityController extends Controller
 {
@@ -48,10 +51,10 @@ class VillageElectricityController extends Controller
                 $this->villageRepository->updateBorderVillage($request->input('village_code'), json_decode($request->input('borders')));
             }
             $this->villageElectricityRepository->insertVillageElectricity([...$request->all(), 'village_code' => (string) $request->input('village_code')]);
-            return redirect(route('admin.village_electricity.index'))->with('status', 'Sukses Menambah Rencana Pembangunan');
+            return redirect(route('admin.village_electricity.index'))->with('status', 'Sukses Menambah Kelistrikan Desa');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));
-            return back()->withErrors(['error' => 'Gagal menambah Rencana Pembangunan']);
+            return back()->withErrors(['error' => 'Gagal menambah Kelistrikan Desa']);
         }
     }
 
@@ -75,10 +78,10 @@ class VillageElectricityController extends Controller
             }
             $villageElectricity = $this->villageElectricityRepository->getVillageElectricity($id);
             $villageElectricity->update($request->all());
-            return redirect(route('admin.village_electricity.index'))->with('status', 'Sukses Mengedit Rencana Pembangunan');
+            return redirect(route('admin.village_electricity.index'))->with('status', 'Sukses Mengedit Kelistrikan Desa');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));
-            return back()->withErrors(['error' => 'Gagal Mengedit Rencana Pembangunan']);
+            return back()->withErrors(['error' => 'Gagal Mengedit Kelistrikan Desa']);
         }
     }
 
@@ -86,6 +89,24 @@ class VillageElectricityController extends Controller
     {
         $villageElectricity = $this->villageElectricityRepository->getVillageElectricity($id);
         $villageElectricity->delete();
-        return redirect(route('admin.village_electricity.index'))->with('status', 'Sukses Menghapus Rencana Pembangunan');
+        return redirect(route('admin.village_electricity.index'))->with('status', 'Sukses Menghapus Kelistrikan Desa');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $file = $request->file('file');
+
+            Excel::import(new VillageElectricityImport, $file);
+            DB::commit();
+            return redirect(route('admin.village_electricity.index'))->with('status', 'Sukses Mengimport Kelistrikan Desa');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+        }
     }
 }
