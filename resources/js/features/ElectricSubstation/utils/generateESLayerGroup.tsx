@@ -11,7 +11,7 @@ export const generateESLayerGroup = (electricSubstations: ElectricSubstationType
             <h5>{esData.name}</h5>
             <hr />
             <p>Kota/Kabupaten: {esData.city_name}</p>
-            <p>Deskripsi: {esData.description ?? "-"}</p>
+            <p dangerouslySetInnerHTML={{ __html: esData.description ?? '-' }}></p>
         </>))
         esDataArray.push(marker)
     }

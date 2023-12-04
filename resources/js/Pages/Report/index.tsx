@@ -40,7 +40,7 @@ export default function Report({ datas }: PageProps & { datas: ReportType[] }) {
             <Loader isShow={isLoading} />
             <div id="map"></div>
             <div className="header">
-                <div className="header-box" onClick={() => router.visit(route('landing'))}>Silisda <span>laporan</span></div>
+                <div className="header-box" onClick={() => router.visit(route('landing'))}><span>Si</span>lisda <span>laporan</span></div>
                 <div className="header-actions">
                     <button onClick={() => setIsShowAdd(true)}>
                         <CreateBtn />

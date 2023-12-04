@@ -40,7 +40,7 @@ export default function Proposal({ datas }: PageProps & { datas: ProposalType[] 
             <Loader isShow={isLoading} />
             <div id="map"></div>
             <div className="header">
-                <div className="header-box" onClick={() => router.visit(route('landing'))}>Silisda <span>usulan</span></div>
+                <div className="header-box" onClick={() => router.visit(route('landing'))}><span>Si</span>lisda <span>usulan</span></div>
                 <div className="header-actions">
                     <button onClick={() => setIsShowAdd(true)}>
                         <CreateBtn />

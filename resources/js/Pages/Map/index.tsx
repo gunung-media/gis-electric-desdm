@@ -178,7 +178,7 @@ export default function Map({ electricSubstationData }: PageProps & { electricSu
             <Loader isShow={isLoading} />
             <div id="map"></div>
             <div className="header">
-                <div className="header-box" onClick={() => router.visit(route('landing'))}>Silisda <span>peta</span></div>
+                <div className="header-box" onClick={() => router.visit(route('landing'))}><span>Si</span>lisda <span>peta</span></div>
                 <div className="header-actions">
                     <div className="action-group">
                         <button onClick={() => setIsSearchClick(!isSearchClick)}>
