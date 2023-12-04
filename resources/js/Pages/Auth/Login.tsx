@@ -32,8 +32,9 @@ export default function Login() {
                 <div className="form-group">
                     <InputGroup
                         title="Password"
-                        icon="ti-user"
+                        icon="ti-lock"
                         onChange={(e) => setData('password', e.target.value)}
+                        type="password"
                     />
 
                     <InputError message={errors.password} />
