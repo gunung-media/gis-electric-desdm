@@ -19,7 +19,6 @@ class TerritoryController extends Controller
 
     public function villagesBorder(Request $request): JsonResponse
     {
-        ini_set('memory_limit', '1024M');
         return response()->json(['data' => $this->villageRepository->getVillageBorders($request)->toArray()]);
     }
 
@@ -31,5 +30,17 @@ class TerritoryController extends Controller
     public function cityInfo(Request $request, $cityId): JsonResponse
     {
         return response()->json(['data' => $this->cityRepository->getCityInfo($cityId)]);
+    }
+
+    public function searcher(Request $request, ?string $input = null): JsonResponse
+    {
+        $input = $input ?? $request->input('input');
+        if (is_null($input))
+            return response()->json(['message' => 'input cannot be null', 'data' => null], 402);
+        $cities = $this->cityRepository->search($input)->toArray();
+        $districts = $this->districtRepository->search($input)->toArray();
+        $villages = $this->villageRepository->search($input)->toArray();
+
+        return response()->json(['data' => [...$cities, ...$districts, ...$villages]]);
     }
 }

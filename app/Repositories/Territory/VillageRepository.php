@@ -33,4 +33,13 @@ class VillageRepository
 
         return $query->get()->makeVisible(['borders']);
     }
+
+    public function search(string $input): Collection
+    {
+        $query = $this->model
+            ->whereRelation('province', 'indonesia_provinces.code', 62)
+            ->where('name', 'LIKE', "%$input%");
+
+        return $query->get();
+    }
 }

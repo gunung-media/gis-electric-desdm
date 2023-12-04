@@ -27,4 +27,13 @@ class CityRepository
             ->findOrFail($cityCode);
         return $query;
     }
+
+    public function search(string $input): Collection
+    {
+        $query = $this->city
+            ->where('code', 62)
+            ->where('name', 'LIKE', "%$input%");
+
+        return $query->get();
+    }
 }
