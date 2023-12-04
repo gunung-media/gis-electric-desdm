@@ -49,10 +49,15 @@ export default function Index({ villageElectricitys }: PageProps & { villageElec
                 <div className="card-body">
                     <div className="card-title d-flex justify-content-between">
                         <p>Kelistrikan Desa</p>
-                        <a href={route('admin.village_electricity.create')} type="button" className="btn btn-primary btn-icon-text">
-                            <i className="ti-plus btn-icon-prepend"></i>
-                            Tambah
-                        </a>
+                        <div>
+                            <a href={route('admin.village_electricity.create')} type="button" className="btn btn-warning btn-icon-text" style={{ marginRight: '1rem' }}>
+                                Impor
+                            </a>
+                            <a href={route('admin.village_electricity.create')} type="button" className="btn btn-primary btn-icon-text">
+                                <i className="ti-plus btn-icon-prepend"></i>
+                                Tambah
+                            </a>
+                        </div>
                     </div>
                     <div className="row">
                         <div className="col-12">
