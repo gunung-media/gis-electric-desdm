@@ -1,6 +1,5 @@
-import { renderToString } from "react-dom/server";
 import { VillageType, getKaltengVillages } from "..";
-import L from 'leaflet'
+import L, { Point } from 'leaflet'
 
 export const generateKaltengVillageLayer = async (districtId: string | number, onBorderClick?: (village: VillageType) => void, isShowPopup?: boolean): Promise<L.LayerGroup> => {
     let villages = L.layerGroup();
@@ -31,21 +30,8 @@ export const generateKaltengVillageLayer = async (districtId: string | number, o
                 }).addTo(villages)
 
                 village.eachLayer(function(layer) {
-                    const popUpContent = renderToString(
-                        <>
-                            <div>
-                                <h5>Desa: {element.name}</h5>
-                                <p>Kabupaten/Kota: {element.city.name}</p>
-                                <p>Kecamatan: {element.district.name}</p>
-                            </div>
-                        </>
-                    )
-                    layer.bindPopup(popUpContent)
-                    layer.on('mouseover', () => {
-                        setTimeout(() => {
-                            layer.openPopup()
-                        }, 100)
-                    })
+                    let offset = new Point(0, 0)
+                    layer.bindTooltip(element.name, { permanent: true, direction: 'center', className: 'my-labels-village', offset: offset })
                     layer.on('click', () => {
                         if (onBorderClick)
                             onBorderClick(element)

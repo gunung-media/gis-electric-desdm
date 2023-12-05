@@ -1,6 +1,5 @@
-import { renderToString } from "react-dom/server";
 import { CityType, getCities } from "..";
-import L from 'leaflet'
+import L, { Point } from 'leaflet'
 
 export const generateKaltengCityLayer = async (onBorderClick?: (city: CityType) => void, isShowPopup?: boolean): Promise<L.LayerGroup> => {
     let cities = L.layerGroup();
@@ -21,7 +20,7 @@ export const generateKaltengCityLayer = async (onBorderClick?: (city: CityType) 
                 };
                 let city = L.geoJson(featureCollection, {
                     style: {
-                        color: 'white',
+                        color: 'black',
                         dashArray: '0',
                         lineCap: 'butt',
                         lineJoin: 'miter',
@@ -31,22 +30,32 @@ export const generateKaltengCityLayer = async (onBorderClick?: (city: CityType) 
                 }).addTo(cities)
 
                 city.eachLayer(function(layer) {
-                    const popUpContent = renderToString(
-                        <>
-                            <div>
-                                <h5>Kabupaten/Kota: {element.name}</h5>
-                            </div>
-                        </>
-                    )
-                    layer.bindPopup(popUpContent)
-                    layer.on('mouseover', () => {
-                        setTimeout(() => {
-                            layer.openPopup()
-                        }, 100)
-                    })
+                    let offset = new Point(0, 0)
+                    switch (element.name) {
+                        case 'KOTAWARINGIN TIMUR':
+                            offset = new Point(-70, -200)
+                            break;
+
+                        case 'KATINGAN':
+                            offset = new Point(20, -200)
+                            break;
+
+                        case 'KOTAWARINGIN BARAT':
+                            offset = new Point(50, -100)
+                            break;
+
+                        case 'KAPUAS':
+                            offset = new Point(20, -250)
+                            break;
+
+                        default:
+                            break;
+                    }
+                    layer.bindTooltip(element.name, { permanent: true, direction: 'center', className: 'my-labels', offset: offset })
                     layer.on('click', () => {
                         if (onBorderClick)
                             onBorderClick(element)
+
                     })
                 });
             } catch (error) {

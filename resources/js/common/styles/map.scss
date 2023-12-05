@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;700&family=Poppins:wght@100;300;400;500;600;700&display=swap');
 
+@mixin tooltip($color){
+  background-color: transparent;
+  border: transparent;
+  box-shadow: none;
+  font-weight: bold;
+  font-size: 8px;
+  color: $color;
+}
+
 @mixin additional-bx($width) {
     position: absolute;
     overflow-y: scroll;
@@ -139,4 +148,15 @@
 
 .header-actions button:hover path {
     fill: rgba(255, 255, 255, 0.7);
+}
+
+.leaflet-tooltip.my-labels {
+    @include tooltip(white)
+}
+
+.leaflet-tooltip.my-labels-village{
+    @include tooltip(red)
+}
+.leaflet-tooltip.my-labels-district{
+    @include tooltip(yellow)
 }

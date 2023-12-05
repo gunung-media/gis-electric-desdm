@@ -20,11 +20,13 @@ export default function Map({ electricSubstationData }: PageProps & { electricSu
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [isShowCityInfo, setIsShowCityInfo] = useState<boolean>(false)
     const [isSearchClick, setIsSearchClick] = useState<boolean>(false)
+
     const [selectedCity, setSelectedCity] = useState<CityType | null>(null)
     const [isShowDistrictInfo, setIsShowDistrictInfo] = useState<boolean>(false)
     const [selectedDistrict, setSelectedDistrict] = useState<DistrictType | null>(null)
     const [isShowVillageInfo, setIsShowVillageInfo] = useState<boolean>(false)
     const [selectedVillage, setSelectedVillage] = useState<VillageType | null>(null)
+
     const [citiesLayer, setCitiesLayer] = useState<L.LayerGroup>(L.layerGroup())
     const [districtsLayer, setDistrictsLayer] = useState<L.LayerGroup>(L.layerGroup())
     const [villagesLayer, setVillagesLayer] = useState<L.LayerGroup>(L.layerGroup())
