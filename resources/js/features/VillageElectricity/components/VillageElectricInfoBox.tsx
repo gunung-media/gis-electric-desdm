@@ -48,13 +48,17 @@ export const VillageElectricInfoBox: FC<{
                         colorByPoint: true,
                         data: [
                             {
-                                name: 'KK Berlistrik',
+                                name: 'Rumah Tinggal Berlistrik PLN',
                                 sliced: true,
                                 selected: true,
                                 y: village.electricity.households_with_electricity
                             },
                             {
-                                name: 'KK Tidak Berlistrik',
+                                name: 'Rumah Tinggal Berlistrik Non PLN',
+                                y: village.electricity.households_with_electricity_non_pln
+                            },
+                            {
+                                name: 'Rumah Tinggal Tidak Berlistrik',
                                 y: village.electricity.households_without_electricity
                             },
                         ]
@@ -97,13 +101,19 @@ export const VillageElectricInfoBox: FC<{
                                     <p>Kelistrikan</p>
                                 </Card.Title>
                                 <BootstrapInputGroup
-                                    title="Jumlah KK berlistrik"
+                                    title="Jumlah Rumah berlistrik PLN"
                                     value={village.electricity.households_with_electricity.toString()}
                                     disabled={true}
                                     className="mb-3"
                                 />
                                 <BootstrapInputGroup
-                                    title="Jumlah KK Tidak Berlistrik"
+                                    title="Jumlah Rumah berlistrik non PLN"
+                                    value={village.electricity.households_with_electricity_non_pln.toString()}
+                                    disabled={true}
+                                    className="mb-3"
+                                />
+                                <BootstrapInputGroup
+                                    title="Jumlah Rumah Tidak Berlistrik"
                                     value={village.electricity.households_without_electricity.toString()}
                                     disabled={true}
                                     className="mb-3"

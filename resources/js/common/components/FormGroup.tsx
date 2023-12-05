@@ -34,6 +34,7 @@ export const FormGroup: FC<{
                             if (onChange)
                                 onChange(data)
                         }}
+                        disabled={props.disabled}
                     />
                 ) :
                     (

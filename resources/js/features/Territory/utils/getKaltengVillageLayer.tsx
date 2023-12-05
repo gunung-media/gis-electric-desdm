@@ -18,13 +18,15 @@ export const generateKaltengVillageLayer = async (districtId: string | number, o
                         }
                     ]
                 };
+
+                const villageColor = element?.electricity?.households_with_electricity > element.electricity?.households_with_electricity_non_pln ? 'green' : 'blue'
                 let village = L.geoJson(featureCollection, {
                     style: {
-                        color: element.electricity?.electricity ? 'green' : 'white',
+                        color: element.electricity?.electricity ? villageColor : 'white',
                         dashArray: '0',
                         lineCap: 'butt',
                         lineJoin: 'miter',
-                        fillColor: element.electricity?.electricity ? 'green' : '#111',
+                        fillColor: element.electricity?.electricity ? villageColor : '#111',
                         fillOpacity: .5,
                     }
                 }).addTo(villages)
