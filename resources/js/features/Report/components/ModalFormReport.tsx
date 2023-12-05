@@ -55,7 +55,9 @@ export const ModalFormReport: FC<{
                 draggable: true,
                 icon: electricIcon
             }).addTo(map);
-            map.setView(curLatLang)
+            setTimeout(() => {
+                map.setView(curLatLang)
+            }, 500)
 
             marker.on('dragend', function() {
                 const position = marker.getLatLng();
