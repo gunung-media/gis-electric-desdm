@@ -19,7 +19,8 @@ export default function Landing() {
                     </div>
                     <div className="menus">
                         <a href={route('map')}>Peta</a>
-                        <a href={route('statistic')}>Statistik Kelistrikan Daerah</a>
+                        <a href={route('statistic')}>Grafik Listrik Daerah</a>
+                        <a href={route('statistic')}>Statistik Listrik Daerah</a>
                         <a href={route('proposal.index')}>Usulan</a>
                         <a href={route('report.index')}>Laporan</a>
                         <a href={route('development-plan.index')}>Rencana Pembangungan</a>
