@@ -13,7 +13,7 @@
 
     <link rel="stylesheet" href="{{ asset('template/css/vertical-layout-light/style.css') }}">
     <link rel="stylesheet" href="{{ asset('template/vendors/font-awesome/css/font-awesome.min.css') }}" />
-    <link rel="shortcut icon" href="{{ asset('template/images/favicon.png') }}" />
+    <link rel="shortcut icon" href="{{ asset('template/images/kalteng.png') }}" />
 
     <link href="{{ asset('template/vendors/datatable-responsive/datatables.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"
