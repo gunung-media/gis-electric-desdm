@@ -8,12 +8,16 @@ export const generateKaltengCityLayer = async (onBorderClick?: (city: CityType) 
         for (let i = 0; i < data.length; i++) {
             const element = data[i];
             try {
+                const geometry = JSON.parse(element.borders ?? 'null') as { type: string, coordinates: number[] }
                 let featureCollection: GeoJSON.FeatureCollection<any> = {
                     type: 'FeatureCollection',
                     features: [
                         {
                             type: 'Feature',
-                            geometry: JSON.parse(element.borders ?? "null"),
+                            geometry: {
+                                type: geometry.type,
+                                coordinates: geometry.type === 'MultiPolygon' ? geometry.coordinates.reverse() : geometry.coordinates
+                            },
                             properties: {}
                         }
                     ]
@@ -30,28 +34,7 @@ export const generateKaltengCityLayer = async (onBorderClick?: (city: CityType) 
                 }).addTo(cities)
 
                 city.eachLayer(function(layer) {
-                    let offset = new Point(0, 0)
-                    switch (element.name) {
-                        case 'KOTAWARINGIN TIMUR':
-                            offset = new Point(-70, -200)
-                            break;
-
-                        case 'KATINGAN':
-                            offset = new Point(20, -200)
-                            break;
-
-                        case 'KOTAWARINGIN BARAT':
-                            offset = new Point(50, -100)
-                            break;
-
-                        case 'KAPUAS':
-                            offset = new Point(20, -250)
-                            break;
-
-                        default:
-                            break;
-                    }
-                    layer.bindTooltip(element.name, { permanent: true, direction: 'center', className: 'my-labels', offset: offset })
+                    layer.bindTooltip(element.name, { permanent: true, direction: 'center', className: 'my-labels' })
                     layer.on('click', () => {
                         if (onBorderClick)
                             onBorderClick(element)
