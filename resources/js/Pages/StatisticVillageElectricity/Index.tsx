@@ -2,38 +2,108 @@ import { HorizontalLayout } from '@/layouts/HorizontalLayout'
 import './styles.scss'
 import { Head } from '@inertiajs/react'
 import { PageProps } from '@/types'
-import { CityType } from '@/features/Territory'
-import { Fragment, useEffect } from 'react'
+import { CityType, DistrictType, VillageType } from '@/features/Territory'
+import { Fragment, useEffect, useState } from 'react'
 import { intToRoman, numberToLetter } from '@/common/utils'
 
+const TableRow = (props: {
+    className: 'city' | 'district' | 'villages',
+    number: string | number,
+    name: string,
+    rumahTinggal?: number,
+    kk?: number,
+    villagePln?: number,
+    villageNonPln?: number,
+    villageNonElectric?: number,
+    housePln?: number,
+    houseNonPln?: number,
+    houseNonElectric?: number,
+}) => (
+    <tr className={props.className}>
+        <td>{props.number}</td>
+        <td>{props.name}</td>
+        <td>{props.rumahTinggal ?? '-'}</td>
+        <td>{props.kk ?? '-'}</td>
+        <td>{props.villagePln ?? '-'}</td>
+        <td>{props.villageNonPln ?? '-'}</td>
+        <td>{props.villageNonElectric ?? '-'}</td>
+        <td>{props.housePln ?? '-'}</td>
+        <td>{props.houseNonPln ?? '-'}</td>
+        <td colSpan={2}>{props.houseNonElectric ?? '-'}</td>
+    </tr>
+)
+
+type SumType = {
+    village?: number,
+    rumahTinggal: number,
+    kk: number,
+    villagePln: number,
+    villageNonPln: number,
+    villageNonElectric: number,
+    housePln: number,
+    houseNonPln: number,
+    houseNonElectric: number,
+}
+
 export default function Index({ datas }: PageProps & { datas: CityType[] }) {
-    useEffect(() => console.log(datas), [])
-    const renderTableRow = (props: {
-        className: 'city' | 'district' | 'villages',
-        number: string | number,
-        name: string,
-        rumahTinggal?: number,
-        kk?: number,
-        villagePln?: number,
-        villageNonPln?: number,
-        villageNonElectric?: number,
-        housePln?: number,
-        houseNonPln?: number,
-        houseNonElectric?: number,
-    }) => (
-        <tr className={props.className}>
-            <td>{props.number}</td>
-            <td>{props.name}</td>
-            <td>{props.rumahTinggal ?? '-'}</td>
-            <td>{props.kk ?? '-'}</td>
-            <td>{props.villagePln ?? '-'}</td>
-            <td>{props.villageNonPln ?? '-'}</td>
-            <td>{props.villageNonElectric ?? '-'}</td>
-            <td>{props.housePln ?? '-'}</td>
-            <td>{props.houseNonPln ?? '-'}</td>
-            <td colSpan={2}>{props.houseNonElectric ?? '-'}</td>
-        </tr>
-    )
+    const [globalSum, setGlobalSum] = useState<SumType>({
+        village: 0,
+        rumahTinggal: 0,
+        kk: 0,
+        villagePln: 0,
+        villageNonPln: 0,
+        villageNonElectric: 0,
+        housePln: 0,
+        houseNonPln: 0,
+        houseNonElectric: 0,
+    })
+
+    useEffect(() => {
+        for (const city of datas) {
+            const datas = calculateTotals(city.districts!, globalSum)
+            setGlobalSum(datas!)
+        }
+    }, [datas])
+
+    const calculateTotals = (data: (VillageType | DistrictType)[] | undefined, globalSum?: SumType): SumType | undefined => {
+        return data?.reduce(
+            (totals, item) => {
+                if ('villages' in item) {
+                    const district = item as DistrictType;
+                    const districtTotals = calculateTotals(district.villages);
+                    totals.rumahTinggal += districtTotals?.rumahTinggal ?? 0;
+                    totals.kk += districtTotals?.kk ?? 0;
+                    totals.villagePln += districtTotals?.villagePln ?? 0;
+                    totals.villageNonPln += districtTotals?.villageNonPln ?? 0;
+                    totals.villageNonElectric += districtTotals?.villageNonElectric ?? 0;
+                    totals.housePln += districtTotals?.housePln ?? 0;
+                    totals.houseNonPln += districtTotals?.houseNonPln ?? 0;
+                    totals.houseNonElectric += districtTotals?.houseNonElectric ?? 0;
+                } else {
+                    const village = item as VillageType;
+                    totals.rumahTinggal += village.electricity?.households_count ?? 0;
+                    totals.kk += village.electricity?.kk ?? 0;
+                    totals.villagePln += village.electricity?.is_village_electric_pln ? 1 : 0;
+                    totals.villageNonPln += village.electricity?.is_village_electric_non_pln ? 1 : 0;
+                    totals.villageNonElectric += village.electricity?.is_village_no_electric ? 1 : 0;
+                    totals.housePln += village.electricity?.households_with_electricity ?? 0;
+                    totals.houseNonPln += village.electricity?.households_with_electricity_non_pln ?? 0;
+                    totals.houseNonElectric += village.electricity?.households_without_electricity ?? 0;
+                }
+                return totals;
+            },
+            globalSum ?? {
+                rumahTinggal: 0,
+                kk: 0,
+                villagePln: 0,
+                villageNonPln: 0,
+                villageNonElectric: 0,
+                housePln: 0,
+                houseNonPln: 0,
+                houseNonElectric: 0,
+            }
+        );
+    };
     return (
         <HorizontalLayout>
             <Head title="Statistik Kelistrikan Daearah" />
@@ -65,135 +135,79 @@ export default function Index({ datas }: PageProps & { datas: CityType[] }) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {datas.map((city, l) => {
+                                    {datas.map((city, cityIndex) => {
                                         const districts = city.districts
-                                        const cityTotals = districts?.reduce(
-                                            (totals, district) => {
-                                                const villages = district.villages;
-                                                const districtTotals = villages?.reduce(
-                                                    (totals, village) => {
-                                                        totals.rumahTinggal += village.electricity?.households_count ?? 0;
-                                                        totals.kk += village.electricity?.kk ?? 0;
-                                                        totals.villagePln += village.electricity?.is_village_electric_pln ? 1 : 0;
-                                                        totals.villageNonPln += village.electricity?.is_village_electric_non_pln ? 1 : 0;
-                                                        totals.villageNonElectric += village.electricity?.is_village_no_electric ? 1 : 0;
-                                                        totals.housePln += village.electricity?.households_with_electricity ?? 0;
-                                                        totals.houseNonPln += village.electricity?.households_with_electricity_non_pln ?? 0;
-                                                        totals.houseNonElectric += village.electricity?.households_without_electricity ?? 0;
-                                                        return totals;
-                                                    },
-                                                    {
-                                                        rumahTinggal: 0,
-                                                        kk: 0,
-                                                        villagePln: 0,
-                                                        villageNonPln: 0,
-                                                        villageNonElectric: 0,
-                                                        housePln: 0,
-                                                        houseNonPln: 0,
-                                                        houseNonElectric: 0,
-                                                    }
-                                                );
-
-                                                totals.rumahTinggal += districtTotals?.rumahTinggal ?? 0;
-                                                totals.kk += districtTotals?.kk ?? 0;
-                                                totals.villagePln += districtTotals?.villagePln ?? 0;
-                                                totals.villageNonPln += districtTotals?.villageNonPln ?? 0;
-                                                totals.villageNonElectric += districtTotals?.villageNonElectric ?? 0;
-                                                totals.housePln += districtTotals?.housePln ?? 0;
-                                                totals.houseNonPln += districtTotals?.houseNonPln ?? 0;
-                                                totals.houseNonElectric += districtTotals?.houseNonElectric ?? 0;
-                                                return totals;
-                                            },
-                                            {
-                                                rumahTinggal: 0,
-                                                kk: 0,
-                                                villagePln: 0,
-                                                villageNonPln: 0,
-                                                villageNonElectric: 0,
-                                                housePln: 0,
-                                                houseNonPln: 0,
-                                                houseNonElectric: 0,
-                                            }
-                                        );
+                                        const cityTotals = calculateTotals(districts!);
                                         return (
                                             <Fragment key={city.code}>
-                                                {renderTableRow({
-                                                    className: 'city',
-                                                    name: city.name,
-                                                    number: numberToLetter(l) ?? '',
-                                                    rumahTinggal: cityTotals?.rumahTinggal,
-                                                    kk: cityTotals?.kk,
-                                                    villagePln: cityTotals?.villagePln,
-                                                    villageNonPln: cityTotals?.villageNonPln,
-                                                    villageNonElectric: cityTotals?.villageNonElectric,
-                                                    housePln: cityTotals?.housePln,
-                                                    houseNonPln: cityTotals?.houseNonPln,
-                                                    houseNonElectric: cityTotals?.houseNonElectric,
+                                                <TableRow
+                                                    className='city'
+                                                    name={city.name}
+                                                    number={numberToLetter(cityIndex) ?? ''}
+                                                    rumahTinggal={cityTotals?.rumahTinggal}
+                                                    kk={cityTotals?.kk}
+                                                    villagePln={cityTotals?.villagePln}
+                                                    villageNonPln={cityTotals?.villageNonPln}
+                                                    villageNonElectric={cityTotals?.villageNonElectric}
+                                                    housePln={cityTotals?.housePln}
+                                                    houseNonPln={cityTotals?.houseNonPln}
+                                                    houseNonElectric={cityTotals?.houseNonElectric}
+                                                />
+                                                {districts!.map((district, districtIndex) => {
+                                                    const villages = district.villages
+                                                    const districtTotals = calculateTotals(villages)
+                                                    return (
+                                                        <Fragment key={district.code}>
+                                                            <TableRow
+                                                                className='district'
+                                                                name={district.name}
+                                                                number={numberToLetter(districtIndex) ?? ''}
+                                                                rumahTinggal={districtTotals?.rumahTinggal}
+                                                                kk={districtTotals?.kk}
+                                                                villagePln={districtTotals?.villagePln}
+                                                                villageNonPln={districtTotals?.villageNonPln}
+                                                                villageNonElectric={districtTotals?.villageNonElectric}
+                                                                housePln={districtTotals?.housePln}
+                                                                houseNonPln={districtTotals?.houseNonPln}
+                                                                houseNonElectric={districtTotals?.houseNonElectric}
+                                                            />
+                                                            {villages!.map((village, villageIndex) => (
+                                                                <Fragment key={village.code}>
+                                                                    <TableRow
+                                                                        className='villages'
+                                                                        name={village.name}
+                                                                        number={numberToLetter(villageIndex) ?? ''}
+                                                                        rumahTinggal={village.electricity?.households_count}
+                                                                        kk={village.electricity?.kk}
+                                                                        villagePln={village.electricity?.is_village_electric_pln ? 1 : 0}
+                                                                        villageNonPln={village.electricity?.is_village_electric_non_pln ? 1 : 0}
+                                                                        villageNonElectric={village.electricity?.is_village_no_electric ? 1 : 0}
+                                                                        housePln={village.electricity?.households_with_electricity}
+                                                                        houseNonPln={village.electricity?.households_with_electricity_non_pln}
+                                                                        houseNonElectric={village.electricity?.households_without_electricity}
+                                                                    />
+                                                                </Fragment>
+                                                            ))}
+                                                        </Fragment>
+                                                    )
                                                 })}
-                                                {districts &&
-                                                    districts.map((district, r) => {
-                                                        const villages = district.villages
-                                                        const districtTotals = villages?.reduce(
-                                                            (totals, village) => {
-                                                                totals.rumahTinggal += village.electricity?.households_count ?? 0;
-                                                                totals.kk += village.electricity?.kk ?? 0;
-                                                                totals.villagePln += village.electricity?.is_village_electric_pln ? 1 : 0;
-                                                                totals.villageNonPln += village.electricity?.is_village_electric_non_pln ? 1 : 0;
-                                                                totals.villageNonElectric += village.electricity?.is_village_no_electric ? 1 : 0;
-                                                                totals.housePln += village.electricity?.households_with_electricity ?? 0;
-                                                                totals.houseNonPln += village.electricity?.households_with_electricity_non_pln ?? 0;
-                                                                totals.houseNonElectric += village.electricity?.households_without_electricity ?? 0;
-                                                                return totals;
-                                                            },
-                                                            {
-                                                                rumahTinggal: 0,
-                                                                kk: 0,
-                                                                villagePln: 0,
-                                                                villageNonPln: 0,
-                                                                villageNonElectric: 0,
-                                                                housePln: 0,
-                                                                houseNonPln: 0,
-                                                                houseNonElectric: 0,
-                                                            }
-                                                        );
-                                                        return (
-                                                            <Fragment key={district.code}>
-                                                                {renderTableRow({
-                                                                    className: 'district',
-                                                                    name: district.name,
-                                                                    number: intToRoman(r + 1),
-                                                                    rumahTinggal: districtTotals?.rumahTinggal,
-                                                                    kk: districtTotals?.kk,
-                                                                    villagePln: districtTotals?.villagePln,
-                                                                    villageNonPln: districtTotals?.villageNonPln,
-                                                                    villageNonElectric: districtTotals?.villageNonElectric,
-                                                                    housePln: districtTotals?.housePln,
-                                                                    houseNonPln: districtTotals?.houseNonPln,
-                                                                    houseNonElectric: districtTotals?.villageNonElectric,
-                                                                })}
-                                                                {villages && villages.map((village, i) => {
-                                                                    return renderTableRow({
-                                                                        className: 'villages',
-                                                                        name: village.name,
-                                                                        number: i + 1,
-                                                                        rumahTinggal: village.electricity?.households_count,
-                                                                        kk: village.electricity?.kk,
-                                                                        villagePln: village.electricity?.is_village_electric_pln ? 1 : 0,
-                                                                        villageNonPln: village.electricity?.is_village_electric_non_pln ? 1 : 0,
-                                                                        villageNonElectric: village.electricity?.is_village_no_electric ? 1 : 0,
-                                                                        housePln: village.electricity?.households_with_electricity,
-                                                                        houseNonPln: village.electricity?.households_with_electricity_non_pln,
-                                                                        houseNonElectric: village.electricity?.households_without_electricity,
-                                                                    })
-                                                                })}
-                                                            </Fragment>
-                                                        )
-                                                    })
-                                                }
                                             </Fragment>
                                         )
                                     })}
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colSpan={2}>Total</th>
+                                        <th>{globalSum.rumahTinggal}</th>
+                                        <th>{globalSum.kk}</th>
+                                        <th>{globalSum.villagePln}</th>
+                                        <th>{globalSum.villageNonPln}</th>
+                                        <th>{globalSum.villageNonElectric}</th>
+                                        <th>{globalSum.housePln}</th>
+                                        <th>{globalSum.houseNonPln}</th>
+                                        <th>{globalSum.houseNonElectric}</th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
