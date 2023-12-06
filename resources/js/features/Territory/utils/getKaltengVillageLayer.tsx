@@ -19,7 +19,10 @@ export const generateKaltengVillageLayer = async (districtId: string | number, o
                     ]
                 };
 
-                const villageColor = element?.electricity?.households_with_electricity > element.electricity?.households_with_electricity_non_pln ? 'green' : 'blue'
+                let villageColor = 'white'
+                if (element.electricity)
+                    villageColor = element?.electricity?.households_with_electricity > element.electricity?.households_with_electricity_non_pln ? 'green' : 'blue'
+
                 let village = L.geoJson(featureCollection, {
                     style: {
                         color: element.electricity?.electricity ? villageColor : 'white',
