@@ -12,6 +12,14 @@ class DistrictRepository
     ) {
     }
 
+    public function getDistrictsWithVillageData(string $cityCode)
+    {
+        $query = $this->district
+            ->with(['villages', 'villages.electricity'])
+            ->where('city_code', $cityCode);
+        return $query->get();
+    }
+
     public function getDistrictInfo(mixed $districtCode)
     {
         $query = $this->district

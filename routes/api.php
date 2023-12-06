@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::name('api.')->group(function () {
     Route::get('/indonesia/kalteng/villages', [TerritoryController::class, 'villagesBorder'])->name('villagesBorder');
     Route::get('/indonesia/kalteng/cities', [TerritoryController::class, 'kaltengCity'])->name('kaltengCity');
+    Route::get('/indonesia/kalteng/district/{cityCode}', [TerritoryController::class, 'districtWithElectric'])->name('districtWithElectric');
     Route::get('/territory/district/{districtId}', [TerritoryController::class, 'districtInfo'])->name('districtInfo');
     Route::get('/territory/city/{cityId}', [TerritoryController::class, 'cityInfo'])->name('cityInfo');
     Route::get('/territory/search/{input?}', [TerritoryController::class, 'searcher'])->name('searcher');

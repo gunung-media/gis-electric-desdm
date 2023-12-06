@@ -1,17 +1,18 @@
 import { OptionType, Select } from "@/common/components"
 import { FC, useEffect, useState } from "react"
-import { DistrictType, getDistricts } from ".."
+import { DistrictType, getDistricts, getDistrictsWithVillageInfo } from ".."
 
 export const SelectDistrict: FC<{
     handleDistrictChange: (e: OptionType<DistrictType>) => void,
     selectedCityId?: string | number,
-    selectedDistrict?: number | string | null
-}> = ({ handleDistrictChange, selectedCityId: selectedCity, selectedDistrict }) => {
+    selectedDistrict?: number | string | null,
+    isGetVillageInfo?: boolean
+}> = ({ handleDistrictChange, selectedCityId: selectedCity, selectedDistrict, isGetVillageInfo }) => {
     const [districts, setDistricts] = useState<DistrictType[]>([])
 
     const fetchDistricts = async () => {
         if (!selectedCity) return
-        const { data: { data } } = await getDistricts(selectedCity)
+        const { data: { data } } = isGetVillageInfo ? await getDistrictsWithVillageInfo(selectedCity) : await getDistricts(selectedCity)
         setDistricts(data)
 
     }

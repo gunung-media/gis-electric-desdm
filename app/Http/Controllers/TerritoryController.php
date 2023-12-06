@@ -22,6 +22,11 @@ class TerritoryController extends Controller
         return response()->json(['data' => $this->cityRepository->getCities()->toArray()]);
     }
 
+    public function districtWithElectric(Request $request, $cityId): JsonResponse
+    {
+        return response()->json(['data' => $this->districtRepository->getDistrictsWithVillageData($cityId)->toArray()]);
+    }
+
     public function villagesBorder(Request $request): JsonResponse
     {
         return response()->json(['data' => $this->villageRepository->getVillageBorders($request)->toArray()]);

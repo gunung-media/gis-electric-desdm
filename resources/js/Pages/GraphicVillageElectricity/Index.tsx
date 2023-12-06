@@ -13,7 +13,7 @@ type SeriesType = {
     name: string
     data: number[]
 }
-const generateChart = (id: string, series: SeriesType | undefined) => {
+const generateChart = (id: string, series: SeriesType | undefined, beta: number = 15) => {
     return Highcharts.chart({
         chart: {
             renderTo: id,
@@ -21,7 +21,7 @@ const generateChart = (id: string, series: SeriesType | undefined) => {
             options3d: {
                 enabled: true,
                 alpha: 15,
-                beta: 15,
+                beta: beta,
                 viewDistance: 25,
                 depth: 40
             }
@@ -69,9 +69,10 @@ export default function Index({ datas, palangkaraya }: PageProps & { datas: City
     const [data, setData] = useState<{
         selectedCity: CityType | null,
         selectedDistrict: DistrictType | null,
-    }>({ selectedCity: palangkaraya, selectedDistrict: null })
+    }>({ selectedCity: palangkaraya, selectedDistrict: palangkaraya.districts[2] })
 
     const [districtChart, setDistrictChart] = useState<Highcharts.Chart | undefined>(undefined)
+    const [villageChart, setVillageChart] = useState<Highcharts.Chart | undefined>(undefined)
 
     useEffect(() => {
         const districts = data.selectedCity?.districts
@@ -93,41 +94,23 @@ export default function Index({ datas, palangkaraya }: PageProps & { datas: City
     }, [data.selectedCity])
 
     useEffect(() => {
-        Highcharts.chart({
-            chart: {
-                renderTo: 'per-city',
-                type: 'pie',
-                options3d: {
-                    enabled: true,
-                    alpha: 45
-                }
-            },
-            title: {
-                text: ''
-            },
-            plotOptions: {
-                pie: {
-                    innerSize: 100,
-                    depth: 45
-                }
-            },
-            series: [{
-                name: 'Jumlah',
-                data: [
-                    ['Norway', 16],
-                    ['Germany', 12],
-                    ['USA', 8],
-                    ['Sweden', 8],
-                    ['Netherlands', 8],
-                    ['ROC', 6],
-                    ['Austria', 7],
-                    ['Canada', 4],
-                    ['Japan', 3]
-
-                ]
-            }]
-        });
-    }, [datas])
+        const villages = data.selectedDistrict?.villages
+        console.log(villages)
+        const series = villages?.map((village) => {
+            return {
+                name: village.name,
+                data: [village.electricity?.households_with_electricity ?? 0, village.electricity?.households_with_electricity_non_pln ?? 0, village.electricity?.households_without_electricity ?? 0]
+            }
+        })
+        if (villageChart) {
+            villageChart.update({
+                series: series
+            });
+        } else {
+            const chart = generateChart('per-village', series, -15);
+            setVillageChart(chart);
+        }
+    }, [data.selectedDistrict])
 
     return (
         <HorizontalLayout>
@@ -138,23 +121,21 @@ export default function Index({ datas, palangkaraya }: PageProps & { datas: City
                         <p>Grafik Listrik Daerah</p>
                     </div>
                     <form className='forms-sample'>
-                        <SelectCity handleCityChange={(e) => setData((data) => ({ ...data, selectedCity: e.value }))} />
-                        <SelectDistrict handleDistrictChange={(e) => setData((data) => ({ ...data, selectedDistrict: e.value }))} selectedCityId={data.selectedCity?.code} />
+                        <SelectCity
+                            handleCityChange={(e) => setData((data) => ({ ...data, selectedCity: e.value }))}
+                            selectedCity={data.selectedCity.code}
+                            isGetDistricts={true}
+                        />
+                        <SelectDistrict
+                            handleDistrictChange={(e) => setData((data) => ({ ...data, selectedDistrict: e.value }))}
+                            selectedCityId={data.selectedCity?.code}
+                            selectedDistrict={data.selectedDistrict.code}
+                            isGetVillageInfo={true} />
                     </form>
                 </div>
             </div>
             <div className="row mb-3">
-                <div className="col-md-6 col-12">
-                    <div className="card">
-                        <div className="card-body">
-                            <div className="card-title">
-                                <p>Grafik Kelistrikan Per-Kota Kalimantan Tengah</p>
-                            </div>
-                            <div id="per-city"></div>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-6 col-12">
+                <div className="col-12">
                     <div className="card">
                         <div className="card-body">
                             <div className="card-title">
