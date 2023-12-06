@@ -31,8 +31,7 @@ export default function Proposal({ datas }: PageProps & { datas: ProposalType[] 
             setIsLoading(false)
         }
 
-    }, [datas])
-
+    }, [map, datas])
 
     return (
         <>

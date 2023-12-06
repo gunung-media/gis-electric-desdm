@@ -34,10 +34,9 @@ export const FormGroup: FC<{
                                 items: [
                                     'undo', 'redo',
                                     '|', 'heading',
-                                    '|', 'fontfamily', 'fontsize', 'fontColor', 'fontBackgroundColor',
-                                    '|', 'bold', 'italic', 'strikethrough', 'subscript', 'superscript', 'code',
-                                    '|', 'link', 'uploadImage', 'blockQuote', 'codeBlock',
-                                    '|', 'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent'
+                                    '|', 'bold', 'italic',
+                                    '|', 'link', 'uploadImage', 'blockQuote',
+                                    '|', 'bulletedList', 'numberedList', 'outdent', 'indent'
                                 ],
                                 shouldNotGroupWhenFull: false
                             }
