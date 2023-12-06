@@ -160,3 +160,7 @@
 .leaflet-tooltip.my-labels-district{
     @include tooltip(yellow)
 }
+
+.leaflet-control-attribution.leaflet-control{
+    display: none!important;
+}
