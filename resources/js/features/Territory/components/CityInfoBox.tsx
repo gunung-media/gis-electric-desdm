@@ -24,7 +24,6 @@ export const CityInfoBox: FC<{
             (async () => {
                 const { data: { data: dData } } = await getCity(city.code)
                 setCityData(dData)
-                console.log(dData)
                 for (const village of dData.villages!) {
                     setAdditionalData(prevData => ({
                         jumlahRumahTinggal: prevData.jumlahRumahTinggal + (village.electricity?.households_count ?? 0),

@@ -107,7 +107,7 @@ export const ModalFormReport: FC<{
         e.preventDefault()
         post(route('report.store'), {
             onSuccess: () => {
-                swalSuccess('Sukses menambah usulan')
+                swalSuccess('Sukses menambah laporan')
                 onClose()
             },
             onError: (e) => swalError(e.error),

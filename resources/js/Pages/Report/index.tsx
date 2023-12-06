@@ -31,7 +31,7 @@ export default function Report({ datas }: PageProps & { datas: ReportType[] }) {
             setIsLoading(false)
         }
 
-    }, [map])
+    }, [datas])
 
 
     return (
