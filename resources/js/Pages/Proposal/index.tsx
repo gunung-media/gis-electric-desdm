@@ -5,7 +5,7 @@ import CreateBtn from '@/assets/icons/add-plus-svgrepo-com.svg?react'
 import { useMap } from '@/common/hooks'
 import { useEffect, useState } from 'react'
 import { Head, router, } from '@inertiajs/react'
-import { Loader } from '@/common/components';
+import { ContactUs, Loader } from '@/common/components';
 import { ModalFormProposal, ProposalType, ProposalTrackingBox, generateProposalLayer } from '@/features/Proposal'
 import { PageProps } from '@/types'
 
@@ -58,6 +58,8 @@ export default function Proposal({ datas }: PageProps & { datas: ProposalType[] 
                 onClose={() => setIsShowTracking(false)}
                 proposalId={proposalId}
             />
+
+            <ContactUs />
         </>
     )
 }

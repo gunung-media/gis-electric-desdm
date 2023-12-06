@@ -5,7 +5,7 @@ import CreateBtn from '@/assets/icons/add-plus-svgrepo-com.svg?react'
 import { useMap } from '@/common/hooks'
 import { useEffect, useState } from 'react'
 import { Head, router, } from '@inertiajs/react'
-import { Loader } from '@/common/components';
+import { ContactUs, Loader } from '@/common/components';
 import { ModalFormReport, ReportType, ReportTrackingBox, generateReportLayer } from '@/features/Report'
 import { PageProps } from '@/types'
 
@@ -58,6 +58,8 @@ export default function Report({ datas }: PageProps & { datas: ReportType[] }) {
                 onClose={() => setIsShowTracking(false)}
                 reportId={reportId}
             />
+
+            <ContactUs />
         </>
     )
 }
