@@ -29,6 +29,19 @@ export const FormGroup: FC<{
                     <CKEditor
                         editor={ClassicEditor}
                         data={editorData}
+                        config={{
+                            toolbar: props.disabled ? [] : {
+                                items: [
+                                    'undo', 'redo',
+                                    '|', 'heading',
+                                    '|', 'fontfamily', 'fontsize', 'fontColor', 'fontBackgroundColor',
+                                    '|', 'bold', 'italic', 'strikethrough', 'subscript', 'superscript', 'code',
+                                    '|', 'link', 'uploadImage', 'blockQuote', 'codeBlock',
+                                    '|', 'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent'
+                                ],
+                                shouldNotGroupWhenFull: false
+                            }
+                        }}
                         onChange={(_event, editor) => {
                             const data = editor.getData();
                             if (onChange)

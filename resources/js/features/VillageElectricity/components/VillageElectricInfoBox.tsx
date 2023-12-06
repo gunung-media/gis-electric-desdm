@@ -1,6 +1,6 @@
 import { FC, useEffect } from "react"
 import { Card, CloseButton } from "react-bootstrap"
-import { BootstrapInputGroup } from "@/common/components"
+import { BootstrapInputGroup, FormGroup } from "@/common/components"
 import { VillageType } from "@/features/Territory"
 import Highcharts from 'highcharts';
 
@@ -124,11 +124,19 @@ export const VillageElectricInfoBox: FC<{
                                     disabled={true}
                                     className="mb-3"
                                 />
-                                <BootstrapInputGroup
+                                <FormGroup
                                     title="Potensi Desa"
+                                    name={'potensi'}
                                     value={village.electricity.village_potential}
                                     disabled={true}
-                                    className="mb-3"
+                                    type="textarea"
+                                />
+                                <FormGroup
+                                    title="Potensi energi"
+                                    name={'energi'}
+                                    value={village.electricity.energy_potential}
+                                    disabled={true}
+                                    type="textarea"
                                 />
                                 <div id="pie-chart"></div>
                             </>
