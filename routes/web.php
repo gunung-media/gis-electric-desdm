@@ -18,6 +18,7 @@ use App\Http\Controllers\Landing\MapController;
 use App\Http\Controllers\Landing\ProposalController;
 use App\Http\Controllers\Landing\ReportController;
 use App\Http\Controllers\Landing\StatisticVillageElectricityController;
+use App\Http\Controllers\Landing\GraphicVillageElectricityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,7 @@ use App\Http\Controllers\Landing\StatisticVillageElectricityController;
 Route::inertia('/', 'Landing/index')->name('landing');
 Route::get('/map', MapController::class)->name('map');
 Route::get('/statistic', StatisticVillageElectricityController::class)->name('statistic');
+Route::get('/graphic', GraphicVillageElectricityController::class)->name('graphic');
 Route::resource('/proposal', ProposalController::class)->only(['index', 'store', 'show']);
 Route::resource('/report', ReportController::class)->only(['index', 'store', 'show']);
 Route::resource('/development-plan', DevelopmentPlanController::class)->only(['index', 'show']);

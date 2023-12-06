@@ -12,6 +12,9 @@ export const NavbarHorizontal = () => {
                         <a className="navbar-brand brand-logo-mini" href={route('landing')}><img src={`${assets}/images/logo-kalteng.png`} alt="logo" /></a>
                     </div>
                     <div className="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+                        <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="horizontal-menu-toggle">
+                            <span className="ti-menu"></span>
+                        </button>
                     </div>
                 </div>
             </nav>
@@ -28,6 +31,12 @@ export const NavbarHorizontal = () => {
                             <a className="nav-link" href={route('map')}>
                                 <i className="icon-map menu-icon"></i>
                                 <span className="menu-title">Map</span>
+                            </a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href={route('graphic')}>
+                                <i className="fa fa-circle menu-icon"></i>
+                                <span className="menu-title">Grafik Kelistrikan Daerah</span>
                             </a>
                         </li>
                         <li className="nav-item">

@@ -17,6 +17,11 @@ class TerritoryController extends Controller
     ) {
     }
 
+    public function kaltengCity(Request $request): JsonResponse
+    {
+        return response()->json(['data' => $this->cityRepository->getCities()->toArray()]);
+    }
+
     public function villagesBorder(Request $request): JsonResponse
     {
         return response()->json(['data' => $this->villageRepository->getVillageBorders($request)->toArray()]);

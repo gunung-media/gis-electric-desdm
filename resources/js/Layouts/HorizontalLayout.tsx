@@ -6,6 +6,9 @@ import { PageProps } from "@/types";
 
 export function HorizontalLayout({ children }: PropsWithChildren) {
     const { props: { assets } } = usePage<PageProps>()
+    useScript(`${assets}/js/off-canvas.js`)
+    useScript(`${assets}/js/hoverable-collapse.js`)
+    useScript(`${assets}/js/template.js`)
     useScript(`${assets}/js/data-table.js`)
     return (
         <>

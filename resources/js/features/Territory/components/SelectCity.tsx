@@ -1,6 +1,6 @@
 import { OptionType, Select } from "@/common/components"
 import { FC, useEffect, useState } from "react"
-import { CityType, getCities } from ".."
+import { CityType, getCities, getCitiesKalteng } from ".."
 
 export const SelectCity: FC<{
     handleCityChange: (e: OptionType<CityType>) => void,
@@ -10,7 +10,7 @@ export const SelectCity: FC<{
 
     useEffect(() => {
         (async () => {
-            const { data: { data } } = await getCities()
+            const { data: { data } } = await getCitiesKalteng()
             setCities(data)
         })()
 

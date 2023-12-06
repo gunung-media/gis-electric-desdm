@@ -6,6 +6,8 @@ const PROVINCE_NAME = "Kalimantan Tengah"
 
 export const getCities = async (): Promise<AxiosResponse<{ data: CityType[] }>> => await axios.get(`${URL}/cities`, { params: { 'province_name': PROVINCE_NAME } })
 
+export const getCitiesKalteng = async (): Promise<AxiosResponse<{ data: CityType[] }>> => await axios.get(route('api.kaltengCity'))
+
 export const getCity = async (cityId: number | string): Promise<AxiosResponse<{ data: CityType }>> => await axios.get(route('api.cityInfo', { cityId: cityId }))
 
 export const getDistricts = async (cityCode: number | string): Promise<AxiosResponse<{ data: DistrictType[] }>> => await axios.get(`${URL}/districts`, { params: { 'city_code': cityCode } })
