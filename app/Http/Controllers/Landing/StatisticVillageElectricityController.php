@@ -10,7 +10,6 @@ use Inertia\Response;
 
 class StatisticVillageElectricityController extends Controller
 {
-
     public function __construct(
         protected CityRepository $cityRepository = new CityRepository()
     ) {

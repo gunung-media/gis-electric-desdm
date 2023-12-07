@@ -25,7 +25,7 @@ class VillageRepository
     {
         $query = $this->model
             ->whereRelation('province', 'indonesia_provinces.code', 62)
-            ->with(['electricity']);
+            ->with(['electricity', 'city', 'district']);
 
         return $query->get();
     }
