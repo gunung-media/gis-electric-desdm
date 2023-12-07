@@ -60,7 +60,7 @@ export default function Index({ datas }: PageProps & { datas: CityType[] }) {
                 <div className="card-body">
                     <div className="card-title d-flex justify-content-between">
                         <p>Statistik Kelistrikan Daerah</p>
-                        <a href={route('admin.village_electricity.create')} type="button" className="btn btn-primary btn-icon-text">
+                        <a href={route('statistic.export')} type="button" className="btn btn-primary btn-icon-text">
                             <i className="ti-export btn-icon-prepend"></i>
                             Export
                         </a>
