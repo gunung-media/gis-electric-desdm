@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Repositories\Proposal\ProposalRepository;
 use App\Repositories\Report\ReportRepository;
+use App\Repositories\Territory\CityRepository;
 use App\Repositories\Territory\VillageRepository;
 use App\Repositories\VillageElectricityRepository;
 use Illuminate\Http\Request;
@@ -18,6 +19,7 @@ class DashboardController extends Controller
         protected ReportRepository $reportRepository = new ReportRepository(),
         protected VillageRepository $villageRepository = new VillageRepository(),
         protected VillageElectricityRepository $villageElectricityRepository = new VillageElectricityRepository(),
+        protected CityRepository $cityRepository = new CityRepository(),
     ) {
     }
 
@@ -26,6 +28,7 @@ class DashboardController extends Controller
         $villages = $this->villageRepository->getVillages();
         $villageElectricCount = 0;
         $villageNonElectricCount = 0;
+        $cities = $this->cityRepository->getCities();
 
         foreach ($this->villageElectricityRepository->getVillageElectricitys() as  $village) {
             if ($village->electricity) $villageElectricCount += 1;
@@ -33,6 +36,7 @@ class DashboardController extends Controller
         }
 
         return Inertia::render('Dashboard', [
+            'cities' => $cities,
             'proposalCount' => $this->proposalRepository->getProposals()->count(),
             'reportCount' => $this->reportRepository->getReports()->count(),
             'villageCount' => $villages->count(),

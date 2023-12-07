@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { HorizontalLayout } from '@/layouts/HorizontalLayout'
 import './styles.scss'
 import { Head } from '@inertiajs/react'
@@ -13,7 +12,7 @@ type SeriesType = {
     name: string
     data: number[]
 }
-const generateChart = (id: string, series: SeriesType | undefined, beta: number = 15) => {
+export const generateChart = (id: string, series: SeriesType[] | undefined, beta: number = 15) => {
     return Highcharts.chart({
         chart: {
             renderTo: id,
@@ -59,6 +58,7 @@ const generateChart = (id: string, series: SeriesType | undefined, beta: number 
             shared: true,
             useHTML: true
         },
+        // @ts-ignore
         series: series
     });
 }
@@ -69,7 +69,7 @@ export default function Index({ datas, palangkaraya }: PageProps & { datas: City
     const [data, setData] = useState<{
         selectedCity: CityType | null,
         selectedDistrict: DistrictType | null,
-    }>({ selectedCity: palangkaraya, selectedDistrict: palangkaraya.districts[2] })
+    }>({ selectedCity: palangkaraya, selectedDistrict: palangkaraya.districts![2] })
 
     const [districtChart, setDistrictChart] = useState<Highcharts.Chart | undefined>(undefined)
     const [villageChart, setVillageChart] = useState<Highcharts.Chart | undefined>(undefined)
@@ -85,6 +85,7 @@ export default function Index({ datas, palangkaraya }: PageProps & { datas: City
         })
         if (districtChart) {
             districtChart.update({
+                // @ts-ignore
                 series: series
             });
         } else {
@@ -104,6 +105,7 @@ export default function Index({ datas, palangkaraya }: PageProps & { datas: City
         })
         if (villageChart) {
             villageChart.update({
+                // @ts-ignore
                 series: series
             });
         } else {
@@ -123,13 +125,13 @@ export default function Index({ datas, palangkaraya }: PageProps & { datas: City
                     <form className='forms-sample'>
                         <SelectCity
                             handleCityChange={(e) => setData((data) => ({ ...data, selectedCity: e.value }))}
-                            selectedCity={data.selectedCity.code}
+                            selectedCity={data.selectedCity!.code}
                             isGetDistricts={true}
                         />
                         <SelectDistrict
                             handleDistrictChange={(e) => setData((data) => ({ ...data, selectedDistrict: e.value }))}
                             selectedCityId={data.selectedCity?.code}
-                            selectedDistrict={data.selectedDistrict.code}
+                            selectedDistrict={data.selectedDistrict!.code}
                             isGetVillageInfo={true} />
                     </form>
                 </div>
