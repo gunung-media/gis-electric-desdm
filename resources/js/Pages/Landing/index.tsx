@@ -3,8 +3,46 @@ import './styles.scss'
 import kaltengLogo from '@/assets/images/kalteng-logo.png'
 import gubWagub from '@/assets/images/gubWagub.png'
 import kadis from '@/assets/images/kadis.png'
+import mapIcon from '@/assets/icons/landing/map.png'
+import graphicIcon from '@/assets/icons/landing/pie-chart.png'
+import statisticIcon from '@/assets/icons/landing/table.png'
+import proposalIcon from '@/assets/icons/landing/proposal.png'
+import reportIcon from '@/assets/icons/landing/report.png'
+import dpIcon from '@/assets/icons/landing/development-plan.png'
 
 export default function Landing() {
+    const menus = [
+        {
+            href: route('map'),
+            imgSrc: mapIcon,
+            title: "Peta"
+        },
+        {
+            href: route('graphic'),
+            imgSrc: graphicIcon,
+            title: "Grafik Kelistrikan"
+        },
+        {
+            href: route('statistic'),
+            imgSrc: statisticIcon,
+            title: "Statistik Kelistrikan"
+        },
+        {
+            href: route('proposal.index'),
+            imgSrc: proposalIcon,
+            title: "Usulan"
+        },
+        {
+            href: route('report.index'),
+            imgSrc: reportIcon,
+            title: "Laporan"
+        },
+        {
+            href: route('development-plan.index'),
+            imgSrc: dpIcon,
+            title: "Rencana Pembangunan"
+        },
+    ]
     return (
         <div className="bg">
             <Head title="Landing" />
@@ -15,15 +53,17 @@ export default function Landing() {
                     <div className="heading">
                         <img src={kaltengLogo} alt="Kalimantan Tengah" />
                         <h1>Si<span>lisda</span></h1>
-                        <h5>Sistem Informasi Listrik Daerah</h5>
+                        <h5>Sistem Informasi Listrik Daerah Provinsi Kalimantan Tengah</h5>
                     </div>
-                    <div className="menus">
-                        <a href={route('map')}>Peta</a>
-                        <a href={route('graphic')}>Grafik Listrik Daerah</a>
-                        <a href={route('statistic')}>Statistik Listrik Daerah</a>
-                        <a href={route('proposal.index')}>Usulan</a>
-                        <a href={route('report.index')}>Laporan</a>
-                        <a href={route('development-plan.index')}>Rencana Pembangungan</a>
+                    <div className="new-menus">
+                        {menus.map((menu) => (
+                            <a href={menu.href}>
+                                <div className="circle">
+                                    <img src={menu.imgSrc} alt={menu.title} />
+                                </div>
+                                <p>{menu.title}</p>
+                            </a>
+                        ))}
                     </div>
                 </div>
             </div>
