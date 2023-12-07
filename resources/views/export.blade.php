@@ -60,8 +60,8 @@
                 <td>{{ $pln + $nonPln }}</td>
                 <td>{{ $nonListrik }}</td>
                 <td>{{ $total }}</td>
-                <td>{{ $rePln }}</td>
-                <td>{{ $reTot }}</td>
+                <td>{{ number_format($rePln, 2) }}%</td>
+                <td>{{ number_format($reTot, 2) }}%</td>
                 <td></td>
             </tr>
         @endforeach
