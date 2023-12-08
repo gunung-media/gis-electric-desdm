@@ -15,5 +15,8 @@ export interface ProposalDTO {
     estimated_cost?: number | null
     priority: PriorityEnum
     additional_note?: string | null
+    nomor_surat_usulan?: string | null
+    perihal?: string | null
+    tgl_surat?: string | null
 }
 

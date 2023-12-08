@@ -39,6 +39,9 @@ export const ModalFormProposal: FC<{
         { title: 'Foto/Dokumen Pendukung', name: 'document_path', type: "file" },
         { title: 'Estimasi Biaya', name: 'estimated_cost', type: "number" },
         { title: 'Catatan Tambahan', name: 'additional_note', type: "textarea" },
+        { title: 'Nomor Surat Usulan,', name: 'nomor_surat_usulan', type: "text" },
+        { title: 'Perihal', name: 'perihal', type: "textarea" },
+        { title: 'Tanggal Surat', name: 'tgl_surat', type: "date" },
     ]
 
     useEffect(() => {

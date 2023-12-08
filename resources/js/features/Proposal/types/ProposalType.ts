@@ -18,6 +18,9 @@ export interface ProposalType extends CommonTableInterface {
     priority: 'Tinggi' | 'Sedang' | 'Rendah'
     additional_note: string | null
     latest_status: string
+    nomor_surat_usulan: string | null
+    perihal: string | null
+    tgl_surat: string | null
     village: VillageType
     trackings: ProposalTracking[]
 }

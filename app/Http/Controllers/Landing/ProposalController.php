@@ -43,6 +43,9 @@ class ProposalController extends Controller
             'estimated_cost' => 'nullable|integer',
             'priority' => 'required|string|in:Tinggi,Sedang,Rendah',
             'additional_note' => 'nullable|string',
+            'nomor_surat_usulan' => 'nullable|string',
+            'perihal' => 'nullable|string',
+            'tgl_surat' => 'nullable|string',
         ]);
 
         $documentPath = $request->file('document_path')->store('proposal_documents');

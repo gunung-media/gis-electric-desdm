@@ -29,6 +29,9 @@ class Proposal extends Model
         'estimated_cost',
         'priority',
         'additional_note',
+        'nomor_surat_usulan',
+        'perihal',
+        'tgl_surat',
     ];
 
     protected $appends = ["latest_status"];
@@ -44,6 +47,13 @@ class Proposal extends Model
     {
         return Attribute::make(
             get: fn ($val) => DateHelper::indonesianDate($val)
+        );
+    }
+
+    public function tglSurat(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($val) => DateHelper::indonesianDate($val ?? '')
         );
     }
 

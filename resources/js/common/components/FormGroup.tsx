@@ -7,7 +7,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic"
 export type InputType<T> = {
     title: string
     name: keyof T
-    type: 'file' | 'text' | 'number' | 'email' | 'datetime-local' | 'textarea'
+    type: 'file' | 'text' | 'number' | 'email' | 'datetime-local' | 'textarea' | 'date'
 }
 
 export const FormGroup: FC<{
