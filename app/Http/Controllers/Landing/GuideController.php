@@ -22,7 +22,8 @@ class GuideController extends Controller
 
     public function index(): Response
     {
-        return Inertia::render('Guide', [
+        Inertia::setRootView('horizontal');
+        return Inertia::render('Guide/Index', [
             'data' => $this->guideRepository->getGuide()
         ]);
     }

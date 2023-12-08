@@ -63,6 +63,12 @@ export const NavbarHorizontal = () => {
                                 <span className="menu-title">Rencana Pembangunan</span>
                             </a>
                         </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href={route('guide')}>
+                                <i className="fa fa-book menu-icon"></i>
+                                <span className="menu-title">Panduan Pengguna</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </nav>

@@ -44,7 +44,7 @@ export default function Landing() {
             title: "Rencana Pembangunan"
         },
         {
-            href: route('development-plan.index'),
+            href: route('guide'),
             imgSrc: guideIcon,
             title: "Panduan Aplikasi"
         },
