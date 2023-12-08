@@ -6,6 +6,7 @@ import { Head, router } from "@inertiajs/react"
 
 export default function Index({ datas }: PageProps & { datas: ProposalType[] }) {
     const column: string[] = [
+        'Tanggal Usulan',
         'Jenis Usulan',
         'Prioritas',
         'Nama Desa/Kelurahan',
@@ -16,10 +17,9 @@ export default function Index({ datas }: PageProps & { datas: ProposalType[] }) 
         'Alamat',
         'Deskripsi',
         'Dokumen',
-        'Tanggal Usulan',
     ]
     const dataTable = datas.map(({ id, proposal_type, full_name, identity_number, email, phone_number, village: { name: villageName }, address, description, document_path, priority, created_at }) => ({
-        id, proposal_type, priority, villageName, full_name, identity_number, email, phone_number, address, description, document_path: (<RenderDownloadBtn documentPath={document_path} />), created_at
+        id, created_at, proposal_type, priority, villageName, full_name, identity_number, email, phone_number, address, description, document_path: (<RenderDownloadBtn documentPath={document_path} />),
     }))
     return (
         <AuthenticatedLayout>
