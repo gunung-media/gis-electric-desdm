@@ -21,7 +21,7 @@ export const generateKaltengVillageLayer = async (districtId: string | number, o
 
                 let villageColor = 'white'
                 if (element.electricity)
-                    villageColor = element?.electricity?.households_with_electricity > element.electricity?.households_with_electricity_non_pln ? 'green' : 'blue'
+                    villageColor = element?.electricity?.households_with_electricity > element.electricity?.households_with_electricity_non_pln ? 'red' : 'green'
 
                 let village = L.geoJson(featureCollection, {
                     style: {
@@ -36,7 +36,7 @@ export const generateKaltengVillageLayer = async (districtId: string | number, o
 
                 village.eachLayer(function(layer) {
                     let offset = new Point(0, 0)
-                    layer.bindTooltip(element.name, { permanent: true, direction: 'center', className: 'my-labels-village', offset: offset })
+                    layer.bindTooltip(element.name, { permanent: true, direction: 'center', className: 'my-labels-district', offset: offset })
                     layer.on('click', () => {
                         if (onBorderClick)
                             onBorderClick(element)

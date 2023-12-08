@@ -32,7 +32,7 @@ export const generateKaltengDistrictLayer = async (cityId: string | number, onBo
 
                 city.eachLayer(function(layer) {
                     let offset = new Point(0, 0)
-                    layer.bindTooltip(element.name, { permanent: true, direction: 'center', className: 'my-labels-district', offset: offset })
+                    layer.bindTooltip(element.name, { permanent: true, direction: 'center', className: 'my-labels-village', offset: offset })
                     layer.on('click', () => {
                         if (onBorderClick)
                             onBorderClick(element)
