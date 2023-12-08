@@ -20,6 +20,7 @@ export const VillageElectricInfoBox: FC<{
                 title: {
                     text: ''
                 },
+                colors: ['red', 'green', '#111'],
                 plotOptions: {
                     series: {
                         allowPointSelect: true,
@@ -44,7 +45,7 @@ export const VillageElectricInfoBox: FC<{
                 series: [
                     // @ts-ignore
                     {
-                        name: 'Percentage',
+                        name: 'Total Rumah',
                         colorByPoint: true,
                         data: [
                             {
