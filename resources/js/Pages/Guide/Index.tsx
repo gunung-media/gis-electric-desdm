@@ -11,7 +11,7 @@ import { GuideType } from "@/features/Guide";
 export default function Index({ data }: PageProps & { data: GuideType }) {
     return (
         <HorizontalLayout>
-            <Head title="Rencana Pembangunan" />
+            <Head title="Panduan Pengguna" />
             <div className="row">
                 <div className="col-12 mb-3" >
                     <div className="card development-plan-bx">
