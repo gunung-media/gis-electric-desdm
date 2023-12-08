@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CitiesDistrictsSeeder::class);
         $this->call(VillagesSeeder::class);
         $this->call(IndonesianVillagesBorderSeeder::class);
+        $this->call(GuideSeeder::class);
     }
 }
