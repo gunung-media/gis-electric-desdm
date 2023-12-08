@@ -14,7 +14,7 @@ class ProposalController extends Controller
 {
     public function __construct(
         protected ProposalRepository $proposalRepository = new ProposalRepository(),
-        protected ProposalTrackingRepository $proposalTrackingRepository = new ProposalTrackingRepository()
+        protected ProposalTrackingRepository $proposalTrackingRepository = new ProposalTrackingRepository(),
     ) {
     }
 

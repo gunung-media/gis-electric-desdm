@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\Landing\GuideController;
 use App\Http\Controllers\TerritoryController;
-use App\Repositories\Territory\VillageRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,4 +27,6 @@ Route::name('api.')->group(function () {
     Route::get('/territory/district/{districtId}', [TerritoryController::class, 'districtInfo'])->name('districtInfo');
     Route::get('/territory/city/{cityId}', [TerritoryController::class, 'cityInfo'])->name('cityInfo');
     Route::get('/territory/search/{input?}', [TerritoryController::class, 'searcher'])->name('searcher');
+
+    Route::get('settings', [GuideController::class, 'api'])->name('guide');
 });
