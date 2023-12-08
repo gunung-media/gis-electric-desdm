@@ -24,8 +24,17 @@ class GuideController extends Controller
 
     public function update(Request $request, string $id): RedirectResponse
     {
+        $request->validate([
+            'file' => 'file|mimes:pdf'
+        ]);
+
+        $filePath = null;
+        if ($request->has('file')) {
+            $filePath = $request->file('file')->store('guide_documents');
+        }
+
         $payload = $request->all();
-        if (!is_null($this->guideRepository->update($id, $payload)))
+        if (!is_null($this->guideRepository->update($id, [...$payload, 'file' => $filePath])))
             return redirect(route('admin.guide.index'))->with('status', 'Sukses Mengupdate Guide');
         return redirect(route('admin.guide.index'))->withErrors(['errors' => 'Gagal Mengupdate Guide']);
     }

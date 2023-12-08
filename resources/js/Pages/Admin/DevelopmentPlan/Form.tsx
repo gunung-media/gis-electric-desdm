@@ -8,7 +8,7 @@ import { ChangeEvent, FormEventHandler, useEffect } from "react";
 
 export default function Form({ developmentPlan }: PageProps & { developmentPlan?: DevelopmentPlanType }) {
     const { errors } = usePage<PageProps>().props
-    const { data: dto, setData, post, put } = useForm<DevelopmentPlanDTO>()
+    const { data: dto, setData, post } = useForm<DevelopmentPlanDTO>()
 
     useEffect(() => {
         if (!developmentPlan) return;
@@ -24,7 +24,10 @@ export default function Form({ developmentPlan }: PageProps & { developmentPlan?
     const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault()
         if (developmentPlan) {
-            put(route('admin.development-plan.update', { development_plan: developmentPlan.id }), {
+            router.post(route('admin.development-plan.update', { development_plan: developmentPlan.id }), {
+                _method: 'put',
+                ...dto
+            }, {
                 onError: (e) => {
                     swalError(e.error)
                 },
