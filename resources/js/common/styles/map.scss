@@ -10,7 +10,7 @@
 }
 
 @mixin additional-bx($width) {
-    position: absolute;
+    position: absolute!important;
     overflow-y: scroll;
     top: 0;
     z-index: 100;
