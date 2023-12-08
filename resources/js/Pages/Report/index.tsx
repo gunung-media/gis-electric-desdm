@@ -17,7 +17,7 @@ export default function Report({ datas }: PageProps & { datas: ReportType[] }) {
     const [reportId, setReportId] = useState<number>()
 
     useEffect(() => {
-        const reportLayer = generateReportLayer(datas, (isShow, reportId) => {
+        const { clusters } = generateReportLayer(datas, (isShow, reportId) => {
             setIsShowTracking(isShow)
             setReportId(reportId)
         })
@@ -27,7 +27,7 @@ export default function Report({ datas }: PageProps & { datas: ReportType[] }) {
                 position: 'bottomleft'
             }).addTo(map)
 
-            map.addLayer(reportLayer)
+            map.addLayer(clusters)
             setIsLoading(false)
         }
 

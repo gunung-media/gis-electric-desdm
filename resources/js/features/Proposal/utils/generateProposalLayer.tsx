@@ -2,9 +2,13 @@ import L from 'leaflet'
 import { ProposalType } from '..';
 import { renderToString } from 'react-dom/server';
 import { theMarker } from '@/common/utils';
+import 'leaflet.markercluster'
+import 'leaflet.markercluster/dist/MarkerCluster.css'
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 
 export const generateProposalLayer = (datas: ProposalType[], onClick: (showTracking: boolean, proposalId: number) => void) => {
     const proposalMarker = []
+    const markers = L.markerClusterGroup();
     for (let i = 0; i < datas.length; i++) {
         const proposal = datas[i];
         const marker = theMarker(
@@ -21,7 +25,8 @@ export const generateProposalLayer = (datas: ProposalType[], onClick: (showTrack
         marker.on('click', () => {
             onClick(true, proposal.id)
         })
+        markers.addLayer(marker)
         proposalMarker.push(marker)
     }
-    return L.layerGroup(proposalMarker)
+    return { layerGroup: L.layerGroup(proposalMarker), clusters: markers }
 }

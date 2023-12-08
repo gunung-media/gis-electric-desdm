@@ -17,7 +17,7 @@ export default function Proposal({ datas }: PageProps & { datas: ProposalType[] 
     const [proposalId, setProposalId] = useState<number>()
 
     useEffect(() => {
-        const proposalLayer = generateProposalLayer(datas, (isShow, proposalId) => {
+        const { clusters } = generateProposalLayer(datas, (isShow, proposalId) => {
             setIsShowTracking(isShow)
             setProposalId(proposalId)
         })
@@ -27,7 +27,7 @@ export default function Proposal({ datas }: PageProps & { datas: ProposalType[] 
                 position: 'bottomleft'
             }).addTo(map)
 
-            map.addLayer(proposalLayer)
+            map.addLayer(clusters)
             setIsLoading(false)
         }
 

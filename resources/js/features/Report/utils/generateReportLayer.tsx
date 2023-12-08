@@ -2,9 +2,13 @@ import L from 'leaflet'
 import { ReportType } from '..';
 import { renderToString } from 'react-dom/server';
 import { theMarker } from '@/common/utils';
+import 'leaflet.markercluster'
+import 'leaflet.markercluster/dist/MarkerCluster.css'
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 
 export const generateReportLayer = (datas: ReportType[], onClick: (showTracking: boolean, reportId: number) => void) => {
     const reportMarker = []
+    const markers = L.markerClusterGroup();
     for (let i = 0; i < datas.length; i++) {
         const report = datas[i];
         const marker = theMarker(
@@ -21,7 +25,8 @@ export const generateReportLayer = (datas: ReportType[], onClick: (showTracking:
         marker.on('click', () => {
             onClick(true, report.id)
         })
+        markers.addLayer(marker)
         reportMarker.push(marker)
     }
-    return L.layerGroup(reportMarker)
+    return { layerGroup: L.layerGroup(reportMarker), clusters: markers }
 }

@@ -13,10 +13,10 @@ export const initMap = (mapId: string) => {
 
 export const useMap = (mapId: string = "map") => {
     const [map, setMap] = useState<Map>()
-
     useEffect(() => {
         const mapRef = initMap(mapId)
         setMap(mapRef)
+        L.control.scale().addTo(mapRef);
 
         return () => {
             mapRef.remove()
