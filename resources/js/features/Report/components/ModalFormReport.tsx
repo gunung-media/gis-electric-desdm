@@ -46,18 +46,14 @@ export const ModalFormReport: FC<{
             latitude: latLang.latitude,
             longitude: latLang.longitude
         }))
-    }, [latLang])
 
-    useEffect(() => {
         if (map) {
             const curLatLang = (latLang ? [Number(latLang.latitude), Number(latLang.longitude)] : latLangKalteng) as L.LatLngExpression
             const marker = L.marker(curLatLang, {
                 draggable: true,
                 icon: electricIcon
             }).addTo(map);
-            setTimeout(() => {
-                map.setView(curLatLang)
-            }, 500)
+            map.setView([Number(latLang.latitude), Number(latLang.longitude)])
 
             marker.on('dragend', function() {
                 const position = marker.getLatLng();
@@ -78,7 +74,7 @@ export const ModalFormReport: FC<{
             }
         }
 
-    }, [map])
+    }, [latLang])
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement> | string | ChangeEvent<FormControlElement>) => {
         if (typeof e !== 'string') {
