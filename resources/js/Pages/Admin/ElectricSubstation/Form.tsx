@@ -4,7 +4,7 @@ import L from "leaflet"
 import { FormGroup, Input, InputError, OptionType } from "@/common/components"
 import latLangKalteng from "@/common/constants/latLangKalteng"
 import { DistrictType, CityType, SelectCity, SelectDistrict } from "@/features/Territory"
-import { Head, useForm, usePage } from "@inertiajs/react"
+import { Head, router, useForm, usePage } from "@inertiajs/react"
 import { ElectricSubstationDTO, ElectricSubstationType } from "@/features/ElectricSubstation"
 import { PageProps } from "@/types"
 import { useMap } from "@/common/hooks"
@@ -140,7 +140,7 @@ export default function Form({ electricSubstation }: PageProps & { electricSubst
                                 <Input title="longitude" value={dto.longitude} onChange={(e) => handleLatLangChange('longitude', e.target.value)} />
                                 <InputError message={errors.longitude} />
                                 <button type="submit" className="btn btn-primary me-2">Submit</button>
-                                <button type="button" className="btn btn-light">Cancel</button>
+                                <button type="button" className="btn btn-light" onClick={() => router.visit(route('admin.gardu_listrik.index'))}>Cancel</button>
                             </form>
                         </div>
                     </div>
