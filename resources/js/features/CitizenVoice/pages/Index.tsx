@@ -15,14 +15,17 @@ type CitizenVoice = {
     datas: (ProposalType | ReportType)[],
     isProposal?: boolean,
     additionalFields: InputType<ProposalDTO>[] | InputType<ReportDTO>[],
-    title: string
+    title: string,
+    showAdd?: boolean,
+    showForm?: boolean,
+    showTrack?: boolean
 }
 
-export default function CitizenVoicePage({ datas, title, isProposal = false, additionalFields }: CitizenVoice) {
+export default function CitizenVoicePage({ datas, title, isProposal = false, additionalFields, showAdd = true, showForm = true, showTrack = false }: CitizenVoice) {
     const { map } = useMap()
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [isShowTracking, setIsShowTracking] = useState<boolean>(false)
-    const [isShowAdd, setIsShowAdd] = useState<boolean>(true)
+    const [isShowAdd, setIsShowAdd] = useState<boolean>(showAdd)
     const [idClicked, setIdClocked] = useState<number>()
     const saveRoute = isProposal ? route('proposal.store') : route('report.store')
 
@@ -51,26 +54,32 @@ export default function CitizenVoicePage({ datas, title, isProposal = false, add
             <div className="header">
                 <div className="header-box" onClick={() => router.visit(route('landing'))}><span>Si</span>lisda <span>{title.toLowerCase()}</span></div>
                 <div className="header-actions">
-                    <button onClick={() => setIsShowAdd(true)}>
-                        <CreateBtn />
-                    </button>
+                    {showAdd && (
+                        <button onClick={() => setIsShowAdd(true)}>
+                            <CreateBtn />
+                        </button>
+                    )}
                 </div>
             </div>
 
-            <ModalFormAddCitizenVoice
-                isShow={isShowAdd}
-                onClose={() => setIsShowAdd(false)}
-                additionalFields={additionalFields}
-                title={title}
-                route={saveRoute}
-                isProposal={isProposal}
-            />
+            {showAdd && (
+                <ModalFormAddCitizenVoice
+                    isShow={isShowAdd}
+                    onClose={() => setIsShowAdd(false)}
+                    additionalFields={additionalFields}
+                    title={title}
+                    route={saveRoute}
+                    isProposal={isProposal}
+                />
+            )}
 
             <CitizenVoiceTrackingBox
                 isShow={isShowTracking}
                 onClose={() => setIsShowTracking(false)}
                 theId={idClicked}
                 isProposal={isProposal}
+                isShowForm={showForm}
+                isShowTracking={showTrack}
             />
 
             <ContactUs />

@@ -22,6 +22,7 @@ use App\Http\Controllers\Landing\StatisticVillageElectricityController;
 use App\Http\Controllers\Landing\StatisticVillageExportController;
 use App\Http\Controllers\Landing\GraphicVillageElectricityController;
 use App\Http\Controllers\Landing\GuideController;
+use App\Http\Controllers\TrackingViewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,7 @@ use App\Http\Controllers\Landing\GuideController;
 Route::inertia('/', 'Landing/index')->name('landing');
 Route::get('/map', MapController::class)->name('map');
 Route::get('/statistic', StatisticVillageElectricityController::class)->name('statistic');
+Route::get('/tracking', TrackingViewController::class)->name('tracking');
 Route::get('/statistic/export', StatisticVillageExportController::class)->name('statistic.export');
 Route::get('/graphic', GraphicVillageElectricityController::class)->name('graphic');
 Route::get('/guide', [GuideController::class, 'index'])->name('guide');

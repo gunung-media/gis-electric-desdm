@@ -8,6 +8,7 @@ import graphicIcon from '@/assets/icons/landing/pie-chart.png'
 import statisticIcon from '@/assets/icons/landing/table.png'
 import proposalIcon from '@/assets/icons/landing/proposal.png'
 import reportIcon from '@/assets/icons/landing/report.png'
+import trackingIcon from '@/assets/icons/landing/tracking.png'
 import dpIcon from '@/assets/icons/landing/development-plan.png'
 import guideIcon from '@/assets/icons/landing/workshop.png'
 
@@ -37,6 +38,11 @@ export default function Landing() {
             href: route('report.index'),
             imgSrc: reportIcon,
             title: "Laporan"
+        },
+        {
+            href: route('tracking'),
+            imgSrc: trackingIcon,
+            title: "Tracking Usulan dan Laporan"
         },
         {
             href: route('development-plan.index'),

@@ -19,7 +19,8 @@ export const generateTheLayer = (datas: (ProposalType | ReportType)[], onClick: 
         )
         marker.bindPopup(renderToString(
             <>
-                <h5>{isProposalType(data) ? data.proposal_type : data.report_type} </h5>
+                <h2>{isProposalType(data) ? 'Usulan' : 'Laporan'}</h2>
+                <h5>{isProposalType(data) ? data.proposal_type : data.report_type}</h5>
                 <p> {data.created_at} </p>
             </>
         ))
