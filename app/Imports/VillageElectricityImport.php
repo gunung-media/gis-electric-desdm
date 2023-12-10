@@ -28,7 +28,8 @@ class VillageElectricityImport implements ToCollection, WithHeadingRow
     {
         foreach ($rows as $row) {
             $village = Village::whereRelation('province', 'indonesia_provinces.code', 62)
-                ->where('name', 'like', "%{$row['nama_desa']}%")
+                ->where('name', "{$row['nama_desa']}")
+                // ->where('name', 'like', "%{$row['nama_desa']}%")
                 ->first();
 
             if (is_null($village)) continue;
