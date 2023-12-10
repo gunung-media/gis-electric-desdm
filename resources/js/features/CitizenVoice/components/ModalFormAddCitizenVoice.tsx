@@ -5,39 +5,37 @@ import { SelectVillage } from '@/features/Territory/components/SelectVillage'
 import { electricIcon, enumToStringArray, swalError, swalSuccess } from '@/common/utils'
 import { PriorityEnum } from '@/common/enums'
 import { FormControlElement, PageProps } from "@/types"
-import { ReportDTO } from ".."
 import { FormGroup, InputType, OptionalSelect, InputError, OptionType } from '@/common/components';
 import { useForm, usePage } from "@inertiajs/react"
-import { initMap, useGetLocation, useMap } from "@/common/hooks"
+import { useGetLocation, useMap } from "@/common/hooks"
 import { CityType, DistrictType, SelectCity, SelectDistrict, VillageType } from "@/features/Territory"
-import latLangKalteng from '@/common/constants/latLangKalteng'
 import L from 'leaflet'
+import latLangKalteng from '@/common/constants/latLangKalteng'
+import { ProposalDTO } from '@/features/Proposal'
+import { ReportDTO } from '@/features/Report'
 
-export const ModalFormReport: FC<{
+export const ModalFormAddCitizenVoice: FC<{
     isShow: boolean,
     onClose: () => void,
-}> = ({ isShow, onClose }) => {
+    additionalFields: InputType<ProposalDTO>[] | InputType<ReportDTO>[],
+    route: string,
+    title: string
+    isProposal: boolean
+}> = ({ isShow, onClose, additionalFields, route, title, isProposal }) => {
     const { errors } = usePage<PageProps>().props
     const [cityCode, setCityCode] = useState<string | number>()
     const [districtCode, setDistrictCode] = useState<string | number>()
     const [villageCode, setVillageCode] = useState<string | number>()
-    const { data, setData, post } = useForm<ReportDTO>()
+    const { data, setData, post } = useForm<ProposalDTO | ReportDTO>()
     const { map, setMap } = useMap('map-picker')
     const { latLang, setLatLang } = useGetLocation()
     const [marker, setMarker] = useState<L.Marker>()
 
-    const identityReport: InputType<ReportDTO>[] = [
+    const identityProposal: InputType<ProposalDTO | ReportDTO>[] = [
         { title: 'Nama Lengkap', name: 'full_name', type: "text" },
         { title: 'Nomor Identitas', name: 'identity_number', type: "text" },
         { title: 'Email', name: 'email', type: 'email' },
         { title: 'Nomor Telepon', name: 'phone_number', type: 'number' },
-    ]
-
-    const additionalFields: InputType<ReportDTO>[] = [
-        { title: 'Alamat', name: 'address', type: 'text' },
-        { title: 'Waktu Kejadian', name: 'date_happen', type: "datetime-local" },
-        { title: 'Deskripsi Laporan', name: 'description', type: "textarea" },
-        { title: 'Foto/Dokumen Pendukung', name: 'document_path', type: "file" },
     ]
 
     useEffect(() => {
@@ -73,7 +71,6 @@ export const ModalFormReport: FC<{
                 marker.remove()
             }
         }
-
     }, [latLang])
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement> | string | ChangeEvent<FormControlElement>) => {
@@ -101,9 +98,9 @@ export const ModalFormReport: FC<{
 
     const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault()
-        post(route('report.store'), {
+        post(route, {
             onSuccess: () => {
-                swalSuccess('Sukses menambah laporan')
+                swalSuccess(`Sukses menambah ${title}`)
                 onClose()
             },
             onError: (e) => swalError(e.error),
@@ -141,23 +138,22 @@ export const ModalFormReport: FC<{
                 fullscreen={true}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Tambah Laporan</Modal.Title>
+                    <Modal.Title>Tambah {title}</Modal.Title>
                 </Modal.Header>
                 <Form onSubmit={handleSubmit}>
                     <Modal.Body>
                         <Container>
                             <Row>
-
                                 <Col>
                                     <div id="map-picker" style={{ height: "95%" }}></div>
                                 </Col>
                                 <Col>
-                                    {identityReport.map((val, i) => (
+                                    {identityProposal.map((val, i) => (
                                         <FormGroup
                                             key={i}
                                             title={val.title}
                                             type={val.type}
-                                            onChange={(e) => handleInputChange(e)}
+                                            onChange={handleInputChange}
                                             name={val.name}
                                             errorMsg={errors[val.name]}
                                         />
@@ -182,12 +178,27 @@ export const ModalFormReport: FC<{
                                     />
                                 </Col>
                                 <Col>
-                                    <OptionalSelect
-                                        title='Jenis Laporan'
-                                        defaultChoice={['Mati Lampu Total', 'Mati Lampu Parsial', 'Kabel Jatuh', 'Tiang Listrik Rusak', 'Gangguan Alat Ukur (Meteran)', 'Lainnya']}
-                                        onSelected={(val) => setData('report_type', val)}
-                                    />
-                                    <InputError message={errors.report_type} />
+                                    {isProposal ? (
+                                        <>
+                                            <OptionalSelect
+                                                title='Jenis Usulan'
+                                                defaultChoice={['Instalasi Jaringan Baru', 'Penambahan Jaringan Eksisting', 'Peningkatan Kapasitas Jaringan', 'Lainnya']}
+                                                // @ts-ignore
+                                                onSelected={(val) => setData('proposal_type', val)}
+                                            />
+                                            <InputError message={errors.proposal_type} />
+                                        </>
+                                    ) : (
+                                        <>
+                                            <OptionalSelect
+                                                title='Jenis Laporan'
+                                                defaultChoice={['Mati Lampu Total', 'Mati Lampu Parsial', 'Kabel Jatuh', 'Tiang Listrik Rusak', 'Gangguan Alat Ukur (Meteran)', 'Lainnya']}
+                                                // @ts-ignore
+                                                onSelected={(val) => setData('report_type', val)}
+                                            />
+                                            <InputError message={errors.report_type} />
+                                        </>
+                                    )}
 
                                     {additionalFields.map((val, i) => (
                                         <FormGroup
