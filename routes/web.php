@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Landing\PeriodicReportController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\AuthenticateController;
@@ -13,7 +14,8 @@ use App\Http\Controllers\Admin\ReportTrackingController;
 use App\Http\Controllers\Admin\DevelopmentPlanController as AdminDevelopmentPlanController;
 use App\Http\Controllers\Admin\VillageElectricityController as AdminVillageElectricityController;
 use App\Http\Controllers\Admin\GuideController as AdminGuideController;
-
+use App\Http\Controllers\Landing\BpblProposalController;
+use App\Http\Controllers\Landing\BusinessReportController;
 use App\Http\Controllers\Landing\DevelopmentPlanController;
 use App\Http\Controllers\Landing\MapController;
 use App\Http\Controllers\Landing\ProposalController;
@@ -40,6 +42,10 @@ Route::get('/guide', [GuideController::class, 'index'])->name('guide');
 Route::resource('/proposal', ProposalController::class)->only(['index', 'store', 'show']);
 Route::resource('/report', ReportController::class)->only(['index', 'store', 'show']);
 Route::resource('/development-plan', DevelopmentPlanController::class)->only(['index', 'show']);
+
+Route::resource('/bpbl-proposal', BpblProposalController::class)->only(['index', 'store', 'show']);
+Route::resource('/business-report', BusinessReportController::class)->only(['index', 'store', 'show']);
+Route::resource('/periodic-report', PeriodicReportController::class)->only(['index', 'store', 'show']);
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthenticateController::class, 'create'])->name('login');

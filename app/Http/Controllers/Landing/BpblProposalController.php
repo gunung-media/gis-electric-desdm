@@ -58,7 +58,7 @@ class BpblProposalController extends Controller
                     'letter_path' => $letterPath,
                 ]
             );
-            return redirect(route('proposal.index'))->with('status', 'Sukses Menambah usulan');
+            return redirect(route('bpbl-proposal.index'))->with('status', 'Sukses Menambah usulan');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));
             return back()->withErrors(['error' => 'Gagal menambah usulan']);

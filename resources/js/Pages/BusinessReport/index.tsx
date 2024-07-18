@@ -22,7 +22,7 @@ export default function Proposal({ datas }: PageProps & { datas: BusinessReportT
                 datas={datas}
                 title="Laporan Usaha Penyediaan Tenaga Listrik Untuk Kepentingan Sendiri Sampai Dengan 500 kW"
                 additionalFields={additionalFields}
-                overrideRoute={route('businessReport.store')}
+                overrideRoute={route('business-report.store')}
             />
         </>
     )

@@ -59,7 +59,7 @@ class PeriodicReportController extends Controller
                     'periodic_path' => $periodicPath,
                 ]
             );
-            return redirect(route('periodicReport.index'))->with('status', 'Sukses Menambah Laporan');
+            return redirect(route('periodic-report.index'))->with('status', 'Sukses Menambah Laporan');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));
             return back()->withErrors(['error' => 'Gagal menambah Laporan']);

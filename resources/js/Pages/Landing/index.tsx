@@ -46,17 +46,17 @@ export default function Landing() {
             title: "Laporan"
         },
         {
-            href: route('proposal.index'),
+            href: route('bpbl-proposal.index'),
             imgSrc: proposalIcon,
             title: "Usulan BPBL "
         },
         {
-            href: route('proposal.index'),
+            href: route('business-report.index'),
             imgSrc: proposalIcon,
             title: "Laporan Usaha Kepentingan Sendiri "
         },
         {
-            href: route('proposal.index'),
+            href: route('periodic-report.index'),
             imgSrc: proposalIcon,
             title: "Laporan Berkala"
         },

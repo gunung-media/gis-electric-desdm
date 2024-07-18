@@ -18,7 +18,7 @@ export default function Proposal({ datas }: PageProps & { datas: PeriodicReportT
                 datas={datas}
                 title="Layanan Pembinaan dan Pengawasan (Laporan Berkala)"
                 additionalFields={additionalFields}
-                overrideRoute={route('periodicReport.store')}
+                overrideRoute={route('periodic-report.store')}
             />
         </>
     )

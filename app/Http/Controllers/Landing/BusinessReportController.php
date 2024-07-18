@@ -68,7 +68,7 @@ class BusinessReportController extends Controller
                     'bap_path' => $bapPath,
                 ]
             );
-            return redirect(route('businessReport.index'))->with('status', 'Sukses Menambah Usulan');
+            return redirect(route('business-report.index'))->with('status', 'Sukses Menambah Usulan');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));
             return back()->withErrors(['error' => 'Gagal menambah Usulan']);
