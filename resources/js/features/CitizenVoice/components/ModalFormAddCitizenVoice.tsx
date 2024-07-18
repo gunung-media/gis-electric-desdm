@@ -17,7 +17,7 @@ import { ReportDTO } from '@/features/Report'
 export const ModalFormAddCitizenVoice: FC<{
     isShow: boolean,
     onClose: () => void,
-    additionalFields: InputType<ProposalDTO>[] | InputType<ReportDTO>[],
+    additionalFields: InputType<ProposalDTO>[] | InputType<ReportDTO>[] | InputType<BpblProposalDTO>[] | InputType<BusinessReportDTO>[] | InputType<PeriodicReportDTO>[],
     route: string,
     title: string
     isProposal: boolean
@@ -53,7 +53,7 @@ export const ModalFormAddCitizenVoice: FC<{
             }).addTo(map);
             map.setView([Number(latLang.latitude), Number(latLang.longitude)])
 
-            marker.on('dragend', function() {
+            marker.on('dragend', function () {
                 const position = marker.getLatLng();
                 setLatLang({
                     latitude: position.lat.toString(),

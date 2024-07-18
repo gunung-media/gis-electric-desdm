@@ -10,24 +10,28 @@ import { ProposalType, ProposalDTO } from '@/features/Proposal'
 import { ReportDTO, ReportType } from '@/features/Report';
 import { generateTheLayer } from '../utils/generateTheLayer';
 import { CitizenVoiceTrackingBox, ModalFormAddCitizenVoice } from '../components';
+import { BpblProposalDTO, BpblProposalType } from '@/features/BpblProposal';
+import { BusinessReportDTO, BusinessReportType } from '@/features/BusinessReport';
+import { PeriodicReportDTO, PeriodicReportType } from '@/features/PeriodicReport';
 
 type CitizenVoice = {
-    datas: (ProposalType | ReportType)[],
+    datas: (ProposalType | ReportType | BpblProposalType | BusinessReportType | PeriodicReportType)[],
     isProposal?: boolean,
-    additionalFields: InputType<ProposalDTO>[] | InputType<ReportDTO>[],
+    additionalFields: InputType<ProposalDTO>[] | InputType<ReportDTO>[] | InputType<BpblProposalDTO>[] | InputType<BusinessReportDTO>[] | InputType<PeriodicReportDTO>[],
     title: string,
     showAdd?: boolean,
     showForm?: boolean,
-    showTrack?: boolean
+    showTrack?: boolean,
+    overrideRoute?: string,
 }
 
-export default function CitizenVoicePage({ datas, title, isProposal = false, additionalFields, showAdd = true, showForm = true, showTrack = false }: CitizenVoice) {
+export default function CitizenVoicePage({ datas, title, isProposal = false, additionalFields, showAdd = true, showForm = true, showTrack = false, overrideRoute }: CitizenVoice) {
     const { map } = useMap()
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [isShowTracking, setIsShowTracking] = useState<boolean>(false)
     const [isShowAdd, setIsShowAdd] = useState<boolean>(showAdd)
     const [idClicked, setIdClocked] = useState<number>()
-    const saveRoute = isProposal ? route('proposal.store') : route('report.store')
+    const saveRoute = !overrideRoute ? (isProposal ? route('proposal.store') : route('report.store')) : overrideRoute
 
     useEffect(() => {
         const { clusters } = generateTheLayer(datas, (isShow, theId) => {

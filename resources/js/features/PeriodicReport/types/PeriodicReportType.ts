@@ -2,7 +2,7 @@ import { CommonTableInterface } from "@/common/interface/CommonTableInterface"
 import { VillageType } from "@/features/Territory"
 import { ProposalTracking } from "./ProposalTrackingType"
 
-export interface BpblProposalType extends CommonTableInterface {
+export interface PeriodicReportType extends CommonTableInterface {
     name: string
     type: string
     nib: string
@@ -15,7 +15,7 @@ export interface BpblProposalType extends CommonTableInterface {
     latitude: string | null
     longitude: string | null
     description: string | null
-    report_path: string | null
+    sk_path: string | null
     certificate_path: string | null
     condition_path: string | null
     periodic_path: string | null

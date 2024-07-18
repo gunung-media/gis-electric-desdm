@@ -20,5 +20,6 @@ export interface BusinessReportType extends CommonTableInterface {
     diagram_path: string | null
     location_path: string | null
     specification_path: string | null
+    bap_path: string | null
     village: VillageType
 }

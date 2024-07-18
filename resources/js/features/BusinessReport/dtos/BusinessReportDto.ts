@@ -16,5 +16,6 @@ export interface BusinessReportDTO {
     diagram_path: File
     location_path: File
     specification_path: File
+    bap_path: File
 }
 

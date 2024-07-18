@@ -14,6 +14,7 @@ export interface BpblProposalType extends CommonTableInterface {
     description: string | null
     statement_path: string | null
     ktp_path: string | null
+    house_path: string | null
     nearest_path: string | null
     letter_path: string | null
     village: VillageType

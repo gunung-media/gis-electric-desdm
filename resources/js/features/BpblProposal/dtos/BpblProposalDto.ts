@@ -10,6 +10,7 @@ export interface BpblProposalDTO {
     description?: string | null
     statement_path: File
     ktp_path: File
+    house_path: File
     nearest_path: File
     letter_path: File
 }

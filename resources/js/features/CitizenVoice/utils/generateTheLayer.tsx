@@ -7,8 +7,11 @@ import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 import { ProposalType } from '@/features/Proposal';
 import { ReportType } from '@/features/Report';
 import { isProposalType } from '.';
+import { BpblProposalType } from '@/features/BpblProposal';
+import { BusinessReportType } from '@/features/BusinessReport';
+import { PeriodicReportType } from '@/features/PeriodicReport';
 
-export const generateTheLayer = (datas: (ProposalType | ReportType)[], onClick: (showTracking: boolean, theId: number) => void) => {
+export const generateTheLayer = (datas: (ProposalType | ReportType | BpblProposalType | BusinessReportType | PeriodicReportType)[], onClick: (showTracking: boolean, theId: number) => void) => {
     const markerArray = []
     const markers = L.markerClusterGroup();
     for (let i = 0; i < datas.length; i++) {
@@ -20,7 +23,7 @@ export const generateTheLayer = (datas: (ProposalType | ReportType)[], onClick: 
         marker.bindPopup(renderToString(
             <>
                 <h2>{isProposalType(data) ? 'Usulan' : 'Laporan'}</h2>
-                <h5>{isProposalType(data) ? data.proposal_type : data.report_type}</h5>
+                <h5>{isProposalType(data) ? data.proposal_type : data.description}</h5>
                 <p> {data.created_at} </p>
             </>
         ))
