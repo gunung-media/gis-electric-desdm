@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\PeriodicReport;
 
 use App\Models\Territory\Village;
 use App\utils\DateHelper;
