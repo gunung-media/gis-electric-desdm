@@ -11,6 +11,7 @@ import reportIcon from '@/assets/icons/landing/report.png'
 import trackingIcon from '@/assets/icons/landing/tracking.png'
 import dpIcon from '@/assets/icons/landing/development-plan.png'
 import guideIcon from '@/assets/icons/landing/workshop.png'
+import { Tooltip } from "react-bootstrap"
 
 export default function Landing() {
     const menus = [
@@ -30,6 +31,11 @@ export default function Landing() {
             title: "Statistik Kelistrikan"
         },
         {
+            href: route('tracking'),
+            imgSrc: trackingIcon,
+            title: "Tracking Usulan dan Laporan"
+        },
+        {
             href: route('proposal.index'),
             imgSrc: proposalIcon,
             title: "Usulan"
@@ -40,9 +46,19 @@ export default function Landing() {
             title: "Laporan"
         },
         {
-            href: route('tracking'),
-            imgSrc: trackingIcon,
-            title: "Tracking Usulan dan Laporan"
+            href: route('proposal.index'),
+            imgSrc: proposalIcon,
+            title: "Usulan BPBL "
+        },
+        {
+            href: route('proposal.index'),
+            imgSrc: proposalIcon,
+            title: "Laporan Usaha Kepentingan Sendiri "
+        },
+        {
+            href: route('proposal.index'),
+            imgSrc: proposalIcon,
+            title: "Laporan Berkala"
         },
         {
             href: route('development-plan.index'),
@@ -64,7 +80,7 @@ export default function Landing() {
                 <div className="landing-container">
                     <div className="heading">
                         <img src={kaltengLogo} alt="Kalimantan Tengah" />
-                        <h1>Si<span>lisda</span><i>Versi 1.4</i></h1>
+                        <h1>Si<span>lisda</span><i>Versi 2.0-demo</i></h1>
                         <h5>Sistem Informasi Listrik Daerah Provinsi Kalimantan Tengah</h5>
                     </div>
                     <div className="new-menus">
