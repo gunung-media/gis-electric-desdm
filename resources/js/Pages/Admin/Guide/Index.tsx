@@ -7,23 +7,25 @@ import { PageProps } from "@/types";
 import { Head, router, useForm, usePage } from "@inertiajs/react";
 import { useEffect, FormEventHandler, ChangeEvent, useState } from "react";
 
-export default function Index({ data }: PageProps & { data: GuideType }) {
+export default function Index({ data }: PageProps & { data?: GuideType }) {
     const { errors } = usePage<PageProps>().props
     const { data: dto, setData } = useForm<GuideDTO>()
     const [prevFileUrl, setPrevFileUrl] = useState<string | null>()
 
     useEffect(() => {
-        const { file, ...other } = data
-        setPrevFileUrl(file)
-        console.log(file)
-        setData(_ => ({
-            ...other,
-        }))
+        if (data) {
+            const { file, ...other } = data
+            setPrevFileUrl(file)
+            console.log(file)
+            setData(_ => ({
+                ...other,
+            }))
+        }
     }, [data])
 
     const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault()
-        router.post(route('admin.guide.update', { guide: data.id }), {
+        router.post(route('admin.guide.update', { guide: data?.id ?? null }), {
             _method: 'put',
             ...dto
         }, {
@@ -45,7 +47,7 @@ export default function Index({ data }: PageProps & { data: GuideType }) {
                         <div className="card">
                             <div className="card-body">
                                 <h4 className="card-title">Rencana Pembangunan Form</h4>
-                                <p>Last update: {dateFormat(data.updated_at ?? "")}</p>
+                                <p>Last update: {dateFormat(data?.updated_at)}</p>
                                 <InputError message={errors.error} />
                                 <form className="forms-sample" onSubmit={handleSubmit}>
                                     <InputError message={errors.status} />
@@ -55,7 +57,7 @@ export default function Index({ data }: PageProps & { data: GuideType }) {
                                         errorMsg={errors.sambutan_kadis}
                                         type="textarea"
                                         onChange={(e) => setData('sambutan_kadis', e as string)}
-                                        value={dto.sambutan_kadis ?? ''}
+                                        value={dto?.sambutan_kadis ?? ''}
                                     />
                                     <FormGroup
                                         title="File"
@@ -73,7 +75,7 @@ export default function Index({ data }: PageProps & { data: GuideType }) {
                                         errorMsg={errors.url_video}
                                         type="text"
                                         onChange={(e) => setData('url_video', (e as ChangeEvent<HTMLInputElement>).target.value)}
-                                        value={dto.url_video ?? ''}
+                                        value={dto?.url_video ?? ''}
                                     />
                                     <FormGroup
                                         title="Deskripsi"
@@ -81,7 +83,7 @@ export default function Index({ data }: PageProps & { data: GuideType }) {
                                         errorMsg={errors.description}
                                         type="textarea"
                                         onChange={(e) => setData('description', e as string)}
-                                        value={dto.description ?? ''}
+                                        value={dto?.description ?? ''}
                                     />
                                     <FormGroup
                                         title="NO WA"
@@ -89,7 +91,7 @@ export default function Index({ data }: PageProps & { data: GuideType }) {
                                         errorMsg={errors.no_wa}
                                         type="number"
                                         onChange={(e) => setData('no_wa', (e as ChangeEvent<HTMLInputElement>).target.value)}
-                                        value={dto.no_wa ?? ''}
+                                        value={dto?.no_wa ?? ''}
                                     />
                                     <button type="submit" className="btn btn-primary me-2">Submit</button>
                                 </form>
