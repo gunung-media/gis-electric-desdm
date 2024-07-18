@@ -27,10 +27,18 @@ export const Sidebar = () => {
                         <span className="menu-title">Usulan</span>
                     </a>
                 </li>
+
                 <li className="nav-item">
                     <a className="nav-link" href={route('admin.report.index')}>
                         <i className="fa fa-warning menu-icon"></i>
                         <span className="menu-title">Laporan</span>
+                    </a>
+                </li>
+
+                <li className="nav-item">
+                    <a className="nav-link" href={route('admin.bpbl-proposal.index')}>
+                        <i className="fa fa-globe menu-icon"></i>
+                        <span className="menu-title">Usulan BPBL</span>
                     </a>
                 </li>
                 <li className="nav-item">

@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\AuthenticateController;
 
 use App\Http\Controllers\Admin\ElectricSubstationController;
 use App\Http\Controllers\Admin\ProposalController as AdminProposalController;
+use App\Http\Controllers\Admin\BpblProposalController as AdminBpblProposalController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\Admin\ProposalTrackingController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -69,6 +70,8 @@ Route::middleware('auth')->group(function () {
         Route::name('report.')->prefix('report/{reportId}')->group(function () {
             Route::resource('tracking', ReportTrackingController::class)->except(['index', 'show']);
         });
+
+        Route::resource('bpbl-proposal', AdminBpblProposalController::class)->only(['index', 'show', 'destroy']);
 
         Route::resource('development-plan', AdminDevelopmentPlanController::class)->except(['show']);
         Route::resource('village_electricity', AdminVillageElectricityController::class)->except(['show']);

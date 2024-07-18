@@ -13,6 +13,9 @@ import L from 'leaflet'
 import latLangKalteng from '@/common/constants/latLangKalteng'
 import { ProposalDTO } from '@/features/Proposal'
 import { ReportDTO } from '@/features/Report'
+import { BpblProposalDTO } from '@/features/BpblProposal'
+import { BusinessReportDTO } from '@/features/BusinessReport'
+import { PeriodicReportDTO } from '@/features/PeriodicReport'
 
 export const ModalFormAddCitizenVoice: FC<{
     isShow: boolean,
@@ -206,8 +209,8 @@ export const ModalFormAddCitizenVoice: FC<{
                                             title={val.title}
                                             type={val.type}
                                             onChange={handleInputChange}
-                                            name={val.name}
-                                            errorMsg={errors[val.name]}
+                                            name={val.name as string}
+                                            errorMsg={errors[val.name as string]}
                                         />
                                     ))}
 
