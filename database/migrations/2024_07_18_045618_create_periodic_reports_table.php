@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
             $table->string('description')->nullable();
+            $table->enum('report_type', ['IUPTLS', 'IUPTLU', 'IUJPTL'])->default('IUPTLS');
             $table->string('sk_path')->nullable();
             $table->string('certificate_path')->nullable();
             $table->string('condition_path')->nullable();
