@@ -20,6 +20,8 @@ export default function Proposal({ datas }: PageProps & { datas: BpblProposalTyp
                 title="Tambah Usulan BPBL (Bantuan Pasang Baru Listrik)"
                 additionalFields={additionalFields}
                 overrideRoute={route('bpbl-proposal.store')}
+                isWithJenisLaporan={false}
+                isWithPriority={false}
             />
         </>
     )

@@ -23,9 +23,15 @@ type CitizenVoice = {
     showForm?: boolean,
     showTrack?: boolean,
     overrideRoute?: string,
+    isWithJenisLaporan?: boolean,
+    isWithPriority?: boolean,
+    overrideIdentityProposal?: InputType<ProposalDTO | ReportDTO>[] | InputType<BpblProposalDTO>[] | InputType<BusinessReportDTO>[] | InputType<PeriodicReportDTO>[]
 }
 
-export default function CitizenVoicePage({ datas, title, isProposal = false, additionalFields, showAdd = true, showForm = true, showTrack = false, overrideRoute }: CitizenVoice) {
+export default function CitizenVoicePage(
+    {
+        datas, title, isProposal = false, additionalFields, showAdd = true, showForm = true, showTrack = false, overrideRoute, isWithJenisLaporan = true, isWithPriority = true, overrideIdentityProposal
+    }: CitizenVoice) {
     const { map } = useMap()
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [isShowTracking, setIsShowTracking] = useState<boolean>(false)
@@ -74,6 +80,9 @@ export default function CitizenVoicePage({ datas, title, isProposal = false, add
                     title={title}
                     route={saveRoute}
                     isProposal={isProposal}
+                    isWithJenisLaporan={isWithJenisLaporan}
+                    isWithPriority={isWithPriority}
+                    overrideIdentityProposal={overrideIdentityProposal}
                 />
             )}
 

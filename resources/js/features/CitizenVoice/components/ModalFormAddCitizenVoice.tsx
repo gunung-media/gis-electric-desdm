@@ -23,8 +23,11 @@ export const ModalFormAddCitizenVoice: FC<{
     additionalFields: InputType<ProposalDTO>[] | InputType<ReportDTO>[] | InputType<BpblProposalDTO>[] | InputType<BusinessReportDTO>[] | InputType<PeriodicReportDTO>[],
     route: string,
     title: string
-    isProposal: boolean
-}> = ({ isShow, onClose, additionalFields, route, title, isProposal }) => {
+    isProposal: boolean,
+    isWithJenisLaporan: boolean,
+    isWithPriority: boolean,
+    overrideIdentityProposal?: InputType<ProposalDTO | ReportDTO>[] | InputType<BpblProposalDTO>[] | InputType<BusinessReportDTO>[] | InputType<PeriodicReportDTO>[]
+}> = ({ isShow, onClose, additionalFields, route, title, isProposal, isWithJenisLaporan, isWithPriority, overrideIdentityProposal }) => {
     const { errors } = usePage<PageProps>().props
     const [cityCode, setCityCode] = useState<string | number>()
     const [districtCode, setDistrictCode] = useState<string | number>()
@@ -34,7 +37,7 @@ export const ModalFormAddCitizenVoice: FC<{
     const { latLang, setLatLang } = useGetLocation()
     const [marker, setMarker] = useState<L.Marker>()
 
-    const identityProposal: InputType<ProposalDTO | ReportDTO>[] = [
+    const identityProposal: InputType<ProposalDTO | ReportDTO>[] | InputType<BpblProposalDTO>[] | InputType<BusinessReportDTO>[] | InputType<PeriodicReportDTO>[] = overrideIdentityProposal ?? [
         { title: 'Nama Lengkap', name: 'full_name', type: "text" },
         { title: 'Nomor Identitas', name: 'identity_number', type: "text" },
         { title: 'Email', name: 'email', type: 'email' },
@@ -191,7 +194,7 @@ export const ModalFormAddCitizenVoice: FC<{
                                             />
                                             <InputError message={errors.proposal_type} />
                                         </>
-                                    ) : (
+                                    ) : isWithJenisLaporan ? (
                                         <>
                                             <OptionalSelect
                                                 title='Jenis Laporan'
@@ -201,7 +204,7 @@ export const ModalFormAddCitizenVoice: FC<{
                                             />
                                             <InputError message={errors.report_type} />
                                         </>
-                                    )}
+                                    ) : <></>}
 
                                     {additionalFields.map((val, i) => (
                                         <FormGroup
@@ -211,15 +214,20 @@ export const ModalFormAddCitizenVoice: FC<{
                                             onChange={handleInputChange}
                                             name={val.name as string}
                                             errorMsg={errors[val.name as string]}
+                                            templateUrl={val.templateUrl}
                                         />
                                     ))}
 
-                                    <OptionalSelect
-                                        title='Prioritas'
-                                        defaultChoice={enumToStringArray(PriorityEnum)}
-                                        onSelected={(val) => setData('priority', val as PriorityEnum)}
-                                    />
-                                    <InputError message={errors.priority} />
+                                    {isWithPriority && (
+                                        <>
+                                            <OptionalSelect
+                                                title='Prioritas'
+                                                defaultChoice={enumToStringArray(PriorityEnum)}
+                                                onSelected={(val) => setData('priority', val as PriorityEnum)}
+                                            />
+                                            <InputError message={errors.priority} />
+                                        </>
+                                    )}
                                 </Col>
                             </Row>
                         </Container>

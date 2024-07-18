@@ -4,6 +4,14 @@ import CitizenVoicePage from '@/features/CitizenVoice/pages/Index';
 import { InputType } from '@/common/components';
 
 export default function Proposal({ datas }: PageProps & { datas: BusinessReportType[] }) {
+    const identityFields: InputType<BusinessReportDTO>[] = [
+        { title: 'Nama Badan Usaha/Pengusul', name: 'name', type: "text" },
+        { title: 'NIB (Nomor Induk Berusaha)', name: 'nib', type: "text" },
+        { title: 'NPWP (Nomor Pokok Wajib Pajak)', name: 'npwp', type: "text" },
+        { title: 'Email', name: 'email', type: 'email' },
+        { title: 'Nomor Telepon', name: 'phone_number', type: 'number' },
+
+    ]
     const additionalFields: InputType<BusinessReportDTO>[] = [
         { title: 'Alamat', name: 'address', type: 'text' },
         { title: 'Deskripsi Usulan', name: 'description', type: "textarea" },
@@ -21,8 +29,11 @@ export default function Proposal({ datas }: PageProps & { datas: BusinessReportT
             <CitizenVoicePage
                 datas={datas}
                 title="Laporan Usaha Penyediaan Tenaga Listrik Untuk Kepentingan Sendiri Sampai Dengan 500 kW"
+                overrideIdentityProposal={identityFields}
                 additionalFields={additionalFields}
                 overrideRoute={route('business-report.store')}
+                isWithJenisLaporan={false}
+                isWithPriority={false}
             />
         </>
     )

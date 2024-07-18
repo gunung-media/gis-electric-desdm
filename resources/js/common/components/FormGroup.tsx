@@ -1,4 +1,4 @@
-import { Form, FormControlProps } from "react-bootstrap"
+import { Col, Form, FormControlProps, Row } from "react-bootstrap"
 import { InputError } from "./InputError"
 import { ChangeEvent, FC, useEffect, useState } from "react"
 import { CKEditor } from "@ckeditor/ckeditor5-react"
@@ -8,6 +8,7 @@ export type InputType<T> = {
     title: string
     name: keyof T
     type: 'file' | 'text' | 'number' | 'email' | 'datetime-local' | 'textarea' | 'date'
+    templateUrl?: string
 }
 
 export const FormGroup: FC<{
@@ -15,7 +16,8 @@ export const FormGroup: FC<{
     onChange?: (e: ChangeEvent<HTMLInputElement> | string) => void,
     errorMsg?: string,
     name: string
-} & FormControlProps> = ({ title, onChange, errorMsg, type = "text", name, ...props }) => {
+    templateUrl?: string
+} & FormControlProps> = ({ title, onChange, errorMsg, type = "text", name, templateUrl, ...props }) => {
     const [editorData, setEditorData] = useState<string | null | undefined>(props.value as string | null ?? '');
 
     useEffect(() => {
@@ -49,8 +51,20 @@ export const FormGroup: FC<{
                         disabled={props.disabled}
                     />
                 ) :
-                    (
-                        <Form.Control type={type} placeholder={title} onChange={onChange} {...props} name={name} />
+                    (<>
+                        <Row>
+                            <div className="col-12">
+                                <Form.Control type={type} placeholder={title} onChange={onChange} {...props} name={name} />
+                            </div>
+                            <div className="col-12">
+                                {templateUrl ?
+                                    (
+                                        <a href={templateUrl} target="_blank">Download Format Surat</a>
+                                    ) : null
+                                }
+                            </div>
+                        </Row>
+                    </>
                     )}
                 <InputError message={errorMsg} />
             </Form.Group>
