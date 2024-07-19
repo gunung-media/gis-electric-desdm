@@ -7,7 +7,6 @@ use App\Http\Controllers\Auth\AuthenticateController;
 
 use App\Http\Controllers\Admin\ElectricSubstationController;
 use App\Http\Controllers\Admin\ProposalController as AdminProposalController;
-use App\Http\Controllers\Admin\BpblProposalController as AdminBpblProposalController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\Admin\ProposalTrackingController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -26,6 +25,10 @@ use App\Http\Controllers\Landing\StatisticVillageExportController;
 use App\Http\Controllers\Landing\GraphicVillageElectricityController;
 use App\Http\Controllers\Landing\GuideController;
 use App\Http\Controllers\TrackingViewController;
+
+use App\Http\Controllers\Admin\BpblProposalController as AdminBpblProposalController;
+use App\Http\Controllers\Admin\BusinessReportController as AdminBusinessReportController;
+use App\Http\Controllers\Admin\PeriodicReportController as AdminPeriodicReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,6 +75,8 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::resource('bpbl-proposal', AdminBpblProposalController::class)->only(['index', 'show', 'destroy']);
+        Route::resource('business-report', AdminBusinessReportController::class)->only(['index', 'show', 'destroy']);
+        Route::resource('periodic-report', AdminPeriodicReportController::class)->only(['index', 'show', 'destroy']);
 
         Route::resource('development-plan', AdminDevelopmentPlanController::class)->except(['show']);
         Route::resource('village_electricity', AdminVillageElectricityController::class)->except(['show']);

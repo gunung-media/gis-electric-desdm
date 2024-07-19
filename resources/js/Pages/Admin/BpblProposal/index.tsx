@@ -14,18 +14,17 @@ export default function Index({ datas }: PageProps & { datas: BpblProposalType[]
         'Nomor Telepon',
         'Alamat',
         'Deskripsi',
-        'Statement',
     ]
-    const dataTable = datas.map(({ id, full_name, identity_number, email, phone_number, village: { name: villageName }, address, description, statement_path, ktp_path, house_path, nearest_path, letter_path, created_at }) => ({
-        id, created_at, villageName, full_name, identity_number, email, phone_number, address, description, statement_path: (<RenderDownloadBtn documentPath={statement_path} />),
+    const dataTable = datas.map(({ id, full_name, identity_number, email, phone_number, village: { name: villageName }, address, description, created_at }) => ({
+        id, created_at, villageName, full_name, identity_number, email, phone_number, address, description,
     }))
     return (
         <AuthenticatedLayout>
-            <Head title="Usulan" />
+            <Head title="Usulan BPBL" />
             <div className="card">
                 <div className="card-body">
                     <div className="card-title d-flex justify-content-between">
-                        <p>Usulan</p>
+                        <p>Usulan BPBL</p>
                     </div>
                     <div className="row">
                         <div className="col-12">

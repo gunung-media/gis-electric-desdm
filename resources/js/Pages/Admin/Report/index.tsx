@@ -27,7 +27,7 @@ export default function Index({ datas }: PageProps & { datas: ReportType[] }) {
             <div className="card">
                 <div className="card-body">
                     <div className="card-title d-flex justify-content-between">
-                        <p>Usulan</p>
+                        <p>Laporan</p>
                     </div>
                     <div className="row">
                         <div className="col-12">
