@@ -36,6 +36,20 @@ export const ModalFormAddCitizenVoice: FC<{
     const { map, setMap } = useMap('map-picker')
     const { latLang, setLatLang } = useGetLocation()
     const [marker, setMarker] = useState<L.Marker>()
+    const [showTermsModal, setShowTermsModal] = useState(false);
+    const [isTermsChecked, setIsTermsChecked] = useState(false);
+
+    const handleTermsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setIsTermsChecked(event.target.checked);
+    };
+
+    const handleShowTermsModal = () => {
+        setShowTermsModal(true);
+    };
+
+    const handleCloseTermsModal = () => {
+        setShowTermsModal(false);
+    };
 
     const identityProposal: InputType<ProposalDTO | ReportDTO>[] | InputType<BpblProposalDTO>[] | InputType<BusinessReportDTO>[] | InputType<PeriodicReportDTO>[] = overrideIdentityProposal ?? [
         { title: 'Nama Lengkap', name: 'full_name', type: "text" },
@@ -232,8 +246,15 @@ export const ModalFormAddCitizenVoice: FC<{
                                             <InputError message={errors.priority} />
                                         </>
                                     )}
+
                                 </Col>
                             </Row>
+                            <Form.Check
+                                type="checkbox"
+                                label={<span>Saya menyetujui<a href="#" onClick={handleShowTermsModal}> Syarat dan kondisi</a> yang berlaku.</span>}
+                                checked={isTermsChecked}
+                                onChange={handleTermsChange}
+                            />
                         </Container>
                     </Modal.Body>
                     <Modal.Footer>
@@ -243,6 +264,20 @@ export const ModalFormAddCitizenVoice: FC<{
                         <Button variant="primary" type='submit'>Simpan</Button>
                     </Modal.Footer>
                 </Form>
+            </Modal>
+            <Modal show={showTermsModal} onHide={handleCloseTermsModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Terms and Conditions</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {/* Your terms and conditions content here */}
+                    <p>Here are the terms and conditions...</p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseTermsModal}>
+                        Close
+                    </Button>
+                </Modal.Footer>
             </Modal>
         </>
     )
