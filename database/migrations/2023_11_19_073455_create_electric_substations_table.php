@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('electric_substations', function (Blueprint $table) {
             $table->id();
-            $table->integer('district_code');
+            $table->char('district_code', 9);
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('latitude');

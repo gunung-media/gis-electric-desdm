@@ -17,13 +17,13 @@ export default function Index({ data }: PageProps & { data: GuideType }) {
                     <div className="card development-plan-bx">
                         <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
                             <ShowCoverPDF
-                                fileUrl={data?.file ?? ''}
+                                fileUrl={data.file ?? ''}
                                 pageIndex={1}
                             />
                         </Worker>
                         <Card.Body>
-                            <Card.Text dangerouslySetInnerHTML={{ __html: data?.sambutan_kadis ?? '' }}></Card.Text>
-                            <RenderDownloadBtn documentPath={data?.file ?? ''} />
+                            <Card.Text dangerouslySetInnerHTML={{ __html: data.sambutan_kadis ?? '' }}></Card.Text>
+                            <RenderDownloadBtn documentPath={data.file} />
                         </Card.Body>
                     </div>
                 </div>

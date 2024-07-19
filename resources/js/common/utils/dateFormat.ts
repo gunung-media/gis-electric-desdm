@@ -1,7 +1,4 @@
-export function dateFormat(dateString?: string | null) {
-    if (!dateString) {
-        return ""
-    }
+export function dateFormat(dateString: string) {
     const dateObject = new Date(dateString);
     const indonesianDatetime = new Intl.DateTimeFormat("id-ID", {
         year: "numeric",

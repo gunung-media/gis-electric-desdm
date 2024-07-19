@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('identity_number');
             $table->string('email');
             $table->string('phone_number');
-            $table->integer('village_code');
+            $table->char('village_code', 12);
             $table->text('address');
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
