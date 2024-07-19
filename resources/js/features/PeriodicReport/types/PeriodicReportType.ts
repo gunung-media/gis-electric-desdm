@@ -15,6 +15,7 @@ export interface PeriodicReportType extends CommonTableInterface {
     latitude: string | null
     longitude: string | null
     description: string | null
+    report_type: string | null
     sk_path: string | null
     certificate_path: string | null
     condition_path: string | null

@@ -11,6 +11,7 @@ export interface PeriodicReportDTO {
     latitude?: string | null
     longitude?: string | null
     description?: string | null
+    report_type?: string | null
     sk_path: File
     certificate_path: File
     condition_path: File

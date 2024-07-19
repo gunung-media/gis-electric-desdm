@@ -215,6 +215,10 @@ export const ModalFormAddCitizenVoice: FC<{
                                             name={val.name as string}
                                             errorMsg={errors[val.name as string]}
                                             templateUrl={val.templateUrl}
+                                            isSelect={val.isSelect}
+                                            selectOptions={val.selectOptions}
+                                            dependedOnKey={val.dependedOnKey}
+                                            dependedValue={val.dependedValue}
                                         />
                                     ))}
 

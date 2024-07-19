@@ -17,9 +17,16 @@ export default function Proposal({ datas }: PageProps & { datas: PeriodicReportT
     const additionalFields: InputType<PeriodicReportDTO>[] = [
         { title: 'Alamat', name: 'address', type: 'text' },
         { title: 'Deskripsi Usulan', name: 'description', type: "textarea" },
+        { title: 'Jenis Laporan', name: 'report_type', type: "text", isSelect: true, selectOptions: ['IUPTLS', 'IUPTLU', 'IUJPTL'] },
         { title: 'SK IUPTLS/IUPTLU/IUJPTL', name: 'sk_path', type: "file" },
-        { title: 'Sertifikat Kompetensi Ketenaga Listrikan', name: 'certificate_path', type: "file", templateUrl: 'https://pii.or.id/uploads/dummies.pdf' },
-        { title: 'Dokumentasi Kondisi Pembangkit', name: 'condition_path', type: "file", templateUrl: 'https://pii.or.id/uploads/dummies.pdf' },
+        {
+            title: 'Sertifikat Kompetensi Ketenaga Listrikan', name: 'certificate_path', type: "file", templateUrl: 'https://pii.or.id/uploads/dummies.pdf',
+            dependedOnKey: 'report_type', dependedValue: ['IUPTLS', 'IUPTLU']
+        },
+        {
+            title: 'Dokumentasi Kondisi Pembangkit', name: 'condition_path', type: "file", templateUrl: 'https://pii.or.id/uploads/dummies.pdf',
+            dependedOnKey: 'report_type', dependedValue: ['IUPTLS', 'IUPTLU']
+        },
         { title: 'Laporan Berkala (IUPTLS/IUPTLU/IUJPTL)', name: 'periodic_path', type: "file", templateUrl: 'https://pii.or.id/uploads/dummies.pdf' },
     ]
     return (
