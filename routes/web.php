@@ -18,9 +18,9 @@ use App\Http\Controllers\Landing\PeriodicReportController;
 use App\Http\Controllers\TrackingViewController;
 
 use App\Http\Controllers\Auth\AuthenticateController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ElectricSubstationController;
 use App\Http\Controllers\Admin\ProposalTrackingController;
-use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ReportTrackingController;
 use App\Http\Controllers\Admin\GuideController as AdminGuideController;
 use App\Http\Controllers\Admin\DevelopmentPlanController as AdminDevelopmentPlanController;
@@ -33,6 +33,7 @@ use App\Http\Controllers\Admin\PeriodicReportController as AdminPeriodicReportCo
 
 use App\Http\Controllers\Member\MemberAuthenticateController;
 use App\Http\Controllers\Member\MemberSignUpController;
+use App\Http\Controllers\Member\DashboardController as MemberDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -99,6 +100,6 @@ Route::prefix('member')->name('member.')->group(function () {
     Route::post('register', [MemberSignUpController::class, 'store'])->name('register')->middleware('guest.member');
 
     Route::middleware('auth.member')->group(function () {
-        Route::get('/', DashboardController::class)->name('dashboard');
+        Route::get('/', MemberDashboardController::class)->name('dashboard');
     });
 });

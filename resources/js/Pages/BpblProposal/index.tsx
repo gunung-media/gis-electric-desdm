@@ -22,6 +22,7 @@ export default function Proposal({ datas }: PageProps & { datas: BpblProposalTyp
                 overrideRoute={route('bpbl-proposal.store')}
                 isWithJenisLaporan={false}
                 isWithPriority={false}
+                hasMap={false}
             />
         </>
     )
