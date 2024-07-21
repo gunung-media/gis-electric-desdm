@@ -26,11 +26,23 @@ type CitizenVoice = {
     isWithJenisLaporan?: boolean,
     isWithPriority?: boolean,
     overrideIdentityProposal?: InputType<ProposalDTO | ReportDTO>[] | InputType<BpblProposalDTO>[] | InputType<BusinessReportDTO>[] | InputType<PeriodicReportDTO>[]
+    hasMap?: boolean;
 }
 
 export default function CitizenVoicePage(
     {
-        datas, title, isProposal = false, additionalFields, showAdd = true, showForm = true, showTrack = false, overrideRoute, isWithJenisLaporan = true, isWithPriority = true, overrideIdentityProposal
+        datas,
+        title,
+        isProposal = false,
+        additionalFields,
+        showAdd = true,
+        showForm = true,
+        showTrack = false,
+        overrideRoute,
+        isWithJenisLaporan = true,
+        isWithPriority = true,
+        overrideIdentityProposal,
+        hasMap = true,
     }: CitizenVoice) {
     const { map } = useMap()
     const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -75,7 +87,7 @@ export default function CitizenVoicePage(
             {showAdd && (
                 <ModalFormAddCitizenVoice
                     isShow={isShowAdd}
-                    onClose={() => setIsShowAdd(false)}
+                    onClose={() => hasMap ? setIsShowAdd(false) : window.history.back()}
                     additionalFields={additionalFields}
                     title={title}
                     route={saveRoute}
