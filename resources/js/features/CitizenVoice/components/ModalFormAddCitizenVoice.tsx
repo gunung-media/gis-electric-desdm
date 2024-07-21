@@ -98,7 +98,7 @@ export const ModalFormAddCitizenVoice: FC<{
             const { name, value } = (e).target
             setData((prevData) => ({
                 ...prevData,
-                [name]: name !== "document_path" ? value : (e as ChangeEvent<HTMLInputElement>).target.files![0]
+                [name]: !value.includes('C:\\fakepath') ? value : (e as ChangeEvent<HTMLInputElement>).target.files![0]
             }))
         }
     }

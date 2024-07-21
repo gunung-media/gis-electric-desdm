@@ -1,19 +1,8 @@
 <?php
 
-use App\Http\Controllers\Landing\PeriodicReportController;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Auth\AuthenticateController;
 
-use App\Http\Controllers\Admin\ElectricSubstationController;
-use App\Http\Controllers\Admin\ProposalController as AdminProposalController;
-use App\Http\Controllers\Admin\ReportController as AdminReportController;
-use App\Http\Controllers\Admin\ProposalTrackingController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\ReportTrackingController;
-use App\Http\Controllers\Admin\DevelopmentPlanController as AdminDevelopmentPlanController;
-use App\Http\Controllers\Admin\VillageElectricityController as AdminVillageElectricityController;
-use App\Http\Controllers\Admin\GuideController as AdminGuideController;
 use App\Http\Controllers\Landing\BpblProposalController;
 use App\Http\Controllers\Landing\BusinessReportController;
 use App\Http\Controllers\Landing\DevelopmentPlanController;
@@ -24,11 +13,26 @@ use App\Http\Controllers\Landing\StatisticVillageElectricityController;
 use App\Http\Controllers\Landing\StatisticVillageExportController;
 use App\Http\Controllers\Landing\GraphicVillageElectricityController;
 use App\Http\Controllers\Landing\GuideController;
+use App\Http\Controllers\Landing\PeriodicReportController;
+
 use App\Http\Controllers\TrackingViewController;
 
+use App\Http\Controllers\Auth\AuthenticateController;
+use App\Http\Controllers\Admin\ElectricSubstationController;
+use App\Http\Controllers\Admin\ProposalTrackingController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ReportTrackingController;
+use App\Http\Controllers\Admin\GuideController as AdminGuideController;
+use App\Http\Controllers\Admin\DevelopmentPlanController as AdminDevelopmentPlanController;
+use App\Http\Controllers\Admin\VillageElectricityController as AdminVillageElectricityController;
+use App\Http\Controllers\Admin\ProposalController as AdminProposalController;
+use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\Admin\BpblProposalController as AdminBpblProposalController;
 use App\Http\Controllers\Admin\BusinessReportController as AdminBusinessReportController;
 use App\Http\Controllers\Admin\PeriodicReportController as AdminPeriodicReportController;
+
+use App\Http\Controllers\Member\MemberAuthenticateController;
+use App\Http\Controllers\Member\MemberSignUpController;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,5 +89,16 @@ Route::middleware('auth')->group(function () {
         Route::prefix('import')->name('import.')->group(function () {
             Route::post('village_electricity', [AdminVillageElectricityController::class, 'import'])->name('village_electricity');
         });
+    });
+});
+
+Route::prefix('member')->name('member.')->group(function () {
+    Route::get('login', [MemberAuthenticateController::class, 'create'])->name('login')->middleware('guest.member');
+    Route::post('login', [MemberAuthenticateController::class, 'store'])->name('login')->middleware('guest.member');
+    Route::get('register', [MemberSignUpController::class, 'create'])->name('register')->middleware('guest.member');
+    Route::post('register', [MemberSignUpController::class, 'store'])->name('register')->middleware('guest.member');
+
+    Route::middleware('auth.member')->group(function () {
+        Route::get('/', DashboardController::class)->name('dashboard');
     });
 });
