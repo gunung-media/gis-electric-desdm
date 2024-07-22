@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('npwp');
             $table->string('email');
             $table->string('phone_number');
-            $table->char('village_code', 6);
+            $table->char('village_code', 12);
             $table->text('address');
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();

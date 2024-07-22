@@ -17,7 +17,7 @@ class PeriodicReportController extends Controller
 
     public function index(): Response
     {
-        $periodicReports = $this->periodicReportRepository->getPeriodicReports();
+        $periodicReports = $this->periodicReportRepository->getPeriodicReports(auth('member')->user()->id);
         return Inertia::render('Member/PeriodicReport/index', [
             'datas' => $periodicReports
         ]);

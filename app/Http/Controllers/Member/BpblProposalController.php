@@ -17,7 +17,7 @@ class BpblProposalController extends Controller
 
     public function index(): Response
     {
-        $proposals = $this->proposalRepository->getBpblProposals();
+        $proposals = $this->proposalRepository->getBpblProposals(auth('member')->user()->id);
         return Inertia::render('Member/BpblProposal/index', [
             'datas' => $proposals
         ]);

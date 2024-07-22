@@ -17,7 +17,7 @@ class BusinessReportController extends Controller
 
     public function index(): Response
     {
-        $businessReports = $this->businessReportRepository->getBusinessReports();
+        $businessReports = $this->businessReportRepository->getBusinessReports(auth('member')->user()->id);
         return Inertia::render('Member/BusinessReport/index', [
             'datas' => $businessReports
         ]);

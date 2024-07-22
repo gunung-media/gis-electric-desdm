@@ -11,9 +11,12 @@ class BpblProposalRepository
         protected BpblProposal $model = new BpblProposal()
     ) {}
 
-    public function getBpblProposals(): Collection
+    public function getBpblProposals(int|null $memberId = null): Collection
     {
         $query = $this->model->query();
+        if ($memberId) {
+            $query->where('member_id', $memberId);
+        }
         return $query
             ->with('village')
             ->get();
