@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bpbl_proposal_trackings', function (Blueprint $table) {
+        Schema::create('periodic_report_trackings', function (Blueprint $table) {
             $table->id();
             $table->string('description');
             $table->enum('status', ['Diterima', 'Diproses', 'Ditolak', 'Diterima dengan catatan']);
-            $table->unsignedBigInteger('bpbl_proposal_id');
+            $table->unsignedBigInteger('periodic_report_id');
             $table->timestamps();
 
-            $table->foreign('bpbl_proposal_id')
-                ->on('bpbl_proposals')
+            $table->foreign('periodic_report_id')
+                ->on('periodic_reports')
                 ->references('id')
                 ->onDelete('cascade');
         });
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bpbl_proposal_trackings');
+        Schema::dropIfExists('periodic_report_trackings');
     }
 };
