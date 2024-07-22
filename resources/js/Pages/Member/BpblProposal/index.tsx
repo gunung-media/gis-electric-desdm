@@ -31,7 +31,7 @@ export default function Proposal({ datas }: PageProps & { datas: BpblProposalTyp
             <Head title="Usulan BPBL" />
             <CitizenVoicePage
                 datas={datas}
-                title="Tambah Usulan BPBL (Bantuan Pasang Baru Listrik)"
+                title="Usulan BPBL (Bantuan Pasang Baru Listrik)"
                 additionalFields={additionalFields}
                 overrideRoute={route('member.bpbl-proposal.store')}
                 isWithJenisLaporan={false}
@@ -41,7 +41,7 @@ export default function Proposal({ datas }: PageProps & { datas: BpblProposalTyp
                         <div className="card">
                             <div className="card-body">
                                 <div className="card-title d-flex justify-content-between">
-                                    <p>Usulan BPBL</p>
+                                    <p>Usulan BPBL(Bantuan Pasang Baru Listrik)</p>
                                 </div>
                                 <div className="row">
                                     <div className="col-12">

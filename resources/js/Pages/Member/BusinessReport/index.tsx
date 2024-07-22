@@ -11,7 +11,7 @@ export default function Proposal({ datas }: PageProps & { datas: BusinessReportT
         { title: 'NIB (Nomor Induk Berusaha)', name: 'nib', type: "text" },
         { title: 'NPWP (Nomor Pokok Wajib Pajak)', name: 'npwp', type: "text" },
         { title: 'Email', name: 'email', type: 'email' },
-        { title: 'Nomor Telepon', name: 'phone_number', type: 'number' },
+        { title: 'Nomor Handphone', name: 'phone_number', type: 'number' },
 
     ]
     const additionalFields: InputType<BusinessReportDTO>[] = [
@@ -51,8 +51,7 @@ export default function Proposal({ datas }: PageProps & { datas: BusinessReportT
                         <div className="card">
                             <div className="card-body">
                                 <div className="card-title d-flex justify-content-between">
-                                    <p>Info Ketenagalistrikan Provinsi Kalimantan Tengah
-                                        Layanan Pembinaan dan Pengawasan (Laporan Berkala)</p>
+                                    <p>Laporan Usaha Penyediaan Tenaga Listrik Untuk Kepentingan Sendiri Sampai Dengan 500 kW</p>
                                 </div>
                                 <div className="row">
                                     <div className="col-12">

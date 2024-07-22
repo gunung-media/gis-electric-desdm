@@ -1,4 +1,4 @@
-import { DataTable, RenderDownloadBtn } from "@/common/components"
+import { DataTable } from "@/common/components"
 import { BpblProposalType } from "@/features/BpblProposal"
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
 import { PageProps } from "@/types"
@@ -6,25 +6,22 @@ import { Head, router } from "@inertiajs/react"
 
 export default function Index({ datas }: PageProps & { datas: BpblProposalType[] }) {
     const column: string[] = [
-        'Tanggal Usulan',
-        'Nama Desa/Kelurahan',
-        'Nama Pengusul',
-        'Identitas Pengusul',
-        'Email Pengusul',
-        'Nomor Telepon',
-        'Alamat',
-        'Deskripsi',
+        'NAMA',
+        'NIK',
+        'ALAMAT',
+        'TANGGAL',
+        'STATUS',
     ]
     const dataTable = datas.map(({ id, full_name, identity_number, email, phone_number, village: { name: villageName }, address, description, created_at }) => ({
-        id, created_at, villageName, full_name, identity_number, email, phone_number, address, description,
+        id, full_name, identity_number, address, created_at, description,
     }))
     return (
         <AuthenticatedLayout>
-            <Head title="Usulan BPBL" />
+            <Head title="Usulan BPBL (Bantuan Pasang Baru Listrik)" />
             <div className="card">
                 <div className="card-body">
                     <div className="card-title d-flex justify-content-between">
-                        <p>Usulan BPBL</p>
+                        <p>Usulan BPBL (Bantuan Pasang Baru Listrik)</p>
                     </div>
                     <div className="row">
                         <div className="col-12">

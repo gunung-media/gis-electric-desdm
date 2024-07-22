@@ -13,14 +13,14 @@ export default function Proposal({ datas }: PageProps & { datas: PeriodicReportT
         { title: 'NPWP (Nomor Pokok Wajib Pajak)', name: 'npwp', type: "text" },
         { title: 'Nomor Perizinan', name: 'permit_number', type: "text" },
         { title: 'Email', name: 'email', type: 'email' },
-        { title: 'Nomor Telepon', name: 'phone_number', type: 'number' },
+        { title: 'Nomor Handphone', name: 'phone_number', type: 'number' },
     ]
 
     const additionalFields: InputType<PeriodicReportDTO>[] = [
         { title: 'Alamat', name: 'address', type: 'text' },
         { title: 'Deskripsi Usulan', name: 'description', type: "textarea" },
         { title: 'Jenis Laporan', name: 'report_type', type: "text", isSelect: true, selectOptions: ['IUPTLS', 'IUPTLU', 'IUJPTL'] },
-        { title: 'SK IUPTLS/IUPTLU/IUJPTL', name: 'sk_path', type: "file", infoText: "File Surat Keputusan IUPTLS/IUPTLU/IUJPTL    " },
+        { title: 'SK IUPTLS/IUPTLU/IUJPTL/SKP', name: 'sk_path', type: "file", infoText: "File Surat Keputusan IUPTLS/IUPTLU/IUJPTL    " },
         {
             title: 'Sertifikat Kompetensi Ketenaga Listrikan', name: 'certificate_path', type: "file", templateUrl: 'https://pii.or.id/uploads/dummies.pdf',
             dependedOnKey: 'report_type', dependedValue: ['IUPTLS', 'IUPTLU']
@@ -57,8 +57,7 @@ export default function Proposal({ datas }: PageProps & { datas: PeriodicReportT
                         <div className="card">
                             <div className="card-body">
                                 <div className="card-title d-flex justify-content-between">
-                                    <p>Info Ketenaga Listrikan Provinsi Kalimantan Tengah
-                                        Laporan Usaha Penyediaan Tenaga Listrik Untuk Kepentingan Sendiri Sampai Dengan 500 kW</p>
+                                    <p>Layanan Pembinaan dan Pengawasan (Laporan Berkala)</p>
                                 </div>
                                 <div className="row">
                                     <div className="col-12">
