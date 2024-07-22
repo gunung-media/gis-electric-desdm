@@ -36,6 +36,7 @@ export default function Proposal({ datas }: PageProps & { datas: BpblProposalTyp
                 overrideRoute={route('member.bpbl-proposal.store')}
                 isWithJenisLaporan={false}
                 isWithPriority={false}
+                showAdd={!datas.length}
                 overrideIndex={
                     <AuthenticatedLayout>
                         <div className="card">
