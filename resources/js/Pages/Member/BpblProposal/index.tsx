@@ -17,17 +17,14 @@ export default function Proposal({ datas }: PageProps & { datas: BpblProposalTyp
     ]
 
     const column: string[] = [
-        'Tanggal Usulan',
-        'Nama Desa/Kelurahan',
-        'Nama Pengusul',
-        'Identitas Pengusul',
-        'Email Pengusul',
-        'Nomor Telepon',
-        'Alamat',
-        'Deskripsi',
+        'NAMA',
+        'NIK',
+        'ALAMAT',
+        'TANGGAL',
+        'STATUS',
     ]
     const dataTable = datas.map(({ id, full_name, identity_number, email, phone_number, village: { name: villageName }, address, description, created_at }) => ({
-        id, created_at, villageName, full_name, identity_number, email, phone_number, address, description,
+        id, full_name, identity_number, address, created_at, description,
     }))
     return (
         <>
