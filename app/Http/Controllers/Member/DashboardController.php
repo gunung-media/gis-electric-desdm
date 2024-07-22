@@ -25,7 +25,7 @@ class DashboardController extends Controller
 
     public function __invoke(Request $request): Response
     {
-        return Inertia::render('MemberDashboard', [
+        return Inertia::render('Member/MemberDashboard', [
             'bpblProposalCount' => $this->bpblProposalRepository->getBpblProposals()->count(),
             'businessReportCount' => $this->businessReportRepository->getBusinessReports()->count(),
             'periodicReportCount' => $this->periodicReportRepository->getPeriodicReports()->count(),

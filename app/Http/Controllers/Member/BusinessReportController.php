@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Landing;
+namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\BusinessReport\BusinessReportRepository;
@@ -18,7 +18,7 @@ class BusinessReportController extends Controller
     public function index(): Response
     {
         $businessReports = $this->businessReportRepository->getBusinessReports();
-        return Inertia::render('BusinessReport/index', [
+        return Inertia::render('Member/BusinessReport/index', [
             'datas' => $businessReports
         ]);
     }
@@ -68,7 +68,7 @@ class BusinessReportController extends Controller
                     'bap_path' => $bapPath,
                 ]
             );
-            return redirect(route('business-report.index'))->with('status', 'Sukses Menambah Usulan');
+            return redirect(route('member.business-report.index'))->with('status', 'Sukses Menambah Usulan');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));
             return back()->withErrors(['error' => 'Gagal menambah Usulan']);

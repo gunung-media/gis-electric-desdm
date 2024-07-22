@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Landing;
+namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\PeriodicReport\PeriodicReportRepository;
@@ -18,7 +18,7 @@ class PeriodicReportController extends Controller
     public function index(): Response
     {
         $periodicReports = $this->periodicReportRepository->getPeriodicReports();
-        return Inertia::render('PeriodicReport/index', [
+        return Inertia::render('Member/PeriodicReport/index', [
             'datas' => $periodicReports
         ]);
     }
@@ -59,7 +59,7 @@ class PeriodicReportController extends Controller
                     'periodic_path' => $periodicPath,
                 ]
             );
-            return redirect(route('periodic-report.index'))->with('status', 'Sukses Menambah Laporan');
+            return redirect(route('member.periodic-report.index'))->with('status', 'Sukses Menambah Laporan');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));
             return back()->withErrors(['error' => 'Gagal menambah Laporan']);

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Landing;
+namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\BpblProposal\BpblProposalRepository;
@@ -18,7 +18,7 @@ class BpblProposalController extends Controller
     public function index(): Response
     {
         $proposals = $this->proposalRepository->getBpblProposals();
-        return Inertia::render('BpblProposal/index', [
+        return Inertia::render('Member/BpblProposal/index', [
             'datas' => $proposals
         ]);
     }
@@ -58,7 +58,7 @@ class BpblProposalController extends Controller
                     'letter_path' => $letterPath,
                 ]
             );
-            return redirect(route('bpbl-proposal.index'))->with('status', 'Sukses Menambah usulan');
+            return redirect(route('member.bpbl-proposal.index'))->with('status', 'Sukses Menambah usulan');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));
             return back()->withErrors(['error' => 'Gagal menambah usulan']);

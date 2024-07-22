@@ -11,7 +11,7 @@ class MemberAuthenticateController extends Controller
 {
     public function create(): Response
     {
-        return Inertia::render('AuthMember/Login');
+        return Inertia::render('Member/AuthMember/Login');
     }
 
     public function store(Request $request): mixed

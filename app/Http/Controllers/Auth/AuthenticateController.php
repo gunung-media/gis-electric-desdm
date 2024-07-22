@@ -11,7 +11,7 @@ class AuthenticateController extends Controller
 {
     public function create(): Response
     {
-        return Inertia::render('Auth/Login');
+        return Inertia::render('Admin/Auth/Login');
     }
 
     public function store(Request $request): mixed

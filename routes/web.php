@@ -3,8 +3,6 @@
 use Illuminate\Support\Facades\Route;
 
 
-use App\Http\Controllers\Landing\BpblProposalController;
-use App\Http\Controllers\Landing\BusinessReportController;
 use App\Http\Controllers\Landing\DevelopmentPlanController;
 use App\Http\Controllers\Landing\MapController;
 use App\Http\Controllers\Landing\ProposalController;
@@ -13,7 +11,6 @@ use App\Http\Controllers\Landing\StatisticVillageElectricityController;
 use App\Http\Controllers\Landing\StatisticVillageExportController;
 use App\Http\Controllers\Landing\GraphicVillageElectricityController;
 use App\Http\Controllers\Landing\GuideController;
-use App\Http\Controllers\Landing\PeriodicReportController;
 
 use App\Http\Controllers\TrackingViewController;
 
@@ -34,6 +31,9 @@ use App\Http\Controllers\Admin\PeriodicReportController as AdminPeriodicReportCo
 use App\Http\Controllers\Member\MemberAuthenticateController;
 use App\Http\Controllers\Member\MemberSignUpController;
 use App\Http\Controllers\Member\DashboardController as MemberDashboardController;
+use App\Http\Controllers\Member\BpblProposalController;
+use App\Http\Controllers\Member\BusinessReportController;
+use App\Http\Controllers\Member\PeriodicReportController;
 
 /*
 |--------------------------------------------------------------------------

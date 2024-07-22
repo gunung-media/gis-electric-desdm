@@ -16,7 +16,7 @@ class MemberSignUpController extends Controller
 
     public function create(): Response
     {
-        return Inertia::render('AuthMember/Register');
+        return Inertia::render('Member/AuthMember/Register');
     }
 
     public function store(Request $request): mixed
