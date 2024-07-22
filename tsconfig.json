@@ -8,13 +8,13 @@
         "isolatedModules": true,
         "target": "ESNext",
         "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true,
+        "forceConsistentCasingInFileNames": false,
         "noEmit": true,
         "baseUrl": ".",
         "paths": {
             "@/*": [
                 "./resources/js/*"
-            ],
+            ]
         }
     },
     "include": [

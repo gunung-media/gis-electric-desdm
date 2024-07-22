@@ -20,8 +20,7 @@ class DashboardController extends Controller
         protected VillageRepository $villageRepository = new VillageRepository(),
         protected VillageElectricityRepository $villageElectricityRepository = new VillageElectricityRepository(),
         protected CityRepository $cityRepository = new CityRepository(),
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): Response
     {

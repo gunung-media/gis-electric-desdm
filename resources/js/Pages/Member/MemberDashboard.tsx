@@ -1,15 +1,9 @@
-import { CityType, calculateSumElectricity } from "@/features/Territory"
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
 import { PageProps } from "@/types"
 import { Head } from "@inertiajs/react"
-import Highcharts from 'highcharts'
-import HighchartsExporting from 'highcharts/modules/exporting'
-import Highcharts3d from 'highcharts/highcharts-3d'
-import { useEffect, useState } from "react"
-import { generateChart } from "./GraphicVillageElectricity/Index"
 
 export default function MemberDashboard({
-    assets, cities, bpblProposalCount, businessReportCount, periodicReportCount }: PageProps & {
+    assets, bpblProposalCount, businessReportCount, periodicReportCount }: PageProps & {
         bpblProposalCount: number,
         businessReportCount: number,
         periodicReportCount: number,
