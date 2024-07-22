@@ -5,7 +5,7 @@ namespace App\Repositories\BusinessReport;
 use App\Models\BusinessReport\BusinessReportTracking;
 use Illuminate\Database\Eloquent\Collection;
 
-class BusinessReportTrackingReposirtory
+class BusinessReportTrackingRepository
 {
     public function __construct(
         protected BusinessReportTracking $model = new BusinessReportTracking()

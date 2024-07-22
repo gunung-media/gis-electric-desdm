@@ -5,7 +5,7 @@ namespace App\Repositories\PeriodicReport;
 use App\Models\PeriodicReport\PeriodicReportTracking;
 use Illuminate\Database\Eloquent\Collection;
 
-class PeriodicReportTrackingReposirtory
+class PeriodicReportTrackingRepository
 {
     public function __construct(
         protected PeriodicReportTracking $model = new PeriodicReportTracking()
