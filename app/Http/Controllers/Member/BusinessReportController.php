@@ -40,7 +40,7 @@ class BusinessReportController extends Controller
             'ktp_path' => 'required|file',
             'nib_path' => 'required|file',
             'npwp_path' => 'required|file',
-            'digram_path' => 'required|file',
+            'diagram_path' => 'required|file',
             'location_path' => 'required|file',
             'specification_path' => 'required|file',
             'bap_path' => 'required|file',

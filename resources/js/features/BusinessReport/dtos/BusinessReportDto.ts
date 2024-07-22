@@ -9,7 +9,7 @@ export interface BusinessReportDTO {
     latitude?: string | null
     longitude?: string | null
     description?: string | null
-    reuquest_path: File
+    request_path: File
     ktp_path: File
     nib_path: File
     npwp_path: File

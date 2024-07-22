@@ -38,7 +38,7 @@ class PeriodicReportController extends Controller
             'latitude' => 'nullable|string',
             'longitude' => 'nullable|string',
             'description' => 'nullable|string',
-            'report_type' => 'required|file',
+            'report_type' => 'nullable',
             'sk_path' => 'required|file',
             'certificate_path' => 'required|file',
             'condition_path' => 'required|file',
@@ -53,6 +53,7 @@ class PeriodicReportController extends Controller
             $this->periodicReportRepository->insertPeriodicReport(
                 [
                     ...($request->all()),
+                    'report_type' => $request->input('report_type', 'IUPTLS'),
                     'sk_path' => $skPath,
                     'certificate_path' => $certificatePath,
                     'condition_path' => $conditionPath,

@@ -12,12 +12,12 @@ export default function Proposal({ datas }: PageProps & { datas: BusinessReportT
         { title: 'NPWP (Nomor Pokok Wajib Pajak)', name: 'npwp', type: "text" },
         { title: 'Email', name: 'email', type: 'email' },
         { title: 'Nomor Handphone', name: 'phone_number', type: 'number' },
-
     ]
+
     const additionalFields: InputType<BusinessReportDTO>[] = [
         { title: 'Alamat', name: 'address', type: 'text' },
         { title: 'Deskripsi Usulan', name: 'description', type: "textarea" },
-        { title: 'Format Permohonan SKP dan Lampiran Persyaratan s.d 500 Kw', name: 'reuquest_path', type: "file" },
+        { title: 'Format Permohonan SKP dan Lampiran Persyaratan s.d 500 Kw', name: 'request_path', type: "file", templateUrl: "" },
         { title: 'Identitas Pemohon (KTP)', name: 'ktp_path', type: "file" },
         { title: 'NIB', name: 'nib_path', type: "file" },
         { title: 'NPWP', name: 'npwp_path', type: "file" },
