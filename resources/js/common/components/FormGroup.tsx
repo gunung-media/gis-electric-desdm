@@ -73,7 +73,9 @@ export const FormGroup: FC<{
                                     {infoText}
                                 </Tooltip>
                             }>
-                                <span>{title}</span>
+                                <span>
+                                    {title} <i className="fa fa-question-circle-o"></i>
+                                </span>
                             </OverlayTrigger>
                         )}</Form.Label>
                         {type === 'textarea' ? (
