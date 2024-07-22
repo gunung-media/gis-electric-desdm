@@ -15,7 +15,6 @@ export default function Index({ data }: PageProps & { data: GuideType }) {
     useEffect(() => {
         const { file, ...other } = data
         setPrevFileUrl(file)
-        console.log(file)
         setData(_ => ({
             ...other,
         }))
@@ -44,7 +43,7 @@ export default function Index({ data }: PageProps & { data: GuideType }) {
                     <div className="col-12 grid-margin stretch-card">
                         <div className="card">
                             <div className="card-body">
-                                <h4 className="card-title">Rencana Pembangunan Form</h4>
+                                <h4 className="card-title">Panduan Pengguna</h4>
                                 <p>Last update: {dateFormat(data.updated_at ?? "")}</p>
                                 <InputError message={errors.error} />
                                 <form className="forms-sample" onSubmit={handleSubmit}>
