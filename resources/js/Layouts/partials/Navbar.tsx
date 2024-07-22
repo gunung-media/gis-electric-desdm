@@ -1,9 +1,15 @@
 import { PageProps } from "@/types";
 import { useForm, usePage } from "@inertiajs/react";
+import { useEffect, useState } from "react";
 
 export const Navbar = () => {
     const { props: { assets } } = usePage<PageProps>()
     const { delete: logout } = useForm()
+    const [isMember, setIsMember] = useState<boolean>(false)
+
+    useEffect(() => {
+        if (window.location.href.includes('member')) setIsMember(true)
+    }, [])
 
     return (
         <nav className="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -25,7 +31,7 @@ export const Navbar = () => {
                             <img src={`${assets}/images/faces/face29.png`} alt="profile" />
                         </a>
                         <div className="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                            <button className="dropdown-item" onClick={() => logout(route('logout'))}>
+                            <button className="dropdown-item" onClick={() => logout(route(isMember ? 'member.logout' : 'logout'))}>
                                 <i className="ti-power-off text-primary"></i>
                                 Logout
                             </button>

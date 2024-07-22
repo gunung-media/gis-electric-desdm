@@ -23,7 +23,8 @@ class MemberAuthenticateController extends Controller
 
         if (auth('member')->attempt($request->only('username', 'password'))) {
             $request->session()->regenerate();
-            return redirect(route('member.dashboard'));
+            // return redirect(route('member.dashboard'));
+            return redirect()->intended(route('member.dashboard'));
         }
 
         return back()->withErrors([
@@ -36,6 +37,6 @@ class MemberAuthenticateController extends Controller
         auth('member')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect(route('login'));
+        return redirect(route('member.login'));
     }
 }

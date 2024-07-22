@@ -16,6 +16,7 @@ class AuthMember
     public function handle(Request $request, Closure $next): Response
     {
         if (!auth('member')->check()) {
+            session(['url.intended' => $request->url()]);
             return redirect()->route('member.login');
         }
         return $next($request);

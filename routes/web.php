@@ -52,9 +52,6 @@ Route::resource('/proposal', ProposalController::class)->only(['index', 'store',
 Route::resource('/report', ReportController::class)->only(['index', 'store', 'show']);
 Route::resource('/development-plan', DevelopmentPlanController::class)->only(['index', 'show']);
 
-Route::resource('/bpbl-proposal', BpblProposalController::class)->only(['index', 'store', 'show']);
-Route::resource('/business-report', BusinessReportController::class)->only(['index', 'store', 'show']);
-Route::resource('/periodic-report', PeriodicReportController::class)->only(['index', 'store', 'show']);
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthenticateController::class, 'create'])->name('login');
@@ -100,6 +97,11 @@ Route::prefix('member')->name('member.')->group(function () {
     Route::post('register', [MemberSignUpController::class, 'store'])->name('register')->middleware('guest.member');
 
     Route::middleware('auth.member')->group(function () {
+        Route::delete('logout', [MemberAuthenticateController::class, 'destroy'])->name('logout');
         Route::get('/', MemberDashboardController::class)->name('dashboard');
+
+        Route::resource('/bpbl-proposal', BpblProposalController::class)->only(['index', 'store', 'show']);
+        Route::resource('/business-report', BusinessReportController::class)->only(['index', 'store', 'show']);
+        Route::resource('/periodic-report', PeriodicReportController::class)->only(['index', 'store', 'show']);
     });
 });

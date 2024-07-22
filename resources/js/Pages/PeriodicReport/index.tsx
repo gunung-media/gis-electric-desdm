@@ -1,7 +1,9 @@
 import { PeriodicReportType, PeriodicReportDTO } from '@/features/PeriodicReport'
 import { PageProps } from '@/types'
 import CitizenVoicePage from '@/features/CitizenVoice/pages/Index';
-import { InputType } from '@/common/components';
+import { DataTable, InputType } from '@/common/components';
+import { AuthenticatedLayout } from '@/Layouts/AuthenticatedLayout';
+import { router } from '@inertiajs/react';
 
 export default function Proposal({ datas }: PageProps & { datas: PeriodicReportType[] }) {
     const identityFields: InputType<PeriodicReportDTO>[] = [
@@ -29,6 +31,17 @@ export default function Proposal({ datas }: PageProps & { datas: PeriodicReportT
         },
         { title: 'Laporan Berkala (IUPTLS/IUPTLU/IUJPTL)', name: 'periodic_path', type: "file", templateUrl: 'https://pii.or.id/uploads/dummies.pdf' },
     ]
+
+    const column: string[] = [
+        'NAMA BADAN USAHA / PERORANGAN',
+        'NOMOR DAN TANGGAL SKP/IUPTLS/IUJPTL',
+        'ALAMAT',
+        'JUMLAH PEMBANGKIT DAN KAPASITAS PEMBANGKIT(SKP / IUPTLS)',
+        'DESKRIPSI'
+    ]
+    const dataTable = datas.map(({ id, name, created_at, address, description }) => ({
+        id, name, created_at, address, description
+    }))
     return (
         <>
             <CitizenVoicePage
@@ -36,9 +49,31 @@ export default function Proposal({ datas }: PageProps & { datas: PeriodicReportT
                 title="Layanan Pembinaan dan Pengawasan (Laporan Berkala)"
                 overrideIdentityProposal={identityFields}
                 additionalFields={additionalFields}
-                overrideRoute={route('periodic-report.store')}
+                overrideRoute={route('member.periodic-report.store')}
                 isWithPriority={false}
                 isWithJenisLaporan={false}
+                overrideIndex={
+                    <AuthenticatedLayout>
+                        <div className="card">
+                            <div className="card-body">
+                                <div className="card-title d-flex justify-content-between">
+                                    <p>Info Ketenaga Listrikan Provinsi Kalimantan Tengah
+                                        Laporan Usaha Penyediaan Tenaga Listrik Untuk Kepentingan Sendiri Sampai Dengan 500 kW</p>
+                                </div>
+                                <div className="row">
+                                    <div className="col-12">
+                                        <DataTable
+                                            data={dataTable}
+                                            columns={column}
+                                            onEdit={(id) => console.log(id)}
+                                            onDelete={(id) => router.delete(route('member.periodic-report.destroy', { periodic_report: id }))} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </AuthenticatedLayout >
+                }
+                isShowContactUs={false}
             />
         </>
     )

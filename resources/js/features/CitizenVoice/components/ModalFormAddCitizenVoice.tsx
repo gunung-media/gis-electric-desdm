@@ -53,9 +53,9 @@ export const ModalFormAddCitizenVoice: FC<{
 
     const identityProposal: InputType<ProposalDTO | ReportDTO>[] | InputType<BpblProposalDTO>[] | InputType<BusinessReportDTO>[] | InputType<PeriodicReportDTO>[] = overrideIdentityProposal ?? [
         { title: 'Nama Lengkap', name: 'full_name', type: "text" },
-        { title: 'Nomor Identitas', name: 'identity_number', type: "text" },
+        { title: 'NIK', name: 'identity_number', type: "text" },
         { title: 'Email', name: 'email', type: 'email' },
-        { title: 'Nomor Telepon', name: 'phone_number', type: 'number' },
+        { title: 'Nomor Telepon/WA', name: 'phone_number', type: 'number' },
     ]
 
     useEffect(() => {

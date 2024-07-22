@@ -1,7 +1,9 @@
 import { BusinessReportType, BusinessReportDTO } from '@/features/BusinessReport'
 import { PageProps } from '@/types'
 import CitizenVoicePage from '@/features/CitizenVoice/pages/Index';
-import { InputType } from '@/common/components';
+import { DataTable, InputType } from '@/common/components';
+import { AuthenticatedLayout } from '@/Layouts/AuthenticatedLayout';
+import { router } from '@inertiajs/react';
 
 export default function Proposal({ datas }: PageProps & { datas: BusinessReportType[] }) {
     const identityFields: InputType<BusinessReportDTO>[] = [
@@ -24,6 +26,16 @@ export default function Proposal({ datas }: PageProps & { datas: BusinessReportT
         { title: 'Spesifikasi Teknis Pembangkit', name: 'specification_path', type: "file" },
         { title: 'Berita Acara Pemeriksaan (BAP)', name: 'bap_path', type: "file" },
     ]
+
+    const column: string[] = [
+        'NAMA BADAN USAHA / PERORANGAN',
+        'NOMOR DAN TANGGAL SKP/IUPTLS/IUJPTL',
+        'ALAMAT',
+        'JUMLAH PEMBANGKIT DAN KAPASITAS PEMBANGKIT(SKP / IUPTLS)',
+    ]
+    const dataTable = datas.map(({ id, name, created_at, address }) => ({
+        id, name, created_at, address,
+    }))
     return (
         <>
             <CitizenVoicePage
@@ -31,9 +43,31 @@ export default function Proposal({ datas }: PageProps & { datas: BusinessReportT
                 title="Laporan Usaha Penyediaan Tenaga Listrik Untuk Kepentingan Sendiri Sampai Dengan 500 kW"
                 overrideIdentityProposal={identityFields}
                 additionalFields={additionalFields}
-                overrideRoute={route('business-report.store')}
+                overrideRoute={route('member.business-report.store')}
                 isWithJenisLaporan={false}
                 isWithPriority={false}
+                overrideIndex={
+                    <AuthenticatedLayout>
+                        <div className="card">
+                            <div className="card-body">
+                                <div className="card-title d-flex justify-content-between">
+                                    <p>Info Ketenaga Listrikan Provinsi Kalimantan Tengah
+                                        Layanan Pembinaan dan Pengawasan (Laporan Berkala)</p>
+                                </div>
+                                <div className="row">
+                                    <div className="col-12">
+                                        <DataTable
+                                            data={dataTable}
+                                            columns={column}
+                                            onEdit={(id) => console.log(id)}
+                                            onDelete={(id) => router.delete(route('member.business-report.destroy', { business_report: id }))} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </AuthenticatedLayout >
+                }
+                isShowContactUs={false}
             />
         </>
     )

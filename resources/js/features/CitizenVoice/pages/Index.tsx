@@ -27,6 +27,8 @@ type CitizenVoice = {
     isWithPriority?: boolean,
     overrideIdentityProposal?: InputType<ProposalDTO | ReportDTO>[] | InputType<BpblProposalDTO>[] | InputType<BusinessReportDTO>[] | InputType<PeriodicReportDTO>[]
     hasMap?: boolean;
+    overrideIndex?: React.ReactNode
+    isShowContactUs?: boolean
 }
 
 export default function CitizenVoicePage(
@@ -43,46 +45,56 @@ export default function CitizenVoicePage(
         isWithPriority = true,
         overrideIdentityProposal,
         hasMap = true,
+        overrideIndex,
+        isShowContactUs = true
     }: CitizenVoice) {
-    const { map } = useMap()
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [isShowTracking, setIsShowTracking] = useState<boolean>(false)
     const [isShowAdd, setIsShowAdd] = useState<boolean>(showAdd)
     const [idClicked, setIdClocked] = useState<number>()
     const saveRoute = !overrideRoute ? (isProposal ? route('proposal.store') : route('report.store')) : overrideRoute
 
-    useEffect(() => {
-        const { clusters } = generateTheLayer(datas, (isShow, theId) => {
-            setIsShowTracking(isShow)
-            setIdClocked(theId)
-        })
 
-        if (map) {
-            L.control.zoom({
-                position: 'bottomleft'
-            }).addTo(map)
+    if (!overrideIndex) {
+        const { map } = useMap()
+        useEffect(() => {
+            const { clusters } = generateTheLayer(datas, (isShow, theId) => {
+                setIsShowTracking(isShow)
+                setIdClocked(theId)
+            })
 
-            map.addLayer(clusters)
-            setIsLoading(false)
-        }
+            if (map) {
+                L.control.zoom({
+                    position: 'bottomleft'
+                }).addTo(map)
 
-    }, [map, datas])
+                map.addLayer(clusters)
+                setIsLoading(false)
+            }
+
+        }, [map, datas])
+    }
 
     return (
         <>
             <Head title={title} />
-            <Loader isShow={isLoading} />
-            <div id="map"></div>
-            <div className="header">
-                <div className="header-box" onClick={() => router.visit(route('landing'))}><span>Si</span>lisda <span>{title.toLowerCase()}</span></div>
-                <div className="header-actions">
-                    {showAdd && (
-                        <button onClick={() => setIsShowAdd(true)}>
-                            <CreateBtn />
-                        </button>
-                    )}
-                </div>
-            </div>
+            {overrideIndex ? overrideIndex! :
+                <>
+                    <Loader isShow={isLoading} />
+                    <div id="map"></div>
+                    <div className="header">
+                        <div className="header-box" onClick={() => router.visit(route('landing'))}><span>Si</span>lisda <span>{title.toLowerCase()}</span></div>
+                        <div className="header-actions">
+                            {showAdd && (
+                                <button onClick={() => setIsShowAdd(true)}>
+                                    <CreateBtn />
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                </>
+
+            }
 
             {showAdd && (
                 <ModalFormAddCitizenVoice
@@ -107,7 +119,7 @@ export default function CitizenVoicePage(
                 isShowTracking={showTrack}
             />
 
-            <ContactUs />
+            {isShowContactUs && <ContactUs />}
         </>
     )
 }

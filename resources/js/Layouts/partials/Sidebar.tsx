@@ -98,21 +98,21 @@ export const Sidebar = () => {
                     </li>
 
                     <li className="nav-item">
-                        <a className="nav-link" href={route('member.dashboard')}>
+                        <a className="nav-link" href={route('member.bpbl-proposal.index')}>
                             <i className="fa fa-globe menu-icon"></i>
                             <span className="menu-title">Usulan BPBL</span>
                         </a>
                     </li>
 
                     <li className="nav-item">
-                        <a className="nav-link" href={route('member.dashboard')}>
+                        <a className="nav-link" href={route('member.business-report.index')}>
                             <i className="fa fa-globe menu-icon"></i>
                             <span className="menu-title">Laporan Usaha Sendiri</span>
                         </a>
                     </li>
 
                     <li className="nav-item">
-                        <a className="nav-link" href={route('admin.periodic-report.index')}>
+                        <a className="nav-link" href={route('member.periodic-report.index')}>
                             <i className="fa fa-globe menu-icon"></i>
                             <span className="menu-title">Laporan Berkala</span>
                         </a>
