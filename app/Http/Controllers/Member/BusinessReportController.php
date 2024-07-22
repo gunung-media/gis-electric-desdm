@@ -66,6 +66,7 @@ class BusinessReportController extends Controller
                     'location_path' => $locationPath,
                     'specification_path' => $specificationPath,
                     'bap_path' => $bapPath,
+                    'member_id' => auth('member')->user()->id
                 ]
             );
             return redirect(route('member.business-report.index'))->with('status', 'Sukses Menambah Usulan');

@@ -14,7 +14,7 @@ export const Navbar = () => {
     return (
         <nav className="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
-                <a className="navbar-brand brand-logo me-5" href={route('admin.dashboard')}>
+                <a className="navbar-brand brand-logo me-5" href={route(isMember ? 'member.dashboard' : 'admin.dashboard')}>
                     <img src={`${assets}/images/silisda.png`} className="me-2" alt="logo" />
                 </a>
                 <a className="navbar-brand brand-logo-mini" href={route('admin.dashboard')}>
@@ -42,6 +42,6 @@ export const Navbar = () => {
                     <span className="icon-menu"></span>
                 </button>
             </div>
-        </nav>
+        </nav >
     )
 }

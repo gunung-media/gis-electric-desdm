@@ -56,6 +56,7 @@ class BpblProposalController extends Controller
                     'house_path' => $housePath,
                     'nearest_path' => $nearestPath,
                     'letter_path' => $letterPath,
+                    'member_id' => auth('member')->user()->id
                 ]
             );
             return redirect(route('member.bpbl-proposal.index'))->with('status', 'Sukses Menambah usulan');

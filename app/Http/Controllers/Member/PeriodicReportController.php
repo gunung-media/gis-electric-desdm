@@ -57,6 +57,7 @@ class PeriodicReportController extends Controller
                     'certificate_path' => $certificatePath,
                     'condition_path' => $conditionPath,
                     'periodic_path' => $periodicPath,
+                    'member_id' => auth('member')->user()->id
                 ]
             );
             return redirect(route('member.periodic-report.index'))->with('status', 'Sukses Menambah Laporan');
