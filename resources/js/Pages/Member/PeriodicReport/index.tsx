@@ -20,7 +20,7 @@ export default function Proposal({ datas }: PageProps & { datas: PeriodicReportT
         { title: 'Alamat', name: 'address', type: 'text' },
         { title: 'Deskripsi Usulan', name: 'description', type: "textarea" },
         { title: 'Jenis Laporan', name: 'report_type', type: "text", isSelect: true, selectOptions: ['IUPTLS', 'IUPTLU', 'IUJPTL'] },
-        { title: 'SK IUPTLS/IUPTLU/IUJPTL', name: 'sk_path', type: "file" },
+        { title: 'SK IUPTLS/IUPTLU/IUJPTL', name: 'sk_path', type: "file", infoText: "File Surat Keputusan IUPTLS/IUPTLU/IUJPTL    " },
         {
             title: 'Sertifikat Kompetensi Ketenaga Listrikan', name: 'certificate_path', type: "file", templateUrl: 'https://pii.or.id/uploads/dummies.pdf',
             dependedOnKey: 'report_type', dependedValue: ['IUPTLS', 'IUPTLU']

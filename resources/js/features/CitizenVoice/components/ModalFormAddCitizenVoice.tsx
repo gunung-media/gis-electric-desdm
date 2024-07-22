@@ -233,6 +233,7 @@ export const ModalFormAddCitizenVoice: FC<{
                                             selectOptions={val.selectOptions}
                                             dependedOnKey={val.dependedOnKey}
                                             dependedValue={val.dependedValue}
+                                            infoText={val.infoText}
                                         />
                                     ))}
 

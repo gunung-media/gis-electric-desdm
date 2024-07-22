@@ -17,12 +17,12 @@ export default function Index({ datas }: PageProps & { datas: PeriodicReportType
     }))
     return (
         <AuthenticatedLayout>
-            <Head title="Info Ketenaga Listrikan Provinsi Kalimantan Tengah
+            <Head title="Info Ketenagalistrikan Provinsi Kalimantan Tengah
 Laporan Usaha Penyediaan Tenaga Listrik Untuk Kepentingan Sendiri Sampai Dengan 500 kW" />
             <div className="card">
                 <div className="card-body">
                     <div className="card-title d-flex justify-content-between">
-                        <p>Info Ketenaga Listrikan Provinsi Kalimantan Tengah
+                        <p>Info Ketenagalistrikan Provinsi Kalimantan Tengah
                             Laporan Usaha Penyediaan Tenaga Listrik Untuk Kepentingan Sendiri Sampai Dengan 500 kW</p>
                     </div>
                     <div className="row">

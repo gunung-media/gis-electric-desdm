@@ -16,12 +16,12 @@ export default function Index({ datas }: PageProps & { datas: BusinessReportType
     }))
     return (
         <AuthenticatedLayout>
-            <Head title="Info Ketenaga Listrikan Provinsi Kalimantan Tengah
+            <Head title="Info Ketenagalistrikan Provinsi Kalimantan Tengah
 Layanan Pembinaan dan Pengawasan (Laporan Berkala)" />
             <div className="card">
                 <div className="card-body">
                     <div className="card-title d-flex justify-content-between">
-                        <p>Info Ketenaga Listrikan Provinsi Kalimantan Tengah
+                        <p>Info Ketenagalistrikan Provinsi Kalimantan Tengah
                             Layanan Pembinaan dan Pengawasan (Laporan Berkala)</p>
                     </div>
                     <div className="row">
