@@ -2,6 +2,7 @@
 
 namespace App\Models\BpblProposal;
 
+use App\Models\Member;
 use App\Models\Territory\Village;
 use App\utils\DateHelper;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -29,6 +30,7 @@ class BpblProposal extends Model
         'house_path',
         'nearest_path',
         'letter_path',
+        'member_id'
     ];
 
     // protected $appends = ["latest_status"];
@@ -50,6 +52,11 @@ class BpblProposal extends Model
     public function village(): BelongsTo
     {
         return $this->belongsTo(Village::class, 'village_code', 'code');
+    }
+
+    public function member(): BelongsTo
+    {
+        return $this->belongsTo(Member::class);
     }
 
     // public function trackings(): HasMany
