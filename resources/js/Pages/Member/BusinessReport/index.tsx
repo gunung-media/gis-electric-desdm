@@ -34,7 +34,7 @@ export default function Proposal({ datas }: PageProps & { datas: BusinessReportT
         'JUMLAH PEMBANGKIT DAN KAPASITAS PEMBANGKIT(SKP / IUPTLS)',
     ]
     const dataTable = datas.map(({ id, name, created_at, address }) => ({
-        id, name, created_at, address,
+        id, name, created_at, address, description: '-',
     }))
     return (
         <>
@@ -58,7 +58,7 @@ export default function Proposal({ datas }: PageProps & { datas: BusinessReportT
                                         <DataTable
                                             data={dataTable}
                                             columns={column}
-                                            onEdit={(id) => console.log(id)}
+                                            onEdit={(id) => router.visit(route('member.business-report.show', { business_report: id }))}
                                             onDelete={(id) => router.delete(route('member.business-report.destroy', { business_report: id }))} />
                                     </div>
                                 </div>

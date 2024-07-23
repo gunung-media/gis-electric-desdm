@@ -68,8 +68,15 @@ class PeriodicReportController extends Controller
         }
     }
 
-    public function show(mixed $id): JsonResponse
+    public function show(string $id): Response
     {
-        return response()->json(['data' => $this->periodicReportRepository->getPeriodicReport($id)]);
+        return Inertia::render('Member/PeriodicReport/Detail', ['data' => $this->periodicReportRepository->getPeriodicReport($id)]);
+    }
+
+    public function destroy(string $id): mixed
+    {
+        $proposal = $this->periodicReportRepository->getPeriodicReport($id);
+        $proposal->delete();
+        return redirect(route('member.periodic-report.index'))->with('status', 'Sukses Menghapus Urusan');
     }
 }

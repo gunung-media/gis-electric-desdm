@@ -49,7 +49,7 @@ export default function Proposal({ datas }: PageProps & { datas: BpblProposalTyp
                                         <DataTable
                                             data={dataTable}
                                             columns={column}
-                                            onEdit={(id) => console.log(id)}
+                                            onEdit={(id) => router.visit(route('member.bpbl-proposal.show', { bpbl_proposal: id }))}
                                             onDelete={(id) => router.delete(route('member.bpbl-proposal.destroy', { bpbl_proposal: id }))} />
                                     </div>
                                 </div>

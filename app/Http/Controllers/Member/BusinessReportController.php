@@ -76,8 +76,15 @@ class BusinessReportController extends Controller
         }
     }
 
-    public function show(mixed $id): JsonResponse
+    public function show(string $id): Response
     {
-        return response()->json(['data' => $this->businessReportRepository->getBusinessReport($id)]);
+        return Inertia::render('Member/BusinessReport/Detail', ['data' => $this->businessReportRepository->getBusinessReport($id)]);
+    }
+
+    public function destroy(string $id): mixed
+    {
+        $proposal = $this->businessReportRepository->getBusinessReport($id);
+        $proposal->delete();
+        return redirect(route('member.business-report.index'))->with('status', 'Sukses Menghapus Urusan');
     }
 }

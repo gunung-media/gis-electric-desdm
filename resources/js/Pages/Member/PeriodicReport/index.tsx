@@ -40,7 +40,7 @@ export default function Proposal({ datas }: PageProps & { datas: PeriodicReportT
         'DESKRIPSI'
     ]
     const dataTable = datas.map(({ id, name, created_at, address, description }) => ({
-        id, name, created_at, address, description
+        id, name, created_at, address, etc: '-', description
     }))
     return (
         <>
@@ -64,8 +64,8 @@ export default function Proposal({ datas }: PageProps & { datas: PeriodicReportT
                                         <DataTable
                                             data={dataTable}
                                             columns={column}
-                                            onEdit={(id) => console.log(id)}
-                                            onDelete={(id) => router.delete(route('member.periodic-report.destroy', { periodic_report: id }))} />
+                                            onEdit={(id) => router.visit(route('member.periodic-report.show', { id: id }))}
+                                            onDelete={(id) => router.delete(route('member.periodic-report.destroy', { id: id }))} />
                                     </div>
                                 </div>
                             </div>

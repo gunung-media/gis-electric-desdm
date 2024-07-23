@@ -1,4 +1,4 @@
-import { DataTable, RenderDownloadBtn } from "@/common/components"
+import { DataTable } from "@/common/components"
 import { PeriodicReportType } from "@/features/PeriodicReport"
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
 import { PageProps } from "@/types"

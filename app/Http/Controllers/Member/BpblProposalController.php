@@ -12,12 +12,12 @@ use Inertia\Response;
 class BpblProposalController extends Controller
 {
     public function __construct(
-        protected BpblProposalRepository $proposalRepository = new BpblProposalRepository(),
+        protected BpblProposalRepository $bpblProposalRepository = new BpblProposalRepository(),
     ) {}
 
     public function index(): Response
     {
-        $proposals = $this->proposalRepository->getBpblProposals(auth('member')->user()->id);
+        $proposals = $this->bpblProposalRepository->getBpblProposals(auth('member')->user()->id);
         return Inertia::render('Member/BpblProposal/index', [
             'datas' => $proposals
         ]);
@@ -48,7 +48,7 @@ class BpblProposalController extends Controller
         $nearestPath = $request->file('nearest_path')->store('bpbl_proposal/nearest');
         $letterPath = $request->file('letter_path')->store('bpbl_proposal/letter');
         try {
-            $this->proposalRepository->insertBpblProposal(
+            $this->bpblProposalRepository->insertBpblProposal(
                 [
                     ...($request->all()),
                     'statement_path' => $statementPath,
@@ -66,8 +66,15 @@ class BpblProposalController extends Controller
         }
     }
 
-    public function show(mixed $id): JsonResponse
+    public function show(string $id): Response
     {
-        return response()->json(['data' => $this->proposalRepository->getBpblProposal($id)]);
+        return Inertia::render('Member/BpblProposal/Detail', ['data' => $this->bpblProposalRepository->getBpblProposal($id)]);
+    }
+
+    public function destroy(string $id): mixed
+    {
+        $proposal = $this->bpblProposalRepository->getBpblProposal($id);
+        $proposal->delete();
+        return redirect(route('member.bpbl-proposal.index'))->with('status', 'Sukses Menghapus Urusan');
     }
 }
