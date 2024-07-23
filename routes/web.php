@@ -32,6 +32,8 @@ use App\Http\Controllers\Admin\BusinessReportTrackingController;
 use App\Http\Controllers\Admin\PeriodicReportController as AdminPeriodicReportController;
 use App\Http\Controllers\Admin\PeriodicReportTrackingController;
 
+use App\Http\Controllers\Admin\MemberController as AdminMemberController;
+
 use App\Http\Controllers\Member\MemberAuthenticateController;
 use App\Http\Controllers\Member\MemberSignUpController;
 use App\Http\Controllers\Member\DashboardController as MemberDashboardController;
@@ -95,6 +97,7 @@ Route::middleware('auth')->group(function () {
             Route::resource('tracking', PeriodicReportTrackingController::class)->except(['index', 'show']);
         });
 
+        Route::resource('users', AdminMemberController::class)->except(['show']);
         Route::resource('development-plan', AdminDevelopmentPlanController::class)->except(['show']);
         Route::resource('village_electricity', AdminVillageElectricityController::class)->except(['show']);
         Route::resource('guide', AdminGuideController::class)->only(['index', 'update']);
