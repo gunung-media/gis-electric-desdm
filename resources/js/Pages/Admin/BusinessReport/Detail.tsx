@@ -28,6 +28,21 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
     }))
 
     useEffect(() => {
+        const {
+            village: {
+                code: village_code,
+                district: {
+                    code: districtCode,
+                    city_code,
+                }
+            },
+        } = data
+        setVillageCode(village_code)
+        setDistrictCode(districtCode)
+        setCityCode(city_code)
+    }, [])
+
+    useEffect(() => {
         if (map) {
             const marker = L.marker((data ? [data.latitude, data.longitude] : latLangKalteng) as L.LatLngExpression, {
                 draggable: true,
