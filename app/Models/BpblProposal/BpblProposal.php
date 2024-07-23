@@ -59,8 +59,8 @@ class BpblProposal extends Model
         return $this->belongsTo(Member::class);
     }
 
-    // public function trackings(): HasMany
-    // {
-    //     return $this->hasMany(ProposalTracking::class);
-    // }
+    public function trackings(): HasMany
+    {
+        return $this->hasMany(BpblProposalTracking::class);
+    }
 }

@@ -38,7 +38,7 @@ export default function Form({ electricSubstation }: PageProps & { electricSubst
                 icon: electricIcon
             }).addTo(map);
 
-            marker.on('dragend', function() {
+            marker.on('dragend', function () {
                 const position = marker.getLatLng();
                 setData(data => ({ ...data, latitude: position.lat, longitude: position.lng }))
             });

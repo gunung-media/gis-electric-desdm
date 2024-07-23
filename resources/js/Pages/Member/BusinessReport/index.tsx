@@ -17,7 +17,7 @@ export default function Proposal({ datas }: PageProps & { datas: BusinessReportT
     const additionalFields: InputType<BusinessReportDTO>[] = [
         { title: 'Alamat', name: 'address', type: 'text' },
         { title: 'Deskripsi Usulan', name: 'description', type: "textarea" },
-        { title: 'Format Permohonan SKP dan Lampiran Persyaratan s.d 500 Kw', name: 'request_path', type: "file", templateUrl: "" },
+        { title: 'Format Permohonan SKP dan Lampiran Persyaratan s.d 500 Kw', name: 'request_path', type: "file", templateUrl: "https://pii.or.id/uploads/dummies.pdf" },
         { title: 'Identitas Pemohon (KTP)', name: 'ktp_path', type: "file" },
         { title: 'NIB', name: 'nib_path', type: "file" },
         { title: 'NPWP', name: 'npwp_path', type: "file" },

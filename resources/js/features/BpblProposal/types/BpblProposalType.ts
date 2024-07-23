@@ -1,6 +1,6 @@
 import { CommonTableInterface } from "@/common/interface/CommonTableInterface"
 import { VillageType } from "@/features/Territory"
-import { ProposalTracking } from "./ProposalTrackingType"
+import { BpblProposalTracking } from "./BpblProposalTrackingType"
 
 export interface BpblProposalType extends CommonTableInterface {
     full_name: string
@@ -18,4 +18,5 @@ export interface BpblProposalType extends CommonTableInterface {
     nearest_path: string | null
     letter_path: string | null
     village: VillageType
+    trackings: BpblProposalTracking[]
 }

@@ -24,7 +24,7 @@ class BpblProposalRepository
 
     public function getBpblProposal(int $id): ?BpblProposal
     {
-        return $this->model->with(['village', 'trackings'])->findOrFail($id);
+        return $this->model->with(['village', 'village.district', 'village.district.city', 'trackings'])->findOrFail($id);
     }
 
     public function insertBpblProposal(array $data): BpblProposal

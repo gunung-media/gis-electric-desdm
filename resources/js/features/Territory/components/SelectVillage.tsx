@@ -6,7 +6,8 @@ export const SelectVillage: FC<{
     handleVillageChange: (e: OptionType<VillageType>) => void,
     selectedDistrictId?: string | number,
     selectedVillage?: number | string | null
-}> = ({ handleVillageChange, selectedDistrictId: selectedDistrict, selectedVillage }) => {
+    disabled?: boolean
+}> = ({ handleVillageChange, selectedDistrictId: selectedDistrict, selectedVillage, disabled = false }) => {
     const [villages, setVillages] = useState<VillageType[]>([])
 
     const fetchVillagess = async () => {
@@ -39,6 +40,7 @@ export const SelectVillage: FC<{
             data={villages}
             onChange={(e) => handleVillageChange(e as OptionType<VillageType>)}
             selectedId={selectedVillage}
+            isDisabled={disabled}
         />
     )
 }

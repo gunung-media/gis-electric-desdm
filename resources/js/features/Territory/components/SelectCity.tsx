@@ -6,7 +6,8 @@ export const SelectCity: FC<{
     handleCityChange: (e: OptionType<CityType>) => void,
     selectedCity?: number | string,
     isGetDistricts?: boolean
-}> = ({ handleCityChange, selectedCity, isGetDistricts }) => {
+    disabled?: boolean
+}> = ({ handleCityChange, selectedCity, isGetDistricts, disabled = false }) => {
     const [cities, setCities] = useState<CityType[]>([])
 
     useEffect(() => {
@@ -21,6 +22,6 @@ export const SelectCity: FC<{
     }, [])
 
     return (
-        <Select title="Kabupaten/Kota" data={cities} onChange={(e) => handleCityChange(e as OptionType<CityType>)} selectedId={selectedCity} />
+        <Select title="Kabupaten/Kota" data={cities} onChange={(e) => handleCityChange(e as OptionType<CityType>)} selectedId={selectedCity} isDisabled={disabled} />
     )
 }

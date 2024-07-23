@@ -1,2 +1,2 @@
 export * from "./BpblProposalType"
-export * from "./ProposalTrackingType"
+export * from "./BpblProposalTrackingType"

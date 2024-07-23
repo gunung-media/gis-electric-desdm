@@ -7,7 +7,8 @@ export const SelectDistrict: FC<{
     selectedCityId?: string | number,
     selectedDistrict?: number | string | null,
     isGetVillageInfo?: boolean
-}> = ({ handleDistrictChange, selectedCityId: selectedCity, selectedDistrict, isGetVillageInfo }) => {
+    disabled?: boolean
+}> = ({ handleDistrictChange, selectedCityId: selectedCity, selectedDistrict, isGetVillageInfo, disabled = false }) => {
     const [districts, setDistricts] = useState<DistrictType[]>([])
 
     const fetchDistricts = async () => {
@@ -41,6 +42,7 @@ export const SelectDistrict: FC<{
             data={districts}
             onChange={(e) => handleDistrictChange(e as OptionType<DistrictType>)}
             selectedId={selectedDistrict}
+            isDisabled={disabled}
         />
     )
 }

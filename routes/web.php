@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\VillageElectricityController as AdminVillageElect
 use App\Http\Controllers\Admin\ProposalController as AdminProposalController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\Admin\BpblProposalController as AdminBpblProposalController;
+use App\Http\Controllers\Admin\BpblProposalTrackingController;
 use App\Http\Controllers\Admin\BusinessReportController as AdminBusinessReportController;
 use App\Http\Controllers\Admin\PeriodicReportController as AdminPeriodicReportController;
 
@@ -77,6 +78,9 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::resource('bpbl-proposal', AdminBpblProposalController::class)->only(['index', 'show', 'destroy']);
+        Route::name('bpbl-proposal.')->prefix('bpbl-proposal/{bpbl_proposal}')->group(function () {
+            Route::resource('tracking', BpblProposalTrackingController::class)->except(['index', 'show']);
+        });
         Route::resource('business-report', AdminBusinessReportController::class)->only(['index', 'show', 'destroy']);
         Route::resource('periodic-report', AdminPeriodicReportController::class)->only(['index', 'show', 'destroy']);
 
