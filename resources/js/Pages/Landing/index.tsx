@@ -10,6 +10,7 @@ import proposalIcon from '@/assets/icons/landing/proposal.png'
 import reportIcon from '@/assets/icons/landing/report.png'
 import trackingIcon from '@/assets/icons/landing/tracking.png'
 import guideIcon from '@/assets/icons/landing/workshop.png'
+import electricIcon from '@/assets/icons/landing/electric.png'
 
 export default function Landing() {
     const menus = [
@@ -45,17 +46,17 @@ export default function Landing() {
         },
         {
             href: route('member.bpbl-proposal.index'),
-            imgSrc: proposalIcon,
+            imgSrc: electricIcon,
             title: "Usulan BPBL "
         },
         {
             href: route('member.business-report.index'),
-            imgSrc: proposalIcon,
+            imgSrc: electricIcon,
             title: "Laporan Usaha Sendiri "
         },
         {
             href: route('member.periodic-report.index'),
-            imgSrc: proposalIcon,
+            imgSrc: electricIcon,
             title: "Laporan Berkala"
         },
         {
