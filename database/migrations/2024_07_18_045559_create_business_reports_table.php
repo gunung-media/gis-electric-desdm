@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('ktp_path')->nullable();
             $table->string('nib_path')->nullable();
             $table->string('npwp_path')->nullable();
-            $table->string('digram_path')->nullable();
+            $table->string('diagram_path')->nullable();
             $table->string('location_path')->nullable();
             $table->string('specification_path')->nullable();
             $table->string('bap_path')->nullable();
