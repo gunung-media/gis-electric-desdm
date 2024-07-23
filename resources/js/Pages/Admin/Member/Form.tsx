@@ -1,6 +1,6 @@
 import { InputError, Input, OptionalSelect, FormGroup, OptionType } from "@/common/components";
-import { enumToStringArray, swalError, swalSuccess } from "@/common/utils";
-import { MemberDTO, MemberStatusEnum, MemberType } from "@/features/Member";
+import { swalError, swalSuccess } from "@/common/utils";
+import { MemberDTO, MemberType } from "@/features/Member";
 import { CityType, DistrictType, SelectCity, SelectDistrict, SelectVillage, VillageType } from "@/features/Territory";
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
