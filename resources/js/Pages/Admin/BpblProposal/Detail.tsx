@@ -1,7 +1,6 @@
 import { DataTable, FormGroup, OptionType, RenderDownloadBtn } from "@/common/components"
 import { useMap } from "@/common/hooks"
 import { BpblProposalType } from "@/features/BpblProposal"
-import { ProposalType } from "@/features/Proposal"
 import { CityType, DistrictType, SelectCity, SelectDistrict, SelectVillage, VillageType } from "@/features/Territory"
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
 import { PageProps } from "@/types"
@@ -134,15 +133,9 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                         value={data.description ?? ""}
                                         disabled={true}
                                     />
-                                    <FormGroup
-                                        title="Deskripsi"
-                                        name="textarea"
-                                        value={data.description ?? ""}
-                                        disabled={true}
-                                    />
                                     <div className="row">
                                         <div className="col-md-4 mb-3">
-                                            <p>Surat Pernyataan</p>
+                                            <p>Surat pernyataan siap menerima BPBL</p>
                                             <RenderDownloadBtn documentPath={data.statement_path} />
                                         </div>
                                         <div className="col-md-4 mb-3">
@@ -150,15 +143,15 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                             <RenderDownloadBtn documentPath={data.ktp_path} />
                                         </div>
                                         <div className="col-md-4 mb-3">
-                                            <p>Rumah</p>
+                                            <p>Foto Rumah</p>
                                             <RenderDownloadBtn documentPath={data.house_path} />
                                         </div>
                                         <div className="col-md-4 mb-3">
-                                            <p>Terdekat</p>
+                                            <p>Foto Jaringan Terdekat</p>
                                             <RenderDownloadBtn documentPath={data.nearest_path} />
                                         </div>
                                         <div className="col-md-4 mb-3">
-                                            <p>Surat</p>
+                                            <p>Surat Pernyataan Tidak Mampu/Usulan Dari Kepala Desa/Lurah</p>
                                             <RenderDownloadBtn documentPath={data.letter_path} />
                                         </div>
                                     </div>

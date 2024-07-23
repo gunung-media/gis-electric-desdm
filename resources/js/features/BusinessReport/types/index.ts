@@ -1,2 +1,2 @@
 export * from "./BusinessReportType"
-export * from "./ProposalTrackingType"
+export * from "./BusinessReportTrackingType"

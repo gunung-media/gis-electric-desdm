@@ -17,17 +17,20 @@ use App\Http\Controllers\TrackingViewController;
 use App\Http\Controllers\Auth\AuthenticateController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ElectricSubstationController;
-use App\Http\Controllers\Admin\ProposalTrackingController;
-use App\Http\Controllers\Admin\ReportTrackingController;
 use App\Http\Controllers\Admin\GuideController as AdminGuideController;
 use App\Http\Controllers\Admin\DevelopmentPlanController as AdminDevelopmentPlanController;
 use App\Http\Controllers\Admin\VillageElectricityController as AdminVillageElectricityController;
 use App\Http\Controllers\Admin\ProposalController as AdminProposalController;
+use App\Http\Controllers\Admin\ProposalTrackingController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
+use App\Http\Controllers\Admin\ReportTrackingController;
+
 use App\Http\Controllers\Admin\BpblProposalController as AdminBpblProposalController;
 use App\Http\Controllers\Admin\BpblProposalTrackingController;
 use App\Http\Controllers\Admin\BusinessReportController as AdminBusinessReportController;
+use App\Http\Controllers\Admin\BusinessReportTrackingController;
 use App\Http\Controllers\Admin\PeriodicReportController as AdminPeriodicReportController;
+use App\Http\Controllers\Admin\PeriodicReportTrackingController;
 
 use App\Http\Controllers\Member\MemberAuthenticateController;
 use App\Http\Controllers\Member\MemberSignUpController;
@@ -81,8 +84,16 @@ Route::middleware('auth')->group(function () {
         Route::name('bpbl-proposal.')->prefix('bpbl-proposal/{bpbl_proposal}')->group(function () {
             Route::resource('tracking', BpblProposalTrackingController::class)->except(['index', 'show']);
         });
+
         Route::resource('business-report', AdminBusinessReportController::class)->only(['index', 'show', 'destroy']);
+        Route::name('business-report.')->prefix('business-report/{business_report}')->group(function () {
+            Route::resource('tracking', BusinessReportTrackingController::class)->except(['index', 'show']);
+        });
+
         Route::resource('periodic-report', AdminPeriodicReportController::class)->only(['index', 'show', 'destroy']);
+        Route::name('periodic-report.')->prefix('periodic-report/{periodic_report}')->group(function () {
+            Route::resource('tracking', PeriodicReportTrackingController::class)->except(['index', 'show']);
+        });
 
         Route::resource('development-plan', AdminDevelopmentPlanController::class)->except(['show']);
         Route::resource('village_electricity', AdminVillageElectricityController::class)->except(['show']);

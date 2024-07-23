@@ -1,6 +1,6 @@
 import { CommonTableInterface } from "@/common/interface/CommonTableInterface"
 import { VillageType } from "@/features/Territory"
-import { ProposalTracking } from "./ProposalTrackingType"
+import { PeriodicReportTracking } from "./PeriodicReportTrackingType"
 
 export interface PeriodicReportType extends CommonTableInterface {
     name: string
@@ -21,4 +21,5 @@ export interface PeriodicReportType extends CommonTableInterface {
     condition_path: string | null
     periodic_path: string | null
     village: VillageType
+    trackings: PeriodicReportTracking[]
 }

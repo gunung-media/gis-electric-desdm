@@ -1,4 +1,4 @@
-import { DataTable, RenderDownloadBtn } from "@/common/components"
+import { DataTable } from "@/common/components"
 import { BusinessReportType } from "@/features/BusinessReport"
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
 import { PageProps } from "@/types"
@@ -12,7 +12,7 @@ export default function Index({ datas }: PageProps & { datas: BusinessReportType
         'JUMLAH PEMBANGKIT DAN KAPASITAS PEMBANGKIT(SKP / IUPTLS)',
     ]
     const dataTable = datas.map(({ id, name, created_at, address }) => ({
-        id, name, created_at, address,
+        id, name, created_at, address, description: '-',
     }))
     return (
         <AuthenticatedLayout>
@@ -27,8 +27,8 @@ export default function Index({ datas }: PageProps & { datas: BusinessReportType
                             <DataTable
                                 data={dataTable}
                                 columns={column}
-                                onEdit={(id) => router.visit(route('admin.business-report.show', { id: id }))}
-                                onDelete={(id) => router.delete(route('admin.business-report.destroy', { id: id }))} />
+                                onEdit={(id) => router.visit(route('admin.business-report.show', { business_report: id }))}
+                                onDelete={(id) => router.delete(route('admin.business-report.destroy', { business_report: id }))} />
                         </div>
                     </div>
                 </div>

@@ -13,7 +13,7 @@ export default function Index({ datas }: PageProps & { datas: PeriodicReportType
         'DESKRIPSI'
     ]
     const dataTable = datas.map(({ id, name, created_at, address, description }) => ({
-        id, name, created_at, address, description
+        id, name, created_at, address, etc: '-', description
     }))
     return (
         <AuthenticatedLayout>

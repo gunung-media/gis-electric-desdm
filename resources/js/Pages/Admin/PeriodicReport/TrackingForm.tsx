@@ -2,15 +2,15 @@ import { InputError, Input, OptionalSelect } from "@/common/components";
 import { TrackingDTO } from "@/common/dtos";
 import { StatusEnum } from "@/common/enums";
 import { enumToStringArray, swalError, swalSuccess } from "@/common/utils";
-import { ProposalTracking } from "@/features/Proposal";
+import { PeriodicReportTracking } from "@/features/PeriodicReport";
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
 import { Head, router, useForm, usePage } from "@inertiajs/react";
 import { FormEventHandler, useEffect } from "react";
 
-export default function TrackingForm({ tracking }: PageProps & { tracking?: ProposalTracking }) {
+export default function TrackingForm({ tracking }: PageProps & { tracking?: PeriodicReportTracking }) {
     const { errors } = usePage<PageProps>().props
-    const { proposalId } = route().params
+    const { periodic_report } = route().params
     const { data: dto, setData, post, put } = useForm<TrackingDTO>()
 
     useEffect(() => {
@@ -26,7 +26,7 @@ export default function TrackingForm({ tracking }: PageProps & { tracking?: Prop
     const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault()
         if (tracking) {
-            put(route('admin.proposal.tracking.update', { proposalId, tracking: tracking.id }), {
+            put(route('admin.periodic-report.tracking.update', { periodic_report: periodic_report, tracking: tracking.id }), {
                 onError: (e) => {
                     swalError(e.error)
                 },
@@ -36,7 +36,7 @@ export default function TrackingForm({ tracking }: PageProps & { tracking?: Prop
             })
             return
         }
-        post(route('admin.proposal.tracking.store', { proposalId }), {
+        post(route('admin.periodic-report.tracking.store', { periodic_report: periodic_report }), {
             onError: (e) => {
                 swalError(e.error)
             },
@@ -66,7 +66,7 @@ export default function TrackingForm({ tracking }: PageProps & { tracking?: Prop
                                 />
                                 <InputError message={errors.status} />
                                 <button type="submit" className="btn btn-primary me-2">Submit</button>
-                                <button type="button" className="btn btn-light" onClick={() => router.visit(route('admin.proposal.show', { proposal: proposalId }))}>Cancel</button>
+                                <button type="button" className="btn btn-light" onClick={() => router.visit(route('admin.periodic-report.show', { periodic_report: periodic_report }))}>Cancel</button>
                             </form>
                         </div>
                     </div>

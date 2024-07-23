@@ -1,6 +1,6 @@
 import { CommonTableInterface } from "@/common/interface/CommonTableInterface"
 import { VillageType } from "@/features/Territory"
-import { ProposalTracking } from "./ProposalTrackingType"
+import { BusinessReportTracking } from "./BusinessReportTrackingType"
 
 export interface BusinessReportType extends CommonTableInterface {
     name: string
@@ -22,4 +22,5 @@ export interface BusinessReportType extends CommonTableInterface {
     specification_path: string | null
     bap_path: string | null
     village: VillageType
+    trackings: BusinessReportTracking[]
 }

@@ -24,7 +24,7 @@ class BusinessReportRepository
 
     public function getBusinessReport(int $id): ?BusinessReport
     {
-        return $this->model->with(['village', 'trackings'])->findOrFail($id);
+        return $this->model->with(['village', 'village.district', 'village.district.city', 'trackings'])->findOrFail($id);
     }
 
     public function insertBusinessReport(array $data): BusinessReport

@@ -24,7 +24,7 @@ class PeriodicReportRepository
 
     public function getPeriodicReport(int $id): ?PeriodicReport
     {
-        return $this->model->with(['village', 'trackings'])->findOrFail($id);
+        return $this->model->with(['village', 'village.district', 'village.district.city', 'trackings'])->findOrFail($id);
     }
 
     public function insertPeriodicReport(array $data): PeriodicReport
