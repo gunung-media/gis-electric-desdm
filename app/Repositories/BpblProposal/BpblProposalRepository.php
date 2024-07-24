@@ -31,4 +31,12 @@ class BpblProposalRepository
     {
         return $this->model->create($data);
     }
+
+    /**
+     * @param array<mixed,mixed> $array
+     */
+    public function updateBpblProposal(string $id, array $array)
+    {
+        return $this->model->where('id', $id)->update($array);
+    }
 }

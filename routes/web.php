@@ -118,8 +118,8 @@ Route::prefix('member')->name('member.')->group(function () {
         Route::delete('logout', [MemberAuthenticateController::class, 'destroy'])->name('logout');
         Route::get('/', MemberDashboardController::class)->name('dashboard');
 
-        Route::resource('/bpbl-proposal', BpblProposalController::class)->only(['index', 'store', 'show']);
-        Route::resource('/business-report', BusinessReportController::class)->only(['index', 'store', 'show']);
-        Route::resource('/periodic-report', PeriodicReportController::class)->only(['index', 'store', 'show']);
+        Route::resource('/bpbl-proposal', BpblProposalController::class);
+        Route::resource('/business-report', BusinessReportController::class);
+        Route::resource('/periodic-report', PeriodicReportController::class);
     });
 });

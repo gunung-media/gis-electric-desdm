@@ -5,10 +5,10 @@ import { CityType, DistrictType, SelectCity, SelectDistrict, SelectVillage, Vill
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
 import { FormControlElement, PageProps } from "@/types"
 import { Head, useForm } from "@inertiajs/react"
-import { ChangeEvent, useEffect, useState } from "react"
+import { ChangeEvent, FormEventHandler, useEffect, useState } from "react"
 import L from "leaflet"
 import latLangKalteng from "@/common/constants/latLangKalteng"
-import { electricIcon } from "@/common/utils"
+import { electricIcon, swalError, swalSuccess } from "@/common/utils"
 
 export default function Detail({ data }: PageProps & { data: BpblProposalType }) {
     const { map } = useMap()
@@ -89,14 +89,19 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
 
     const handleVillageChange = (e: OptionType<VillageType>) => {
         setVillageCode(e.value.code)
+        setData('village_code', e.value.code.toString())
     }
 
-    const handleFormGroupChange = (name: keyof BpblProposalDTO, e: ChangeEvent<HTMLInputElement> | string | ChangeEvent<FormControlElement>, isNumber: boolean = false) => {
-        if (typeof e === 'string') {
-            setData(name, e)
-        } else {
-            setData(name, isNumber ? Number(e.target.value) : e.target.value)
-        }
+    const handleSubmit: FormEventHandler = (e) => {
+        e.preventDefault()
+        put(route('member.bpbl-proposal.update', { bpbl_proposal: data.id }), {
+            onError: (e) => {
+                swalError(e.error)
+            },
+            onSuccess: () => {
+                swalSuccess('Sukses Mengedit')
+            }
+        })
     }
     return (
         <AuthenticatedLayout>
@@ -120,28 +125,33 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                 <div className="col-12">
                                     <FormGroup
                                         title="Nama Pelapor"
-                                        name="name"
-                                        value={data.full_name}
+                                        name="full_name"
+                                        value={dto.full_name}
+                                        onChange={(e) => setData("full_name", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="NIK"
-                                        name="nik"
-                                        value={data.identity_number}
+                                        name="identity_number"
+                                        value={dto.identity_number}
+                                        onChange={(e) => setData("identity_number", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Email"
                                         name="email"
-                                        value={data.email}
+                                        value={dto.email}
+                                        onChange={(e) => setData("email", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Nomor Handphone/WA"
                                         name="phone_number"
-                                        value={data.phone_number}
+                                        value={dto.phone_number}
+                                        onChange={(e) => setData("phone_number", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Alamat"
                                         name="address"
-                                        value={data.address}
+                                        value={dto.address}
+                                        onChange={(e) => setData("address", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <SelectCity
                                         handleCityChange={handleCityChange}
@@ -150,6 +160,7 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                     <SelectDistrict
                                         handleDistrictChange={handleDistrictChange}
                                         selectedCityId={cityCode}
+                                        selectedDistrict={districtCode}
                                     />
                                     <SelectVillage
                                         handleVillageChange={handleVillageChange}
@@ -159,7 +170,8 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                     <FormGroup
                                         title="Deskripsi"
                                         name="description"
-                                        value={data.description ?? ""}
+                                        value={dto.description ?? ""}
+                                        onChange={(e) => setData("description", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <div className="row">
                                         <div className="col-md-4 mb-3">
@@ -178,11 +190,13 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                             <p>Foto Jaringan Terdekat</p>
                                             <RenderDownloadBtn documentPath={data.nearest_path} />
                                         </div>
-                                        <div className="col-md-4 mb-3">
+                                        <div className="col-md-8 mb-3">
                                             <p>Surat Pernyataan Tidak Mampu/Usulan Dari Kepala Desa/Lurah</p>
                                             <RenderDownloadBtn documentPath={data.letter_path} />
                                         </div>
                                     </div>
+
+                                    <button type="submit" className="btn btn-primary mt-2 w-100" onClick={handleSubmit}>Submit</button>
                                 </div>
                             </div>
                         </div>

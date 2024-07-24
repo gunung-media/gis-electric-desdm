@@ -71,6 +71,33 @@ class BpblProposalController extends Controller
         return Inertia::render('Member/BpblProposal/Detail', ['data' => $this->bpblProposalRepository->getBpblProposal($id)]);
     }
 
+    public function update(Request $request, string $id): mixed
+    {
+        $request->validate([
+            'full_name' => 'required|string',
+            'identity_number' => 'required|string',
+            'email' => 'required|email',
+            'phone_number' => 'required|string',
+            'village_code' => 'required',
+            'address' => 'required|string',
+            'description' => 'nullable|string',
+        ]);
+
+        try {
+            $this->bpblProposalRepository->updateBpblProposal(
+                $id,
+                [
+                    ...($request->all()),
+                    'member_id' => auth('member')->user()->id
+                ]
+            );
+            return redirect(route('member.bpbl-proposal.index'))->with('status', 'Sukses Menambah usulan');
+        } catch (\Throwable $th) {
+            error_log(json_encode($th->getMessage()));
+            return back()->withErrors(['error' => 'Gagal mengedit usulan']);
+        }
+    }
+
     public function destroy(string $id): mixed
     {
         $proposal = $this->bpblProposalRepository->getBpblProposal($id);
