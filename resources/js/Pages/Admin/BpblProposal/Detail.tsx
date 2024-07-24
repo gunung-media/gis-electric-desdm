@@ -108,13 +108,7 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                         disabled={true}
                                     />
                                     <FormGroup
-                                        title="Nomor Handphone"
-                                        name="nik"
-                                        value={data.phone_number}
-                                        disabled={true}
-                                    />
-                                    <FormGroup
-                                        title="Nomor Handphone"
+                                        title="Nomor Handphone/WA"
                                         name="nik"
                                         value={data.phone_number}
                                         disabled={true}

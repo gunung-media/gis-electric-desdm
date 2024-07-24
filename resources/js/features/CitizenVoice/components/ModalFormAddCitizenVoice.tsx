@@ -55,7 +55,7 @@ export const ModalFormAddCitizenVoice: FC<{
         { title: 'Nama Lengkap', name: 'full_name', type: "text" },
         { title: 'NIK', name: 'identity_number', type: "text" },
         { title: 'Email', name: 'email', type: 'email' },
-        { title: 'Nomor Telepon/WA', name: 'phone_number', type: 'number' },
+        { title: 'Nomor Handphone/WA', name: 'phone_number', type: 'number' },
     ]
 
     useEffect(() => {

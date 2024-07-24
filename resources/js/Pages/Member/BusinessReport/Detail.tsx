@@ -93,66 +93,50 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
                                         title="Nama Badan Usaha/Perorangan"
                                         name="name"
                                         value={data.name}
-                                        disabled={true}
                                     />
                                     <FormGroup
                                         title="NIB (Nomor Induk Berusaha)"
                                         name="nik"
                                         value={data.nib}
-                                        disabled={true}
                                     />
                                     <FormGroup
                                         title="NPWP"
                                         name="nik"
                                         value={data.npwp}
-                                        disabled={true}
                                     />
                                     <FormGroup
                                         title="Email"
                                         name="nik"
                                         value={data.email}
-                                        disabled={true}
                                     />
                                     <FormGroup
-                                        title="Nomor Handphone"
-                                        name="nik"
+                                        title="Nomor Handphone/WA"
+                                        name="phone_number"
                                         value={data.phone_number}
-                                        disabled={true}
-                                    />
-                                    <FormGroup
-                                        title="Nomor Handphone"
-                                        name="nik"
-                                        value={data.phone_number}
-                                        disabled={true}
                                     />
                                     <FormGroup
                                         title="Alamat"
                                         name="nik"
                                         value={data.address}
-                                        disabled={true}
                                     />
                                     <SelectCity
                                         handleCityChange={handleCityChange}
                                         selectedCity={cityCode}
-                                        disabled={true}
                                     />
                                     <SelectDistrict
                                         handleDistrictChange={handleDistrictChange}
                                         selectedCityId={cityCode}
                                         selectedDistrict={districtCode}
-                                        disabled={true}
                                     />
                                     <SelectVillage
                                         handleVillageChange={handleVillageChange}
                                         selectedDistrictId={districtCode}
                                         selectedVillage={villageCode}
-                                        disabled={true}
                                     />
                                     <FormGroup
                                         title="Deskripsi"
-                                        name="textarea"
+                                        name="description"
                                         value={data.description ?? ""}
-                                        disabled={true}
                                     />
                                     <div className="row">
                                         <div className="col-md-4 mb-3">

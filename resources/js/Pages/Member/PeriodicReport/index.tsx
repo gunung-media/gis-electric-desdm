@@ -13,7 +13,7 @@ export default function Proposal({ datas }: PageProps & { datas: PeriodicReportT
         { title: 'NPWP (Nomor Pokok Wajib Pajak)', name: 'npwp', type: "text" },
         { title: 'Nomor Perizinan', name: 'permit_number', type: "text" },
         { title: 'Email', name: 'email', type: 'email' },
-        { title: 'Nomor Handphone', name: 'phone_number', type: 'number' },
+        { title: 'Nomor Handphone/WA', name: 'phone_number', type: 'number' },
     ]
 
     const additionalFields: InputType<PeriodicReportDTO>[] = [

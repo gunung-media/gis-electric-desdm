@@ -11,7 +11,7 @@ export default function Proposal({ datas }: PageProps & { datas: BusinessReportT
         { title: 'NIB (Nomor Induk Berusaha)', name: 'nib', type: "text" },
         { title: 'NPWP (Nomor Pokok Wajib Pajak)', name: 'npwp', type: "text" },
         { title: 'Email', name: 'email', type: 'email' },
-        { title: 'Nomor Handphone', name: 'phone_number', type: 'number' },
+        { title: 'Nomor Handphone/WA', name: 'phone_number', type: 'number' },
     ]
 
     const additionalFields: InputType<BusinessReportDTO>[] = [
