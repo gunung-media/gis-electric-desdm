@@ -31,4 +31,12 @@ class BusinessReportRepository
     {
         return $this->model->create($data);
     }
+
+    /**
+     * @param array<mixed,mixed> $array
+     */
+    public function updateBusinessReport(string $id, array $array)
+    {
+        return $this->model->where('id', $id)->update($array);
+    }
 }

@@ -1,14 +1,14 @@
 import { DataTable, FormGroup, OptionType, RenderDownloadBtn } from "@/common/components"
 import { useMap } from "@/common/hooks"
-import { BusinessReportType } from "@/features/BusinessReport"
+import { BusinessReportDTO, BusinessReportType } from "@/features/BusinessReport"
 import { CityType, DistrictType, SelectCity, SelectDistrict, SelectVillage, VillageType } from "@/features/Territory"
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
-import { PageProps } from "@/types"
-import { Head } from "@inertiajs/react"
-import { useEffect, useState } from "react"
+import { FormControlElement, PageProps } from "@/types"
+import { Head, useForm } from "@inertiajs/react"
+import { ChangeEvent, FormEventHandler, useEffect, useState } from "react"
 import L from "leaflet"
 import latLangKalteng from "@/common/constants/latLangKalteng"
-import { electricIcon } from "@/common/utils"
+import { electricIcon, swalError, swalSuccess } from "@/common/utils"
 
 export default function Detail({ data }: PageProps & { data: BusinessReportType }) {
     const { map } = useMap()
@@ -16,6 +16,7 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
     const [cityCode, setCityCode] = useState<string | number>()
     const [districtCode, setDistrictCode] = useState<string | number>()
     const [villageCode, setVillageCode] = useState<string | number>()
+    const { data: dto, setData, put } = useForm<BusinessReportDTO>()
 
     const column: string[] = [
         'Deskripsi',
@@ -36,10 +37,28 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
                     city_code,
                 }
             },
+            name,
+            nib,
+            npwp,
+            email,
+            phone_number,
+            address,
+            description
         } = data
         setVillageCode(village_code)
         setDistrictCode(districtCode)
         setCityCode(city_code)
+        setData(() => ({
+            ...dto,
+            name,
+            nib,
+            npwp,
+            email,
+            phone_number,
+            address,
+            description,
+            village_code
+        }))
     }, [])
 
     useEffect(() => {
@@ -69,6 +88,18 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
     const handleVillageChange = (e: OptionType<VillageType>) => {
         setVillageCode(e.value.code)
     }
+
+    const handleSubmit: FormEventHandler = (e) => {
+        e.preventDefault()
+        put(route('member.business-report.update', { business_report: data.id }), {
+            onError: (e) => {
+                swalError(e.error)
+            },
+            onSuccess: () => {
+                swalSuccess('Sukses Mengedit')
+            }
+        })
+    }
     return (
         <AuthenticatedLayout>
             <Head title="Usulan BPBL Form" />
@@ -92,32 +123,38 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
                                     <FormGroup
                                         title="Nama Badan Usaha/Perorangan"
                                         name="name"
-                                        value={data.name}
+                                        value={dto.name}
+                                        onChange={(e) => setData("name", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="NIB (Nomor Induk Berusaha)"
                                         name="nik"
-                                        value={data.nib}
+                                        value={dto.nib}
+                                        onChange={(e) => setData("nib", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="NPWP"
-                                        name="nik"
-                                        value={data.npwp}
+                                        name="npwp"
+                                        value={dto.npwp}
+                                        onChange={(e) => setData("npwp", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Email"
-                                        name="nik"
-                                        value={data.email}
+                                        name="email"
+                                        value={dto.email}
+                                        onChange={(e) => setData("email", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Nomor Handphone/WA"
                                         name="phone_number"
-                                        value={data.phone_number}
+                                        value={dto.phone_number}
+                                        onChange={(e) => setData("phone_number", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Alamat"
-                                        name="nik"
-                                        value={data.address}
+                                        name="address"
+                                        value={dto.address}
+                                        onChange={(e) => setData("address", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <SelectCity
                                         handleCityChange={handleCityChange}
@@ -136,7 +173,8 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
                                     <FormGroup
                                         title="Deskripsi"
                                         name="description"
-                                        value={data.description ?? ""}
+                                        value={dto.description ?? ""}
+                                        onChange={(e) => setData("description", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <div className="row">
                                         <div className="col-md-4 mb-3">
@@ -172,6 +210,7 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
                                             <RenderDownloadBtn documentPath={data.bap_path} />
                                         </div>
                                     </div>
+                                    <button type="submit" className="btn btn-primary mt-2 w-100" onClick={handleSubmit}>Submit</button>
                                 </div>
                             </div>
                         </div>

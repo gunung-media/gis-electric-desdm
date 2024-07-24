@@ -31,4 +31,12 @@ class PeriodicReportRepository
     {
         return $this->model->create($data);
     }
+
+    /**
+     * @param array<mixed,mixed> $array
+     */
+    public function updatePeriodicReport(string $id, array $array)
+    {
+        return $this->model->find($id)->update($array);
+    }
 }

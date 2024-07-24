@@ -33,7 +33,7 @@ class PeriodicReportController extends Controller
             'permit_number' => 'required|string',
             'email' => 'required|email',
             'phone_number' => 'required|string',
-            'village_code' => 'required|string',
+            'village_code' => 'required',
             'address' => 'required|string',
             'latitude' => 'nullable|string',
             'longitude' => 'nullable|string',
@@ -71,6 +71,36 @@ class PeriodicReportController extends Controller
     public function show(string $id): Response
     {
         return Inertia::render('Member/PeriodicReport/Detail', ['data' => $this->periodicReportRepository->getPeriodicReport($id)]);
+    }
+
+    public function update(Request $request, string $id): mixed
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'type' => 'required|string',
+            'nib' => 'required|string',
+            'npwp' => 'required|string',
+            'permit_number' => 'required|string',
+            'email' => 'required|email',
+            'phone_number' => 'required|string',
+            'village_code' => 'required',
+            'address' => 'required|string',
+            'description' => 'nullable|string',
+        ]);
+
+        try {
+            $this->periodicReportRepository->updatePeriodicReport(
+                $id,
+                [
+                    ...($request->all()),
+                    'member_id' => auth('member')->user()->id
+                ]
+            );
+            return redirect(route('member.periodic-report.index'))->with('status', 'Sukses Mengedit Laporan');
+        } catch (\Throwable $th) {
+            error_log(json_encode($th->getMessage()));
+            return back()->withErrors(['error' => 'Gagal mengedit laporan']);
+        }
     }
 
     public function destroy(string $id): mixed

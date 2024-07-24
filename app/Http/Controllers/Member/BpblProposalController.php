@@ -30,7 +30,7 @@ class BpblProposalController extends Controller
             'identity_number' => 'required|string',
             'email' => 'required|email',
             'phone_number' => 'required|string',
-            'village_code' => 'required|string',
+            'village_code' => 'required',
             'address' => 'required|string',
             'latitude' => 'nullable|string',
             'longitude' => 'nullable|string',

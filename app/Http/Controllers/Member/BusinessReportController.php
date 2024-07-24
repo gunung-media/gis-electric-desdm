@@ -31,7 +31,7 @@ class BusinessReportController extends Controller
             'npwp' => 'required|string',
             'email' => 'required|email',
             'phone_number' => 'required|string',
-            'village_code' => 'required|string',
+            'village_code' => 'required',
             'address' => 'required|string',
             'latitude' => 'nullable|string',
             'longitude' => 'nullable|string',
@@ -79,6 +79,34 @@ class BusinessReportController extends Controller
     public function show(string $id): Response
     {
         return Inertia::render('Member/BusinessReport/Detail', ['data' => $this->businessReportRepository->getBusinessReport($id)]);
+    }
+
+    public function update(Request $request, string $id): mixed
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'nib' => 'required|string',
+            'npwp' => 'required|string',
+            'email' => 'required|email',
+            'phone_number' => 'required|string',
+            'village_code' => 'required',
+            'address' => 'required|string',
+            'description' => 'nullable|string',
+        ]);
+
+        try {
+            $this->businessReportRepository->updateBusinessReport(
+                $id,
+                [
+                    ...($request->all()),
+                    'member_id' => auth('member')->user()->id
+                ]
+            );
+            return redirect(route('member.business-report.index'))->with('status', 'Sukses Mengedit Laporan');
+        } catch (\Throwable $th) {
+            error_log(json_encode($th->getMessage()));
+            return back()->withErrors(['error' => 'Gagal mengedit laporan']);
+        }
     }
 
     public function destroy(string $id): mixed

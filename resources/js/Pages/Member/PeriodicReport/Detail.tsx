@@ -1,14 +1,14 @@
 import { DataTable, FormGroup, OptionType, RenderDownloadBtn } from "@/common/components"
 import { useMap } from "@/common/hooks"
-import { PeriodicReportType } from "@/features/PeriodicReport"
+import { PeriodicReportDTO, PeriodicReportType } from "@/features/PeriodicReport"
 import { CityType, DistrictType, SelectCity, SelectDistrict, SelectVillage, VillageType } from "@/features/Territory"
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
-import { PageProps } from "@/types"
-import { Head, } from "@inertiajs/react"
-import { useEffect, useState } from "react"
+import { FormControlElement, PageProps } from "@/types"
+import { Head, useForm, } from "@inertiajs/react"
+import { ChangeEvent, FormEventHandler, useEffect, useState } from "react"
 import L from "leaflet"
 import latLangKalteng from "@/common/constants/latLangKalteng"
-import { electricIcon } from "@/common/utils"
+import { electricIcon, swalError, swalSuccess } from "@/common/utils"
 
 export default function Detail({ data }: PageProps & { data: PeriodicReportType }) {
     const { map } = useMap()
@@ -16,6 +16,7 @@ export default function Detail({ data }: PageProps & { data: PeriodicReportType 
     const [cityCode, setCityCode] = useState<string | number>()
     const [districtCode, setDistrictCode] = useState<string | number>()
     const [villageCode, setVillageCode] = useState<string | number>()
+    const { data: dto, setData, put } = useForm<PeriodicReportDTO>()
 
     const column: string[] = [
         'Deskripsi',
@@ -36,10 +37,33 @@ export default function Detail({ data }: PageProps & { data: PeriodicReportType 
                     city_code,
                 }
             },
+            name,
+            nib,
+            npwp,
+            email,
+            phone_number,
+            permit_number,
+            address,
+            description,
+            type
         } = data
         setVillageCode(village_code)
         setDistrictCode(districtCode)
         setCityCode(city_code)
+
+        setData(() => ({
+            ...dto,
+            name,
+            village_code,
+            nib,
+            npwp,
+            email,
+            permit_number,
+            type,
+            phone_number,
+            address,
+            description
+        }))
     }, [])
 
     useEffect(() => {
@@ -69,6 +93,18 @@ export default function Detail({ data }: PageProps & { data: PeriodicReportType 
     const handleVillageChange = (e: OptionType<VillageType>) => {
         setVillageCode(e.value.code)
     }
+
+    const handleSubmit: FormEventHandler = (e) => {
+        e.preventDefault()
+        put(route('member.periodic-report.update', { periodic_report: data.id }), {
+            onError: (e) => {
+                swalError(e.error)
+            },
+            onSuccess: () => {
+                swalSuccess('Sukses Mengedit')
+            }
+        })
+    }
     return (
         <AuthenticatedLayout>
             <Head title="Usulan BPBL Form" />
@@ -92,33 +128,50 @@ export default function Detail({ data }: PageProps & { data: PeriodicReportType 
                                     <FormGroup
                                         title="Nama Badan Usaha/Perorangan"
                                         name="name"
-                                        value={data.name}
-                                        disabled={true}
+                                        value={dto.name}
+                                        onChange={(e) => setData("name", (e as ChangeEvent<FormControlElement>).target.value)}
+                                    />
+                                    <FormGroup
+                                        title="Tipe Badan Usaha"
+                                        name="type"
+                                        value={dto.type}
+                                        onChange={(e) => setData("type", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="NIB (Nomor Induk Berusaha)"
                                         name="nib"
-                                        value={data.nib}
+                                        value={dto.nib}
+                                        onChange={(e) => setData("nib", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="NPWP"
                                         name="npwp"
-                                        value={data.npwp}
+                                        value={dto.npwp}
+                                        onChange={(e) => setData("npwp", (e as ChangeEvent<FormControlElement>).target.value)}
+                                    />
+                                    <FormGroup
+                                        title="Nomor Izin Perizinan"
+                                        name="permit_number"
+                                        value={dto.permit_number}
+                                        onChange={(e) => setData("permit_number", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Email"
                                         name="email"
-                                        value={data.email}
+                                        value={dto.email}
+                                        onChange={(e) => setData("email", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Nomor Handphone/WA"
                                         name="phone_number"
-                                        value={data.phone_number}
+                                        value={dto.phone_number}
+                                        onChange={(e) => setData("phone_number", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Alamat"
                                         name="address"
-                                        value={data.address}
+                                        value={dto.address}
+                                        onChange={(e) => setData("address", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
 
                                     <SelectCity
@@ -138,12 +191,14 @@ export default function Detail({ data }: PageProps & { data: PeriodicReportType 
                                     <FormGroup
                                         title="Deskripsi"
                                         name="description"
-                                        value={data.description ?? ""}
+                                        value={dto.description ?? ""}
+                                        onChange={(e) => setData("description", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Jenis Laporan"
                                         name="report_type"
                                         value={data.report_type ?? ""}
+                                        disabled={true}
                                     />
                                     <div className="row">
                                         <div className="col-md-4 mb-3">
@@ -163,6 +218,7 @@ export default function Detail({ data }: PageProps & { data: PeriodicReportType 
                                             <RenderDownloadBtn documentPath={data.periodic_path} />
                                         </div>
                                     </div>
+                                    <button type="submit" className="btn btn-primary mt-2 w-100" onClick={handleSubmit}>Submit</button>
                                 </div>
                             </div>
                         </div>
