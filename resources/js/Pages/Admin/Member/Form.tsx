@@ -24,24 +24,24 @@ export default function Form({ member }: PageProps & { member?: MemberType }) {
                     city_code,
                 }
             },
-            name, nik, address, username } = member
+            name, nik, address, username, phone } = member
         setVillageCode(village_code)
         setDistrictCode(districtCode)
         setCityCode(city_code)
         setData(data => ({
             ...data,
             name,
-            nik,
+            nik, phone,
             village_code,
             address,
             username
         }))
-    }, [])
+    }, [member])
 
     const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault()
         if (member) {
-            router.post(route('admin.user.update', { user: member.id }), {
+            router.post(route('admin.users.update', { user: member.id }), {
                 _method: 'put',
                 ...dto
             }, {
@@ -54,7 +54,7 @@ export default function Form({ member }: PageProps & { member?: MemberType }) {
             })
             return
         }
-        post(route('admin.member.store'), {
+        post(route('admin.users.store'), {
             onError: (e) => {
                 swalError(e.error)
             },
@@ -92,46 +92,48 @@ export default function Form({ member }: PageProps & { member?: MemberType }) {
                                     name="name"
                                     errorMsg={errors.name}
                                     value={dto.name}
-                                    onChange={(e) => setData('name', e as string)}
+                                    onChange={(e) => setData('name', (e as any).target.value)}
                                 />
-                                <InputError message={errors.name} />
 
                                 <FormGroup
                                     title="NIK"
                                     name="nik"
                                     errorMsg={errors.nik}
                                     value={dto.nik}
-                                    onChange={(e) => setData('nik', e as string)}
+                                    onChange={(e) => setData('nik', (e as any).target.value)}
                                 />
-                                <InputError message={errors.nik} />
 
+                                <FormGroup
+                                    title="Username"
+                                    name="username"
+                                    errorMsg={errors.username}
+                                    value={dto.username}
+                                    onChange={(e) => setData('username', (e as any).target.value)}
+                                />
                                 <FormGroup
                                     title="Password"
                                     name="password"
                                     errorMsg={errors.password}
                                     value={dto.password}
-                                    onChange={(e) => setData('password', e as string)}
+                                    onChange={(e) => setData('password', (e as any).target.value)}
                                     type="password"
                                 />
-                                <InputError message={errors.password} />
 
                                 <FormGroup
                                     title="Nomor Handphone"
                                     name="phone"
                                     errorMsg={errors.phone}
                                     value={dto.phone}
-                                    onChange={(e) => setData('phone', e as string)}
+                                    onChange={(e) => setData('phone', (e as any).target.value)}
                                 />
-                                <InputError message={errors.phone} />
 
                                 <FormGroup
                                     title="Alamat"
                                     name="address"
                                     errorMsg={errors.address}
                                     value={dto.address}
-                                    onChange={(e) => setData('address', e as string)}
+                                    onChange={(e) => setData('address', (e as any).target.value)}
                                 />
-                                <InputError message={errors.address} />
 
                                 <SelectCity
                                     handleCityChange={handleCityChange}

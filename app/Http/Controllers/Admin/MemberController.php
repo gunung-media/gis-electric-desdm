@@ -40,8 +40,8 @@ class MemberController extends Controller
         ]);
 
         try {
-            $this->memberRepository->insert([...($request->all())]);
-            return redirect(route('admin.member.index'))->with('status', 'Sukses Menambah Member');
+            $this->memberRepository->insert([...($request->all()), 'password' => bcrypt($request->password)]);
+            return redirect(route('admin.users.index'))->with('status', 'Sukses Menambah Member');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));
             return back()->withErrors(['error' => 'Gagal menambah Member']);
@@ -59,7 +59,7 @@ class MemberController extends Controller
     public function update(Request $request, string $id): mixed
     {
         $request->validate([
-            'nik' => 'required|unique:members,nik',
+            'nik' => 'required|unique:members,nik,' . $id,
             'name' => 'required',
             'username' => 'required',
             'password' => 'required',
@@ -70,8 +70,8 @@ class MemberController extends Controller
 
         try {
             $member = $this->memberRepository->getMember($id);
-            $member->update([...($request->all())]);
-            return redirect(route('admin.member.index'))->with('status', 'Sukses Mengedit Member');
+            $member->update([...($request->all()), 'password' => bcrypt($request->password)]);
+            return redirect(route('admin.users.index'))->with('status', 'Sukses Mengedit Member');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));
             return back()->withErrors(['error' => 'Gagal Mengedit Member']);

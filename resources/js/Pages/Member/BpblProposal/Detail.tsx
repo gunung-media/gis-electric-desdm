@@ -1,11 +1,11 @@
 import { DataTable, FormGroup, OptionType, RenderDownloadBtn } from "@/common/components"
 import { useMap } from "@/common/hooks"
-import { BpblProposalType } from "@/features/BpblProposal"
+import { BpblProposalDTO, BpblProposalType } from "@/features/BpblProposal"
 import { CityType, DistrictType, SelectCity, SelectDistrict, SelectVillage, VillageType } from "@/features/Territory"
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
-import { PageProps } from "@/types"
-import { Head } from "@inertiajs/react"
-import { useEffect, useState } from "react"
+import { FormControlElement, PageProps } from "@/types"
+import { Head, useForm } from "@inertiajs/react"
+import { ChangeEvent, useEffect, useState } from "react"
 import L from "leaflet"
 import latLangKalteng from "@/common/constants/latLangKalteng"
 import { electricIcon } from "@/common/utils"
@@ -16,6 +16,7 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
     const [cityCode, setCityCode] = useState<string | number>()
     const [districtCode, setDistrictCode] = useState<string | number>()
     const [villageCode, setVillageCode] = useState<string | number>()
+    const { data: dto, setData, put } = useForm<BpblProposalDTO>()
 
     const column: string[] = [
         'Deskripsi',
@@ -36,10 +37,30 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                     city_code,
                 }
             },
+            full_name,
+            identity_number,
+            email,
+            phone_number,
+            address,
+            latitude,
+            longitude,
+            description,
         } = data
         setVillageCode(village_code)
         setDistrictCode(districtCode)
         setCityCode(city_code)
+        setData(() => ({
+            ...dto,
+            full_name,
+            identity_number,
+            email,
+            phone_number,
+            village_code,
+            address,
+            latitude,
+            longitude,
+            description
+        }))
     }, [])
 
     useEffect(() => {
@@ -68,6 +89,14 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
 
     const handleVillageChange = (e: OptionType<VillageType>) => {
         setVillageCode(e.value.code)
+    }
+
+    const handleFormGroupChange = (name: keyof BpblProposalDTO, e: ChangeEvent<HTMLInputElement> | string | ChangeEvent<FormControlElement>, isNumber: boolean = false) => {
+        if (typeof e === 'string') {
+            setData(name, e)
+        } else {
+            setData(name, isNumber ? Number(e.target.value) : e.target.value)
+        }
     }
     return (
         <AuthenticatedLayout>
