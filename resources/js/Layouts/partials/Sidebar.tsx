@@ -82,6 +82,12 @@ export const Sidebar = () => {
                         </a>
                     </li>
                     <li className="nav-item">
+                        <a className="nav-link" href={route('admin.admin.index')}>
+                            <i className="fa fa-user menu-icon"></i>
+                            <span className="menu-title">Admin</span>
+                        </a>
+                    </li>
+                    <li className="nav-item">
                         <a className="nav-link" href={route('admin.users.index')}>
                             <i className="fa fa-users menu-icon"></i>
                             <span className="menu-title">Member</span>

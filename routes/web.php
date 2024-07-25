@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -98,6 +99,7 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::resource('users', AdminMemberController::class)->except(['show']);
+        Route::resource('admin', UserController::class)->except(['show']);
         Route::resource('development-plan', AdminDevelopmentPlanController::class)->except(['show']);
         Route::resource('village_electricity', AdminVillageElectricityController::class)->except(['show']);
         Route::resource('guide', AdminGuideController::class)->only(['index', 'update']);
