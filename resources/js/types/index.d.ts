@@ -3,6 +3,7 @@ export interface User {
     name: string;
     email: string;
     email_verified_at: string;
+    role: 'admin' | 'electricity'
 }
 
 export type FormControlElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;

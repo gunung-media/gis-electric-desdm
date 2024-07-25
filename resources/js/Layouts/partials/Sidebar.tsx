@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
-export const Sidebar = () => {
+import { FC, useEffect, useState } from "react"
+export const Sidebar: FC<{ isElectriricty?: boolean }> = ({ isElectriricty = false }) => {
     const [isMember, setIsMember] = useState<boolean>(false)
 
     useEffect(() => {
@@ -16,24 +16,26 @@ export const Sidebar = () => {
                             <span className="menu-title">Dashboard</span>
                         </a>
                     </li>
-                    <li className="nav-item">
-                        <p className="nav-link" >
-                            <span className="menu-title"><strong>Layanan Masyarakat</strong></span>
-                        </p>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href={route('admin.proposal.index')}>
-                            <i className="fa fa-globe menu-icon"></i>
-                            <span className="menu-title">Usulan</span>
-                        </a>
-                    </li>
+                    {!isElectriricty && <>
+                        <li className="nav-item">
+                            <p className="nav-link" >
+                                <span className="menu-title"><strong>Layanan Masyarakat</strong></span>
+                            </p>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href={route('admin.proposal.index')}>
+                                <i className="fa fa-globe menu-icon"></i>
+                                <span className="menu-title">Usulan</span>
+                            </a>
+                        </li>
 
-                    <li className="nav-item">
-                        <a className="nav-link" href={route('admin.report.index')}>
-                            <i className="fa fa-warning menu-icon"></i>
-                            <span className="menu-title">Laporan</span>
-                        </a>
-                    </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href={route('admin.report.index')}>
+                                <i className="fa fa-warning menu-icon"></i>
+                                <span className="menu-title">Laporan</span>
+                            </a>
+                        </li>
+                    </>}
                     <li className="nav-item">
                         <p className="nav-link" >
                             <span className="menu-title"><strong>Bidang Ketenagalistrikan</strong></span>
@@ -57,48 +59,51 @@ export const Sidebar = () => {
                             <span className="menu-title">Laporan Berkala</span>
                         </a>
                     </li>
-                    <li className="nav-item">
-                        <p className="nav-link" >
-                            <span className="menu-title"><strong>Pengaturan</strong></span>
-                        </p>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" data-bs-toggle="collapse" href="#maps" aria-expanded="false" aria-controls="maps">
-                            <i className="icon-map menu-icon"></i>
-                            <span className="menu-title">Maps</span>
-                            <i className="menu-arrow"></i>
-                        </a>
-                        <div className="collapse" id="maps">
-                            <ul className="nav flex-column sub-menu">
-                                <li className="nav-item"> <a className="nav-link" href={route('admin.gardu_listrik.index')}>Gardu Listrik</a></li>
-                                <li className="nav-item"> <a className="nav-link" href={route('admin.village_electricity.index')}>Desa</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href={route('admin.development-plan.index')}>
-                            <i className="fa fa-building menu-icon"></i>
-                            <span className="menu-title">Rencana Pembangunan</span>
-                        </a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href={route('admin.admin.index')}>
-                            <i className="fa fa-user menu-icon"></i>
-                            <span className="menu-title">Admin</span>
-                        </a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href={route('admin.users.index')}>
-                            <i className="fa fa-users menu-icon"></i>
-                            <span className="menu-title">Member</span>
-                        </a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href={route('admin.guide.index')}>
-                            <i className="fa fa-gear menu-icon"></i>
-                            <span className="menu-title">Setting</span>
-                        </a>
-                    </li>
+
+                    {!isElectriricty && <>
+                        <li className="nav-item">
+                            <p className="nav-link" >
+                                <span className="menu-title"><strong>Pengaturan</strong></span>
+                            </p>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" data-bs-toggle="collapse" href="#maps" aria-expanded="false" aria-controls="maps">
+                                <i className="icon-map menu-icon"></i>
+                                <span className="menu-title">Maps</span>
+                                <i className="menu-arrow"></i>
+                            </a>
+                            <div className="collapse" id="maps">
+                                <ul className="nav flex-column sub-menu">
+                                    <li className="nav-item"> <a className="nav-link" href={route('admin.gardu_listrik.index')}>Gardu Listrik</a></li>
+                                    <li className="nav-item"> <a className="nav-link" href={route('admin.village_electricity.index')}>Desa</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href={route('admin.development-plan.index')}>
+                                <i className="fa fa-building menu-icon"></i>
+                                <span className="menu-title">Rencana Pembangunan</span>
+                            </a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href={route('admin.admin.index')}>
+                                <i className="fa fa-user menu-icon"></i>
+                                <span className="menu-title">Admin</span>
+                            </a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href={route('admin.users.index')}>
+                                <i className="fa fa-users menu-icon"></i>
+                                <span className="menu-title">Member</span>
+                            </a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href={route('admin.guide.index')}>
+                                <i className="fa fa-gear menu-icon"></i>
+                                <span className="menu-title">Setting</span>
+                            </a>
+                        </li>
+                    </>}
                 </ul>
                 :
                 <ul className="nav">
