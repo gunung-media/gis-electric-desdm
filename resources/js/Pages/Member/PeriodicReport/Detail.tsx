@@ -21,11 +21,12 @@ export default function Detail({ data }: PageProps & { data: PeriodicReportType 
     const column: string[] = [
         'Deskripsi',
         'Status',
+        'File',
         'Tanggal',
     ]
 
-    const dataTable = data.trackings.map(({ id, description, status, created_at }) => ({
-        id, description, status, created_at
+    const dataTable = data.trackings.map(({ id, description, status, file_path, created_at }) => ({
+        id, description, status, created_at, file_path: (<RenderDownloadBtn documentPath={file_path} />)
     }))
 
     useEffect(() => {
