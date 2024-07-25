@@ -39,10 +39,10 @@ class PeriodicReportController extends Controller
             'longitude' => 'nullable|string',
             'description' => 'nullable|string',
             'report_type' => 'nullable',
-            'sk_path' => 'required|file',
-            'certificate_path' => 'required|file',
-            'condition_path' => 'required|file',
-            'periodic_path' => 'required|file',
+            'sk_path' => 'required|file|max:2048',
+            'certificate_path' => 'required|file|max:2048',
+            'condition_path' => 'required|file|max:2048',
+            'periodic_path' => 'required|file|max:2048',
         ]);
 
         $skPath = $request->file('sk_path')->store('periodicReport/sk');
@@ -86,13 +86,27 @@ class PeriodicReportController extends Controller
             'village_code' => 'required',
             'address' => 'required|string',
             'description' => 'nullable|string',
+            'sk_path' => 'file|max:2048',
+            'certificate_path' => 'file|max:2048',
+            'condition_path' => 'file|max:2048',
+            'periodic_path' => 'file|max:2048',
         ]);
+
+        $files = [];
+        $arrFiles = ['sk', 'certificate', 'condition', 'periodic'];
+        foreach ($arrFiles as $file) {
+            if ($request->hasFile($file . '_path')) {
+                $path = $request->file($file . '_path')->store('bpbl_proposal/' . $file);
+                $files[$file . '_path'] = $path;
+            }
+        }
 
         try {
             $this->periodicReportRepository->updatePeriodicReport(
                 $id,
                 [
                     ...($request->all()),
+                    ...$files,
                     'member_id' => auth('member')->user()->id
                 ]
             );

@@ -35,11 +35,11 @@ class BpblProposalController extends Controller
             'latitude' => 'nullable|string',
             'longitude' => 'nullable|string',
             'description' => 'nullable|string',
-            'statement_path' => 'required|file',
-            'ktp_path' => 'required|file',
-            'house_path' => 'required|file',
-            'nearest_path' => 'required|file',
-            'letter_path' => 'required|file',
+            'statement_path' => 'required|file|max:2048',
+            'ktp_path' => 'required|file|max:2048',
+            'house_path' => 'required|file|max:2048',
+            'nearest_path' => 'required|file|max:2048',
+            'letter_path' => 'required|file|max:2048',
         ]);
 
         $statementPath = $request->file('statement_path')->store('bpbl_proposal/statement');
@@ -81,13 +81,29 @@ class BpblProposalController extends Controller
             'village_code' => 'required',
             'address' => 'required|string',
             'description' => 'nullable|string',
+            'statement_path' => 'file|max:2048',
+            'ktp_path' => 'file|max:2048',
+            'house_path' => 'file|max:2048',
+            'nearest_path' => 'file|max:2048',
+            'letter_path' => 'file|max:2048',
         ]);
+
+
+        $files = [];
+        $arrFiles = ['statement', 'ktp', 'house', 'nearest', 'letter'];
+        foreach ($arrFiles as $file) {
+            if ($request->hasFile($file . '_path')) {
+                $path = $request->file($file . '_path')->store('bpbl_proposal/' . $file);
+                $files[$file . '_path'] = $path;
+            }
+        }
 
         try {
             $this->bpblProposalRepository->updateBpblProposal(
                 $id,
                 [
                     ...($request->all()),
+                    ...($files),
                     'member_id' => auth('member')->user()->id
                 ]
             );

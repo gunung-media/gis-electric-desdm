@@ -36,14 +36,14 @@ class BusinessReportController extends Controller
             'latitude' => 'nullable|string',
             'longitude' => 'nullable|string',
             'description' => 'nullable|string',
-            'request_path' => 'required|file',
-            'ktp_path' => 'required|file',
-            'nib_path' => 'required|file',
-            'npwp_path' => 'required|file',
-            'diagram_path' => 'required|file',
-            'location_path' => 'required|file',
-            'specification_path' => 'required|file',
-            'bap_path' => 'required|file',
+            'request_path' => 'required|file|max:2048',
+            'ktp_path' => 'required|file|max:2048',
+            'nib_path' => 'required|file|max:2048',
+            'npwp_path' => 'required|file|max:2048',
+            'diagram_path' => 'required|file|max:2048',
+            'location_path' => 'required|file|max:2048',
+            'specification_path' => 'required|file|max:2048',
+            'bap_path' => 'required|file|max:2048',
         ]);
 
         $requestPath = $request->file('request_path')->store('businessReport/request');
@@ -92,13 +92,32 @@ class BusinessReportController extends Controller
             'village_code' => 'required',
             'address' => 'required|string',
             'description' => 'nullable|string',
+            'request_path' => 'file|max:2048',
+            'ktp_path' => 'file|max:2048',
+            'nib_path' => 'file|max:2048',
+            'npwp_path' => 'file|max:2048',
+            'diagram_path' => 'file|max:2048',
+            'location_path' => 'file|max:2048',
+            'specification_path' => 'file|max:2048',
+            'bap_path' => 'file|max:2048',
         ]);
+
+
+        $files = [];
+        $arrFiles = ['request', 'ktp', 'nib', 'npwp', 'diagram', 'location', 'specification', 'bap'];
+        foreach ($arrFiles as $file) {
+            if ($request->hasFile($file . '_path')) {
+                $path = $request->file($file . '_path')->store('bpbl_proposal/' . $file);
+                $files[$file . '_path'] = $path;
+            }
+        }
 
         try {
             $this->businessReportRepository->updateBusinessReport(
                 $id,
                 [
                     ...($request->all()),
+                    ...$files,
                     'member_id' => auth('member')->user()->id
                 ]
             );
