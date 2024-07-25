@@ -11,11 +11,12 @@ export default function Index({ guide }: PageProps & { guide?: GuideType }) {
     const { errors } = usePage<PageProps>().props
     const { data: dto, setData, post } = useForm<GuideDTO>()
     const [prevFileUrl, setPrevFileUrl] = useState<string | null>()
+    const [isPanduan, setIsPanduan] = useState<boolean>(true)
 
     useEffect(() => {
         if (guide) {
-            console.log(guide)
             const { file, ...other } = guide
+            setIsPanduan(guide.id !== 1);
             setPrevFileUrl(file)
             setData(_ => ({
                 ...other,
@@ -61,48 +62,59 @@ export default function Index({ guide }: PageProps & { guide?: GuideType }) {
                                 <InputError message={errors.error} />
                                 <form className="forms-sample" onSubmit={handleSubmit}>
                                     <InputError message={errors.status} />
-                                    <FormGroup
-                                        title="Sambutan Kadis"
-                                        name="sambutan_kadis"
-                                        errorMsg={errors.sambutan_kadis}
-                                        type="textarea"
-                                        onChange={(e) => setData('sambutan_kadis', e as string)}
-                                        value={dto.sambutan_kadis ?? ''}
-                                    />
-                                    <FormGroup
-                                        title="File"
-                                        name="file"
-                                        errorMsg={errors.file}
-                                        type="file"
-                                        onChange={(e) => setData('file', (e as ChangeEvent<HTMLInputElement>).target.files![0])}
-                                    />
-                                    {prevFileUrl && (
-                                        <RenderDownloadBtn documentPath={prevFileUrl} />
-                                    )}
-                                    <FormGroup
-                                        title="Video URL"
-                                        name="url_video"
-                                        errorMsg={errors.url_video}
-                                        type="text"
-                                        onChange={(e) => setData('url_video', (e as ChangeEvent<HTMLInputElement>).target.value)}
-                                        value={dto.url_video ?? ''}
-                                    />
-                                    <FormGroup
-                                        title="Deskripsi"
-                                        name="description"
-                                        errorMsg={errors.description}
-                                        type="textarea"
-                                        onChange={(e) => setData('description', e as string)}
-                                        value={dto.description ?? ''}
-                                    />
-                                    <FormGroup
-                                        title="NO WA"
-                                        name="no_wa"
-                                        errorMsg={errors.no_wa}
-                                        type="number"
-                                        onChange={(e) => setData('no_wa', (e as ChangeEvent<HTMLInputElement>).target.value)}
-                                        value={dto.no_wa ?? ''}
-                                    />
+                                    {isPanduan ? (
+                                        <>
+                                            <FormGroup
+                                                title="Judul"
+                                                name="description"
+                                                errorMsg={errors.description}
+                                                type="textarea"
+                                                onChange={(e) => setData('description', e as string)}
+                                                value={dto.description ?? ''}
+                                            />
+
+                                            <FormGroup
+                                                title="File"
+                                                name="file"
+                                                errorMsg={errors.file}
+                                                type="file"
+                                                onChange={(e) => setData('file', (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                            />
+                                            {prevFileUrl && (
+                                                <RenderDownloadBtn documentPath={prevFileUrl} />
+                                            )}
+                                            <FormGroup
+                                                title="Video URL"
+                                                name="url_video"
+                                                errorMsg={errors.url_video}
+                                                type="text"
+                                                onChange={(e) => setData('url_video', (e as ChangeEvent<HTMLInputElement>).target.value)}
+                                                value={dto.url_video ?? ''}
+                                            />
+                                        </>
+                                    )
+                                        : (
+                                            <>
+                                                <FormGroup
+                                                    title="Sambutan Kadis"
+                                                    name="sambutan_kadis"
+                                                    errorMsg={errors.sambutan_kadis}
+                                                    type="textarea"
+                                                    onChange={(e) => setData('sambutan_kadis', e as string)}
+                                                    value={dto.sambutan_kadis ?? ''}
+                                                />
+
+                                                <FormGroup
+                                                    title="NO WA"
+                                                    name="no_wa"
+                                                    errorMsg={errors.no_wa}
+                                                    type="number"
+                                                    onChange={(e) => setData('no_wa', (e as ChangeEvent<HTMLInputElement>).target.value)}
+                                                    value={dto.no_wa ?? ''}
+                                                />
+                                            </>
+                                        )
+                                    }
                                     <button type="submit" className="btn btn-primary me-2">Submit</button>
                                 </form>
                             </div>

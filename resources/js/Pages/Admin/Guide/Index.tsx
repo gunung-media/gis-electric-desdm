@@ -6,10 +6,11 @@ import { Head, router } from "@inertiajs/react";
 
 export default function Index({ guides }: PageProps & { guides: GuideType[] }) {
     const column: string[] = [
-        'Nama Panduan',
+        'Type',
+        'Nama',
     ]
     const dataTable = guides.map(({ id, description }) => ({
-        id, nama: (<p dangerouslySetInnerHTML={{ __html: description ?? "" }} ></p >)
+        id, type: (id === 1 ? <p className="badge bg-primary">Informasi Umum</p> : <p className="badge bg-warning">Panduan</p >), nama: (id === 1 ? <p>General Information</p> : <p dangerouslySetInnerHTML={{ __html: description ?? "-" }} ></p >)
     }))
 
     return (
@@ -18,7 +19,7 @@ export default function Index({ guides }: PageProps & { guides: GuideType[] }) {
             <div className="card">
                 <div className="card-body">
                     <div className="card-title d-flex justify-content-between">
-                        <p>Guide</p>
+                        <p>Setting</p>
                         <a href={route('admin.guide.create')} type="button" className="btn btn-primary btn-icon-text">
                             <i className="ti-plus btn-icon-prepend"></i>
                             Tambah
