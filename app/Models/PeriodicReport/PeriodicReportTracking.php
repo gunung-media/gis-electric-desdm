@@ -16,6 +16,7 @@ class PeriodicReportTracking extends Model
         'description',
         'status',
         'periodic_report_id',
+        'file_path',
     ];
 
     public function periodicReport(): BelongsTo

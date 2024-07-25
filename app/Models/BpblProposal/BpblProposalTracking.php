@@ -16,6 +16,7 @@ class BpblProposalTracking extends Model
         'description',
         'status',
         'bpbl_proposal_id',
+        'file_path',
     ];
 
     public function bpblProposal(): BelongsTo

@@ -16,6 +16,7 @@ class BusinessReportTracking extends Model
         'description',
         'status',
         'business_report_id',
+        'file_path',
     ];
 
     public function businessReport(): BelongsTo
