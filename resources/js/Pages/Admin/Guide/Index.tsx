@@ -6,10 +6,10 @@ import { Head, router } from "@inertiajs/react";
 
 export default function Index({ guides }: PageProps & { guides: GuideType[] }) {
     const column: string[] = [
-        'Id',
+        'Nama Panduan',
     ]
-    const dataTable = guides.map(({ id, }) => ({
-        id, test: "-"
+    const dataTable = guides.map(({ id, description }) => ({
+        id, nama: (<p dangerouslySetInnerHTML={{ __html: description ?? "" }} ></p >)
     }))
 
     return (
