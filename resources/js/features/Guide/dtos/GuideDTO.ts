@@ -4,4 +4,5 @@ export interface GuideDTO {
     url_video?: string | null;
     description?: string | null;
     no_wa?: string | null;
+    terms_and_condition?: string | null;
 }

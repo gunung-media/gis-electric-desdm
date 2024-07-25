@@ -105,6 +105,15 @@ export default function Index({ guide }: PageProps & { guide?: GuideType }) {
                                                 />
 
                                                 <FormGroup
+                                                    title="Terms And Condition"
+                                                    name="terms_and_condition"
+                                                    errorMsg={errors.terms_and_condition}
+                                                    type="textarea"
+                                                    onChange={(e) => setData('terms_and_condition', e as string)}
+                                                    value={dto.terms_and_condition ?? ''}
+                                                />
+
+                                                <FormGroup
                                                     title="NO WA"
                                                     name="no_wa"
                                                     errorMsg={errors.no_wa}

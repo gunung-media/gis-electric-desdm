@@ -15,5 +15,6 @@ class Guide extends Model
         'url_video',
         'description',
         'no_wa',
+        'terms_and_condition'
     ];
 }

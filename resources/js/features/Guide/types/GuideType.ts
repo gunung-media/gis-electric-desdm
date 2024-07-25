@@ -6,4 +6,5 @@ export interface GuideType extends CommonTableInterface {
     url_video?: string | null;
     description?: string | null;
     no_wa?: string | null;
+    terms_and_condition?: string | null;
 }
