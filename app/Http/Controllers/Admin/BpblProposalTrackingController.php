@@ -24,10 +24,12 @@ class BpblProposalTrackingController extends Controller
         $request->validate([
             'description' => 'required|string',
             'status' => 'required|in:Diterima,Diproses,Ditolak,Diterima dengan catatan',
+            'file_path' => 'files|max:2048',
         ]);
 
+        $filePath = $request->hasFile('file_path') ?  $request->file('file_path')->store('bpbl-proposal-tracking', 'public') : null;
         try {
-            $this->bpblProposalTrackingRepository->insertTracking([...($request->all()), 'bpbl_proposal_id' => $bpblProposalId]);
+            $this->bpblProposalTrackingRepository->insertTracking([...($request->all()), 'bpbl_proposal_id' => $bpblProposalId, 'file_path' => $filePath]);
             return redirect(route('admin.bpbl-proposal.show', ['bpbl_proposal' => $bpblProposalId]))->with('status', 'Sukses Menambah tracking');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));
@@ -44,9 +46,11 @@ class BpblProposalTrackingController extends Controller
 
     public function update(Request $request, string $bpblProposalId, string $id): mixed
     {
+
+        $filePath = $request->hasFile('file_path') ?  $request->file('file_path')->store('bpbl-proposal-tracking', 'public') : null;
         try {
             $proposalTracking = $this->bpblProposalTrackingRepository->getTracking($id);
-            $proposalTracking->update([...($request->all()), 'bpbl_proposal_id' => $bpblProposalId]);
+            $proposalTracking->update([...($request->all()), 'bpbl_proposal_id' => $bpblProposalId, 'file_path' => $filePath]);
             return redirect(route('admin.bpbl-proposal.show', ['bpbl_proposal' => $bpblProposalId]))->with('status', 'Sukses Edit tracking');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));

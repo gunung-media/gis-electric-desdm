@@ -24,10 +24,12 @@ class BusinessReportTrackingController extends Controller
         $request->validate([
             'description' => 'required|string',
             'status' => 'required|in:Diterima,Diproses,Ditolak,Diterima dengan catatan',
+            'file_path' => 'files|max:2048',
         ]);
 
+        $filePath = $request->hasFile('file_path') ?  $request->file('file_path')->store('business-report-tracking', 'public') : null;
         try {
-            $this->businessReportTrackingRepository->insertTracking([...($request->all()), 'business_report_id' => $businessReportId]);
+            $this->businessReportTrackingRepository->insertTracking([...($request->all()), 'business_report_id' => $businessReportId, 'file_path' => $filePath]);
             return redirect(route('admin.business-report.show', ['business_report' => $businessReportId]))->with('status', 'Sukses Menambah tracking');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));
@@ -44,9 +46,10 @@ class BusinessReportTrackingController extends Controller
 
     public function update(Request $request, string $businessReportId, string $id): mixed
     {
+        $filePath = $request->hasFile('file_path') ?  $request->file('file_path')->store('business-report-tracking', 'public') : null;
         try {
             $proposalTracking = $this->businessReportTrackingRepository->getTracking($id);
-            $proposalTracking->update([...($request->all()), 'business_report_id' => $businessReportId]);
+            $proposalTracking->update([...($request->all()), 'business_report_id' => $businessReportId, 'file_path' => $filePath]);
             return redirect(route('admin.business-report.show', ['business_report' => $businessReportId]))->with('status', 'Sukses Edit tracking');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));

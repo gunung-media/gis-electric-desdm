@@ -12,8 +12,7 @@ class ProposalTrackingController extends Controller
 {
     public function __construct(
         protected ProposalTrackingRepository $proposalTrackingRepository = new ProposalTrackingRepository()
-    ) {
-    }
+    ) {}
 
     public function create(string $proposalId): Response
     {
@@ -25,10 +24,12 @@ class ProposalTrackingController extends Controller
         $request->validate([
             'description' => 'required|string',
             'status' => 'required|in:Diterima,Diproses,Ditolak,Diterima dengan catatan',
+            'file_path' => 'files|max:2048',
         ]);
 
+        $filePath = $request->hasFile('file_path') ?  $request->file('file_path')->store('periodic-report-tracking', 'public') : null;
         try {
-            $this->proposalTrackingRepository->insertTracking([...($request->all()), 'proposal_id' => $proposalId]);
+            $this->proposalTrackingRepository->insertTracking([...($request->all()), 'proposal_id' => $proposalId, 'file_path' => $filePath]);
             return redirect(route('admin.proposal.show', ['proposal' => $proposalId]))->with('status', 'Sukses Menambah tracking');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));
@@ -45,9 +46,10 @@ class ProposalTrackingController extends Controller
 
     public function update(Request $request, string $proposalId, string $id): mixed
     {
+        $filePath = $request->hasFile('file_path') ?  $request->file('file_path')->store('periodic-report-tracking', 'public') : null;
         try {
             $proposalTracking = $this->proposalTrackingRepository->getTracking($id);
-            $proposalTracking->update([...($request->all()), 'proposal_id' => $proposalId]);
+            $proposalTracking->update([...($request->all()), 'proposal_id' => $proposalId, 'file_path' => $filePath]);
             return redirect(route('admin.proposal.show', ['proposal' => $proposalId]))->with('status', 'Sukses Edit tracking');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));

@@ -1,4 +1,4 @@
-import { InputError, Input, OptionalSelect } from "@/common/components";
+import { InputError, Input, OptionalSelect, FormGroup, RenderDownloadBtn } from "@/common/components";
 import { TrackingDTO } from "@/common/dtos";
 import { StatusEnum } from "@/common/enums";
 import { enumToStringArray, swalError, swalSuccess } from "@/common/utils";
@@ -6,7 +6,7 @@ import { BpblProposalTracking } from "@/features/BpblProposal";
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
 import { Head, router, useForm, usePage } from "@inertiajs/react";
-import { FormEventHandler, useEffect } from "react";
+import { ChangeEvent, FormEventHandler, useEffect } from "react";
 
 export default function TrackingForm({ tracking }: PageProps & { tracking?: BpblProposalTracking }) {
     const { errors } = usePage<PageProps>().props
@@ -19,7 +19,7 @@ export default function TrackingForm({ tracking }: PageProps & { tracking?: Bpbl
         setData(data => ({
             ...data,
             description,
-            status
+            status,
         }))
     }, [])
 
@@ -65,6 +65,15 @@ export default function TrackingForm({ tracking }: PageProps & { tracking?: Bpbl
                                     onSelected={(val) => setData('status', val as StatusEnum)}
                                 />
                                 <InputError message={errors.status} />
+
+                                <FormGroup
+                                    title="File Pendukung"
+                                    name="file_path"
+                                    type="file"
+                                    onChange={(e) => setData("file_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                />
+                                <RenderDownloadBtn documentPath={tracking?.file_path} />
+
                                 <button type="submit" className="btn btn-primary me-2">Submit</button>
                                 <button type="button" className="btn btn-light" onClick={() => router.visit(route('admin.bpbl-proposal.show', { bpbl_proposal: bpbl_proposal }))}>Cancel</button>
                             </form>
