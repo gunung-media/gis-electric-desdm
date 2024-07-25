@@ -11,7 +11,7 @@ export default function Index({ users }: PageProps & { users: UserType[] }) {
         'Role',
     ]
     const dataTable = users.map(({ id, name, username, role }) => ({
-        id, name, username, role
+        id, name, username, role: (<p className="badge bg-primary">{role === "electricity" ? "Kelistrikan" : "Super Admin"}</p>)
     }))
 
     return (

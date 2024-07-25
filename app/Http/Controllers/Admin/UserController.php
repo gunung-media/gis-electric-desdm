@@ -37,7 +37,7 @@ class UserController extends Controller
 
         try {
             $this->userRepository->insert([...($request->all()), 'password' => bcrypt($request->password)]);
-            return redirect(route('admin.users.index'))->with('status', 'Sukses Menambah User');
+            return redirect(route('admin.admin.index'))->with('status', 'Sukses Menambah User');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));
             return back()->withErrors(['error' => 'Gagal menambah User']);
@@ -63,7 +63,7 @@ class UserController extends Controller
         try {
             $user = $this->userRepository->getUser($id);
             $user->update([...($request->all()), 'password' => bcrypt($request->password)]);
-            return redirect(route('admin.users.index'))->with('status', 'Sukses Mengedit User');
+            return redirect(route('admin.admin.index'))->with('status', 'Sukses Mengedit User');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));
             return back()->withErrors(['error' => 'Gagal Mengedit User']);
@@ -74,6 +74,6 @@ class UserController extends Controller
     {
         $user = $this->userRepository->getUser($id);
         $user->delete();
-        return redirect(route('admin.user.index'))->with('status', 'Sukses Menghapus User');
+        return redirect(route('admin.admin.index'))->with('status', 'Sukses Menghapus User');
     }
 }
