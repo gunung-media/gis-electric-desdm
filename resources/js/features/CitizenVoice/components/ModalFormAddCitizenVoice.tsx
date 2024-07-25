@@ -16,6 +16,8 @@ import { ReportDTO } from '@/features/Report'
 import { BpblProposalDTO } from '@/features/BpblProposal'
 import { BusinessReportDTO } from '@/features/BusinessReport'
 import { PeriodicReportDTO } from '@/features/PeriodicReport'
+import { GuideType } from '@/features/Guide'
+import { getGuide } from '@/features/Guide/api'
 
 export const ModalFormAddCitizenVoice: FC<{
     isShow: boolean,
@@ -38,6 +40,16 @@ export const ModalFormAddCitizenVoice: FC<{
     const [marker, setMarker] = useState<L.Marker>()
     const [showTermsModal, setShowTermsModal] = useState(false);
     const [isTermsChecked, setIsTermsChecked] = useState(false);
+    const [guide, setGuide] = useState<GuideType>()
+    const getGuideData = async () => {
+        const { data } = await getGuide()
+        setGuide(data.data)
+    }
+
+    useEffect(() => {
+        getGuideData()
+    }, [])
+
 
     const handleTermsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setIsTermsChecked(event.target.checked);
@@ -271,8 +283,7 @@ export const ModalFormAddCitizenVoice: FC<{
                     <Modal.Title>Terms and Conditions</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {/* Your terms and conditions content here */}
-                    <p>Here are the terms and conditions...</p>
+                    <p dangerouslySetInnerHTML={{ __html: guide?.terms_and_condition ?? 'Saya Mensetujui ' }}></p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseTermsModal}>

@@ -14,7 +14,7 @@ export function AuthenticatedLayout({ children }: PropsWithChildren) {
         <div className="container-scroller">
             <Navbar />
             <div className="container-fluid page-body-wrapper">
-                <Sidebar isElectriricty={user.role === 'electricity'} />
+                <Sidebar isElectriricty={user?.role !== undefined && user?.role === 'electricity'} />
                 <div className="main-panel">
                     <div className="content-wrapper">
                         {children}
