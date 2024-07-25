@@ -102,7 +102,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('admin', UserController::class)->except(['show']);
         Route::resource('development-plan', AdminDevelopmentPlanController::class)->except(['show']);
         Route::resource('village_electricity', AdminVillageElectricityController::class)->except(['show']);
-        Route::resource('guide', AdminGuideController::class)->only(['index', 'update']);
+        Route::resource('guide', AdminGuideController::class)->except(['show']);
 
         Route::prefix('import')->name('import.')->group(function () {
             Route::post('village_electricity', [AdminVillageElectricityController::class, 'import'])->name('village_electricity');

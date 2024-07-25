@@ -8,10 +8,9 @@ class GuideRepository
 {
     public function __construct(
         protected Guide $model = new Guide()
-    ) {
-    }
+    ) {}
 
-    public function create(array $data)
+    public function insert(array $data)
     {
         return $this->model->create($data);
     }
@@ -28,7 +27,7 @@ class GuideRepository
         return null;
     }
 
-    public function getGuide()
+    public function getFirstGuide()
     {
         return $this->model->first();
     }
