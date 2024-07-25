@@ -64,7 +64,7 @@ export const DataTable: FC<DataTableProps> = ({ data, columns, onDelete, onEdit,
                                 <tr key={i} >
                                     <td>{i + 1}</td>
                                     {Object.entries(val).map(([key, dataValue], index) => (
-                                        key !== 'id' && <td key={index} onClick={() => onEdit((val as CommonTableInterface).id)} style={{ cursor: 'pointer' }}>{dataValue}</td>
+                                        key !== 'id' && <td key={index} onClick={() => onEdit !== undefined ? onEdit((val as CommonTableInterface).id) : null} style={{ cursor: 'pointer' }}>{dataValue}</td>
                                     ))}
                                     {!isForLanding && (
                                         <td>
