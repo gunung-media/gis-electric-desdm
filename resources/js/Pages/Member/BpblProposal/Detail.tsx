@@ -12,7 +12,7 @@ import { electricIcon, swalError, swalSuccess } from "@/common/utils"
 
 export default function Detail({ data }: PageProps & { data: BpblProposalType }) {
     const { map } = useMap()
-    const [marker, setMarker] = useState<L.Marker>()
+    const [_, setMarker] = useState<L.Marker>()
     const [cityCode, setCityCode] = useState<string | number>()
     const [districtCode, setDistrictCode] = useState<string | number>()
     const [villageCode, setVillageCode] = useState<string | number>()
@@ -173,28 +173,43 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                         value={dto.description ?? ""}
                                         onChange={(e) => setData("description", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
-                                    <div className="row">
-                                        <div className="col-md-4 mb-3">
-                                            <p>Surat pernyataan siap menerima BPBL</p>
-                                            <RenderDownloadBtn documentPath={data.statement_path} />
-                                        </div>
-                                        <div className="col-md-4 mb-3">
-                                            <p>KTP</p>
-                                            <RenderDownloadBtn documentPath={data.ktp_path} />
-                                        </div>
-                                        <div className="col-md-4 mb-3">
-                                            <p>Foto Rumah</p>
-                                            <RenderDownloadBtn documentPath={data.house_path} />
-                                        </div>
-                                        <div className="col-md-4 mb-3">
-                                            <p>Foto Jaringan Terdekat</p>
-                                            <RenderDownloadBtn documentPath={data.nearest_path} />
-                                        </div>
-                                        <div className="col-md-8 mb-3">
-                                            <p>Surat Pernyataan Tidak Mampu/Usulan Dari Kepala Desa/Lurah</p>
-                                            <RenderDownloadBtn documentPath={data.letter_path} />
-                                        </div>
-                                    </div>
+                                    <FormGroup
+                                        title="Surat pernyataan siap menerima BPBL"
+                                        name="statement_path"
+                                        type="file"
+                                        onChange={(e) => setData("statement_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                    />
+                                    <RenderDownloadBtn documentPath={data.statement_path} />
+                                    <FormGroup
+                                        title="KTP"
+                                        name="ktp_path"
+                                        type="file"
+                                        onChange={(e) => setData("ktp_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                    />
+                                    <RenderDownloadBtn documentPath={data.ktp_path} />
+
+                                    <FormGroup
+                                        title="Foto Rumah"
+                                        name="house_path"
+                                        type="file"
+                                        onChange={(e) => setData("house_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                    />
+                                    <RenderDownloadBtn documentPath={data.house_path} />
+                                    <FormGroup
+                                        title="Foto Jaringan Terdekat"
+                                        name="nearest_path"
+                                        type="file"
+                                        onChange={(e) => setData("nearest_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                    />
+                                    <RenderDownloadBtn documentPath={data.nearest_path} />
+
+                                    <FormGroup
+                                        title="Surat Pernyataan Tidak Mampu/Usulan Dari Kepala Desa/Lurah"
+                                        name="letter_path"
+                                        type="file"
+                                        onChange={(e) => setData("letter_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                    />
+                                    <RenderDownloadBtn documentPath={data.letter_path} />
 
                                     <button type="submit" className="btn btn-primary mt-2 w-100" onClick={handleSubmit}>Submit</button>
                                 </div>
@@ -213,8 +228,7 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                             <DataTable
                                 data={dataTable}
                                 columns={column}
-                                onEdit={(id) => console.log(id)}
-                                onDelete={(id) => console.log(id)} />
+                            />
                         </div>
                     </div>
                 </div>

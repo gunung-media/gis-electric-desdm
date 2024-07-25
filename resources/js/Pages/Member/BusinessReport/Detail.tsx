@@ -176,40 +176,71 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
                                         value={dto.description ?? ""}
                                         onChange={(e) => setData("description", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
-                                    <div className="row">
-                                        <div className="col-md-4 mb-3">
-                                            <p>Format Permohonan SKP dan Lampiran Persyaratan s.d 500 Kw</p>
-                                            <RenderDownloadBtn documentPath={data.request_path} />
-                                        </div>
-                                        <div className="col-md-4 mb-3">
-                                            <p>KTP</p>
-                                            <RenderDownloadBtn documentPath={data.ktp_path} />
-                                        </div>
-                                        <div className="col-md-4 mb-3">
-                                            <p>NPWP</p>
-                                            <RenderDownloadBtn documentPath={data.npwp_path} />
-                                        </div>
-                                        <div className="col-md-4 mb-3">
-                                            <p>NIB</p>
-                                            <RenderDownloadBtn documentPath={data.nib} />
-                                        </div>
-                                        <div className="col-md-4 mb-3">
-                                            <p>Diagram Satu Garis</p>
-                                            <RenderDownloadBtn documentPath={data.diagram_path} />
-                                        </div>
-                                        <div className="col-md-4 mb-3">
-                                            <p>Lokasi instalasi termasuk tata letak (gambar situasi)</p>
-                                            <RenderDownloadBtn documentPath={data.location_path} />
-                                        </div>
-                                        <div className="col-md-4 mb-3">
-                                            <p>Spesifikasi Teknis Pembangkit</p>
-                                            <RenderDownloadBtn documentPath={data.specification_path} />
-                                        </div>
-                                        <div className="col-md-4 mb-3">
-                                            <p>Berita Acara Pemeriksaan (BAP)</p>
-                                            <RenderDownloadBtn documentPath={data.bap_path} />
-                                        </div>
-                                    </div>
+
+                                    <FormGroup
+                                        title="Format Permohonan SKP dan Lampiran Persyaratan s.d 500 Kw"
+                                        name="request_path"
+                                        type="file"
+                                        onChange={(e) => setData("request_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                    />
+                                    <RenderDownloadBtn documentPath={data.request_path} />
+
+                                    <FormGroup
+                                        title="KTP"
+                                        name="ktp_path"
+                                        type="file"
+                                        onChange={(e) => setData("ktp_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                    />
+                                    <RenderDownloadBtn documentPath={data.ktp_path} />
+
+                                    <FormGroup
+                                        title="NPWP"
+                                        name="npwp_path"
+                                        type="file"
+                                        onChange={(e) => setData("npwp_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                    />
+                                    <RenderDownloadBtn documentPath={data.npwp_path} />
+
+                                    <FormGroup
+                                        title="NIB"
+                                        name="nib_path"
+                                        type="file"
+                                        onChange={(e) => setData("nib_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                    />
+                                    <RenderDownloadBtn documentPath={data.nib_path} />
+
+                                    <FormGroup
+                                        title="Diagram Satu Garis"
+                                        name="diagram_path"
+                                        type="file"
+                                        onChange={(e) => setData("diagram_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                    />
+                                    <RenderDownloadBtn documentPath={data.diagram_path} />
+
+                                    <FormGroup
+                                        title="Lokasi instalasi termasuk tata letak (gambar situasi)"
+                                        name="location_path"
+                                        type="file"
+                                        onChange={(e) => setData("location_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                    />
+                                    <RenderDownloadBtn documentPath={data.location_path} />
+
+                                    <FormGroup
+                                        title="Spesifikasi Teknis Pembangkit"
+                                        name="specification_path"
+                                        type="file"
+                                        onChange={(e) => setData("specification_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                    />
+                                    <RenderDownloadBtn documentPath={data.specification_path} />
+
+                                    <FormGroup
+                                        title="Berita Acara Pemeriksaan (BAP)"
+                                        name="bap_path"
+                                        type="file"
+                                        onChange={(e) => setData("bap_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                    />
+                                    <RenderDownloadBtn documentPath={data.bap_path} />
+
                                     <button type="submit" className="btn btn-primary mt-2 w-100" onClick={handleSubmit}>Submit</button>
                                 </div>
                             </div>
@@ -227,8 +258,7 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
                             <DataTable
                                 data={dataTable}
                                 columns={column}
-                                onEdit={(id) => console.log(id)}
-                                onDelete={(id) => console.log(id)} />
+                            />
                         </div>
                     </div>
                 </div>

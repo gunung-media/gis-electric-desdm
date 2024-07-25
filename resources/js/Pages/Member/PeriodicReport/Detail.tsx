@@ -200,24 +200,38 @@ export default function Detail({ data }: PageProps & { data: PeriodicReportType 
                                         value={data.report_type ?? ""}
                                         disabled={true}
                                     />
-                                    <div className="row">
-                                        <div className="col-md-4 mb-3">
-                                            <p>SK IUPTLS/IUPTLU/IUJPTL</p>
-                                            <RenderDownloadBtn documentPath={data.sk_path} />
-                                        </div>
-                                        <div className="col-md-4 mb-3">
-                                            <p>Sertifikat Kompetensi Ketenaga Listrikan</p>
-                                            <RenderDownloadBtn documentPath={data.certificate_path} />
-                                        </div>
-                                        <div className="col-md-4 mb-3">
-                                            <p>Dokumentasi Kondisi Pembangkit</p>
-                                            <RenderDownloadBtn documentPath={data.condition_path} />
-                                        </div>
-                                        <div className="col-md-4 mb-3">
-                                            <p>Laporan Berkala (IUPTLS/IUPTLU/IUJPTL)</p>
-                                            <RenderDownloadBtn documentPath={data.periodic_path} />
-                                        </div>
-                                    </div>
+
+                                    <FormGroup
+                                        title="SK IUPTLS/IUPTLU/IUJPTL"
+                                        name="sk_path"
+                                        type="file"
+                                        onChange={(e) => setData("sk_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                    />
+                                    <RenderDownloadBtn documentPath={data.sk_path} />
+
+                                    <FormGroup
+                                        title="Sertifikat Kompetensi Ketenaga Listrikan"
+                                        name="certificate_path"
+                                        type="file"
+                                        onChange={(e) => setData("certificate_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                    />
+                                    <RenderDownloadBtn documentPath={data.certificate_path} />
+
+                                    <FormGroup
+                                        title="Dokumentasi Kondisi Pembangkit"
+                                        name="condition_path"
+                                        type="file"
+                                        onChange={(e) => setData("condition_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                    />
+                                    <RenderDownloadBtn documentPath={data.condition_path} />
+
+                                    <FormGroup
+                                        title="Laporan Berkala (IUPTLS/IUPTLU/IUJPTL)"
+                                        name="periodic_path"
+                                        type="file"
+                                        onChange={(e) => setData("periodic_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                    />
+                                    <RenderDownloadBtn documentPath={data.periodic_path} />
                                     <button type="submit" className="btn btn-primary mt-2 w-100" onClick={handleSubmit}>Submit</button>
                                 </div>
                             </div>
@@ -235,8 +249,7 @@ export default function Detail({ data }: PageProps & { data: PeriodicReportType 
                             <DataTable
                                 data={dataTable}
                                 columns={column}
-                                onEdit={(id) => console.log(id)}
-                                onDelete={(id) => console.log(id)} />
+                            />
                         </div>
                     </div>
                 </div>
