@@ -83,7 +83,7 @@ Route::middleware('auth')->group(function () {
             Route::resource('tracking', ReportTrackingController::class)->except(['index', 'show']);
         });
 
-        Route::resource('bpbl-proposal', AdminBpblProposalController::class)->only(['index', 'show', 'destroy']);
+        Route::resource('bpbl-proposal', AdminBpblProposalController::class);
         Route::name('bpbl-proposal.')->prefix('bpbl-proposal/{bpbl_proposal}')->group(function () {
             Route::resource('tracking', BpblProposalTrackingController::class)->except(['index', 'show']);
         });

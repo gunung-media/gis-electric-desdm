@@ -1,14 +1,14 @@
 import { DataTable, FormGroup, OptionType, RenderDownloadBtn } from "@/common/components"
 import { useMap } from "@/common/hooks"
-import { BpblProposalType } from "@/features/BpblProposal"
+import { BpblProposalDTO, BpblProposalType } from "@/features/BpblProposal"
 import { CityType, DistrictType, SelectCity, SelectDistrict, SelectVillage, VillageType } from "@/features/Territory"
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
-import { PageProps } from "@/types"
-import { Head, router } from "@inertiajs/react"
-import { useEffect, useState } from "react"
+import { FormControlElement, PageProps } from "@/types"
+import { Head, router, useForm } from "@inertiajs/react"
+import { ChangeEvent, FormEventHandler, useEffect, useState } from "react"
 import L from "leaflet"
 import latLangKalteng from "@/common/constants/latLangKalteng"
-import { electricIcon } from "@/common/utils"
+import { electricIcon, swalError, swalSuccess } from "@/common/utils"
 
 export default function Detail({ data }: PageProps & { data: BpblProposalType }) {
     const { map } = useMap()
@@ -16,15 +16,17 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
     const [cityCode, setCityCode] = useState<string | number>()
     const [districtCode, setDistrictCode] = useState<string | number>()
     const [villageCode, setVillageCode] = useState<string | number>()
+    const { data: dto, setData, put } = useForm<BpblProposalDTO>()
 
     const column: string[] = [
         'Deskripsi',
         'Status',
+        'File',
         'Tanggal',
     ]
 
-    const dataTable = data.trackings.map(({ id, description, status, created_at }) => ({
-        id, description, status, created_at
+    const dataTable = data.trackings.map(({ id, description, status, file_path, created_at }) => ({
+        id, description, status, created_at, file_path: (<RenderDownloadBtn documentPath={file_path} />)
     }))
 
     useEffect(() => {
@@ -36,10 +38,30 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                     city_code,
                 }
             },
+            full_name,
+            identity_number,
+            email,
+            phone_number,
+            address,
+            latitude,
+            longitude,
+            description,
         } = data
         setVillageCode(village_code)
         setDistrictCode(districtCode)
         setCityCode(city_code)
+        setData(() => ({
+            ...dto,
+            full_name,
+            identity_number,
+            email,
+            phone_number,
+            village_code,
+            address,
+            latitude,
+            longitude,
+            description
+        }))
     }, [])
 
     useEffect(() => {
@@ -50,6 +72,11 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
             }).addTo(map);
 
             map?.setView([Number(data.latitude ?? 0), Number(data.longitude ?? 0)], 7, { animate: true })
+
+            marker.on('dragend', function () {
+                const position = marker.getLatLng();
+                setData(data => ({ ...data, latitude: position.lat, longitude: position.lng }))
+            });
 
             setMarker(marker)
             return () => {
@@ -68,6 +95,36 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
 
     const handleVillageChange = (e: OptionType<VillageType>) => {
         setVillageCode(e.value.code)
+        setData('village_code', e.value.code.toString())
+    }
+
+    const handleSubmit: FormEventHandler = (e) => {
+        e.preventDefault()
+        put(route('admin.bpbl-proposal.update', { bpbl_proposal: data.id }), {
+            onError: (e) => {
+                swalError(e.error)
+            },
+            onSuccess: () => {
+                swalSuccess('Sukses Mengedit')
+            }
+        })
+    }
+
+    const handleLatLangChange = (name: 'latitude' | 'longitude', val: string) => {
+        try {
+            setData(name, val)
+            if (!map || !marker) return
+            let latLang
+            if (name === 'latitude') {
+                latLang = [Number(val), Number(dto.latitude)] as L.LatLngExpression
+            } else {
+                latLang = [Number(dto.longitude), Number(val)] as L.LatLngExpression
+            }
+            map.setView(latLang)
+            marker.setLatLng(latLang)
+        } catch (error) {
+            return
+        }
     }
     return (
         <AuthenticatedLayout>
@@ -91,79 +148,105 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                 <div className="col-12">
                                     <FormGroup
                                         title="Nama Pelapor"
-                                        name="name"
-                                        value={data.full_name}
-                                        disabled={true}
+                                        name="full_name"
+                                        value={dto.full_name}
+                                        onChange={(e) => setData("full_name", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="NIK"
-                                        name="nik"
-                                        value={data.identity_number}
-                                        disabled={true}
+                                        name="identity_number"
+                                        value={dto.identity_number}
+                                        onChange={(e) => setData("identity_number", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Email"
-                                        name="nik"
-                                        value={data.email}
-                                        disabled={true}
+                                        name="email"
+                                        value={dto.email}
+                                        onChange={(e) => setData("email", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Nomor Handphone/WA"
-                                        name="nik"
-                                        value={data.phone_number}
-                                        disabled={true}
+                                        name="phone_number"
+                                        value={dto.phone_number}
+                                        onChange={(e) => setData("phone_number", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Alamat"
-                                        name="nik"
-                                        value={data.address}
-                                        disabled={true}
+                                        name="address"
+                                        value={dto.address}
+                                        onChange={(e) => setData("address", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <SelectCity
                                         handleCityChange={handleCityChange}
                                         selectedCity={cityCode}
-                                        disabled={true}
                                     />
                                     <SelectDistrict
                                         handleDistrictChange={handleDistrictChange}
                                         selectedCityId={cityCode}
                                         selectedDistrict={districtCode}
-                                        disabled={true}
                                     />
                                     <SelectVillage
                                         handleVillageChange={handleVillageChange}
                                         selectedDistrictId={districtCode}
                                         selectedVillage={villageCode}
-                                        disabled={true}
+                                    />
+                                    <FormGroup
+                                        title="Latitude"
+                                        name="latitude"
+                                        value={dto.latitude ?? ""}
+                                        onChange={(e) => handleLatLangChange("latitude", (e as ChangeEvent<FormControlElement>).target.value)}
+                                    />
+                                    <FormGroup
+                                        title="Longitude"
+                                        name="longitude"
+                                        value={dto.longitude ?? ""}
+                                        onChange={(e) => handleLatLangChange("longitude", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Deskripsi"
-                                        name="textarea"
-                                        value={data.description ?? ""}
-                                        disabled={true}
+                                        name="description"
+                                        value={dto.description ?? ""}
+                                        onChange={(e) => setData("description", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
-                                    <div className="row">
-                                        <div className="col-md-4 mb-3">
-                                            <p>Surat pernyataan siap menerima BPBL</p>
-                                            <RenderDownloadBtn documentPath={data.statement_path} />
-                                        </div>
-                                        <div className="col-md-4 mb-3">
-                                            <p>KTP</p>
-                                            <RenderDownloadBtn documentPath={data.ktp_path} />
-                                        </div>
-                                        <div className="col-md-4 mb-3">
-                                            <p>Foto Rumah</p>
-                                            <RenderDownloadBtn documentPath={data.house_path} />
-                                        </div>
-                                        <div className="col-md-4 mb-3">
-                                            <p>Foto Jaringan Terdekat</p>
-                                            <RenderDownloadBtn documentPath={data.nearest_path} />
-                                        </div>
-                                        <div className="col-md-4 mb-3">
-                                            <p>Surat Pernyataan Tidak Mampu/Usulan Dari Kepala Desa/Lurah</p>
-                                            <RenderDownloadBtn documentPath={data.letter_path} />
-                                        </div>
-                                    </div>
+                                    <FormGroup
+                                        title="Surat pernyataan siap menerima BPBL"
+                                        name="statement_path"
+                                        type="file"
+                                        onChange={(e) => setData("statement_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                    />
+                                    <RenderDownloadBtn documentPath={data.statement_path} />
+                                    <FormGroup
+                                        title="KTP"
+                                        name="ktp_path"
+                                        type="file"
+                                        onChange={(e) => setData("ktp_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                    />
+                                    <RenderDownloadBtn documentPath={data.ktp_path} />
+
+                                    <FormGroup
+                                        title="Foto Rumah"
+                                        name="house_path"
+                                        type="file"
+                                        onChange={(e) => setData("house_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                    />
+                                    <RenderDownloadBtn documentPath={data.house_path} />
+                                    <FormGroup
+                                        title="Foto Jaringan Terdekat"
+                                        name="nearest_path"
+                                        type="file"
+                                        onChange={(e) => setData("nearest_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                    />
+                                    <RenderDownloadBtn documentPath={data.nearest_path} />
+
+                                    <FormGroup
+                                        title="Surat Pernyataan Tidak Mampu/Usulan Dari Kepala Desa/Lurah"
+                                        name="letter_path"
+                                        type="file"
+                                        onChange={(e) => setData("letter_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                    />
+                                    <RenderDownloadBtn documentPath={data.letter_path} />
+
+                                    <button type="submit" className="btn btn-primary mt-2 w-100" onClick={handleSubmit}>Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -174,14 +257,6 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                 <div className="card-body">
                     <div className="card-title d-flex justify-content-between">
                         <p>Tracking</p>
-                        <a
-                            href={route('admin.bpbl-proposal.tracking.create', { bpbl_proposal: data.id })}
-                            type="button"
-                            className="btn btn-primary btn-icon-text"
-                        >
-                            <i className="ti-plus btn-icon-prepend"></i>
-                            Tambah
-                        </a>
                     </div>
                     <div className="row">
                         <div className="col-12">
@@ -189,7 +264,8 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                 data={dataTable}
                                 columns={column}
                                 onEdit={(id) => router.visit(route('admin.bpbl-proposal.tracking.edit', { bpbl_proposal: data.id, tracking: id }))}
-                                onDelete={(id) => router.delete(route('admin.bpbl-proposal.tracking.destroy', { bpbl_proposal: data.id, tracking: id }))} />
+                                onDelete={(id) => router.delete(route('admin.bpbl-proposal.tracking.destroy', { bpbl_proposal: data.id, tracking: id }))}
+                            />
                         </div>
                     </div>
                 </div>
