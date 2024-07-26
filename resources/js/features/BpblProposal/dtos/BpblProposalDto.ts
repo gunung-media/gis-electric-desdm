@@ -5,8 +5,8 @@ export interface BpblProposalDTO {
     phone_number: string
     village_code: string
     address: string
-    latitude?: string | null
-    longitude?: string | null
+    latitude?: string | number | null
+    longitude?: string | number | null
     description?: string | null
     statement_path: File
     ktp_path: File

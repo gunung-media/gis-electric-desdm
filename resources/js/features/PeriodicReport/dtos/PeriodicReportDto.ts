@@ -8,8 +8,8 @@ export interface PeriodicReportDTO {
     phone_number: string
     village_code: string
     address: string
-    latitude?: string | null
-    longitude?: string | null
+    latitude?: string | number | null
+    longitude?: string | number | null
     description?: string | null
     report_type?: string | null
     sk_path: File

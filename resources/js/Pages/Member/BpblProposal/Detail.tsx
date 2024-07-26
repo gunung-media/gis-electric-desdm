@@ -12,7 +12,7 @@ import { electricIcon, swalError, swalSuccess } from "@/common/utils"
 
 export default function Detail({ data }: PageProps & { data: BpblProposalType }) {
     const { map } = useMap()
-    const [_, setMarker] = useState<L.Marker>()
+    const [marker, setMarker] = useState<L.Marker>()
     const [cityCode, setCityCode] = useState<string | number>()
     const [districtCode, setDistrictCode] = useState<string | number>()
     const [villageCode, setVillageCode] = useState<string | number>()
@@ -73,6 +73,11 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
 
             map?.setView([Number(data.latitude ?? 0), Number(data.longitude ?? 0)], 7, { animate: true })
 
+            marker.on('dragend', function () {
+                const position = marker.getLatLng();
+                setData(data => ({ ...data, latitude: position.lat, longitude: position.lng }))
+            });
+
             setMarker(marker)
             return () => {
                 marker.remove()
@@ -103,6 +108,23 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                 swalSuccess('Sukses Mengedit')
             }
         })
+    }
+
+    const handleLatLangChange = (name: 'latitude' | 'longitude', val: string) => {
+        try {
+            setData(name, val)
+            if (!map || !marker) return
+            let latLang
+            if (name === 'latitude') {
+                latLang = [Number(val), Number(dto.latitude)] as L.LatLngExpression
+            } else {
+                latLang = [Number(dto.longitude), Number(val)] as L.LatLngExpression
+            }
+            map.setView(latLang)
+            marker.setLatLng(latLang)
+        } catch (error) {
+            return
+        }
     }
     return (
         <AuthenticatedLayout>
@@ -167,6 +189,18 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                         handleVillageChange={handleVillageChange}
                                         selectedDistrictId={districtCode}
                                         selectedVillage={villageCode}
+                                    />
+                                    <FormGroup
+                                        title="Latitude"
+                                        name="latitude"
+                                        value={dto.latitude ?? ""}
+                                        onChange={(e) => handleLatLangChange("latitude", (e as ChangeEvent<FormControlElement>).target.value)}
+                                    />
+                                    <FormGroup
+                                        title="Longitude"
+                                        name="longitude"
+                                        value={dto.longitude ?? ""}
+                                        onChange={(e) => handleLatLangChange("longitude", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Deskripsi"
