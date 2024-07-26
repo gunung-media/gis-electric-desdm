@@ -43,7 +43,7 @@ class BusinessReportController extends Controller
             'diagram_path' => 'required|file|max:2048',
             'location_path' => 'required|file|max:2048',
             'specification_path' => 'required|file|max:2048',
-            'bap_path' => 'required|file|max:2048',
+            'bap_path' => 'file|max:2048',
         ]);
 
         $requestPath = $request->file('request_path')->store('businessReport/request');
