@@ -24,6 +24,7 @@ class PeriodicReportTrackingController extends Controller
         $request->validate([
             'description' => 'required|string',
             'status' => 'required|in:Diterima,Diproses,Ditolak,Diterima dengan catatan',
+            'file_path' => 'file|max:2048',
         ]);
 
         try {

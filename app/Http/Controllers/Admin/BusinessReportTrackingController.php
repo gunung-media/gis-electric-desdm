@@ -24,7 +24,7 @@ class BusinessReportTrackingController extends Controller
         $request->validate([
             'description' => 'required|string',
             'status' => 'required|in:Diterima,Diproses,Ditolak,Diterima dengan catatan',
-            'file_path' => 'files|max:2048',
+            'file_path' => 'file|max:2048',
         ]);
 
         $filePath = $request->hasFile('file_path') ?  $request->file('file_path')->store('business-report-tracking', 'public') : null;
