@@ -126,6 +126,7 @@ export const FormGroup: FC<{
                             </>
                             )}
                         <InputError message={errorMsg} />
+                        <Form.Label>{type === 'file' ? 'Batas maximal ukuran file 2mb' : ''}</Form.Label>
                     </Form.Group>
                 }
             </>
