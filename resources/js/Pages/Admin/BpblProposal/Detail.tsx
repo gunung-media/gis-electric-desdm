@@ -257,6 +257,14 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                 <div className="card-body">
                     <div className="card-title d-flex justify-content-between">
                         <p>Tracking</p>
+                        <a
+                            href={route('admin.bpbl-proposal.tracking.create', { bpbl_proposal: data.id })}
+                            type="button"
+                            className="btn btn-primary btn-icon-text"
+                        >
+                            <i className="ti-plus btn-icon-prepend"></i>
+                            Tambah
+                        </a>
                     </div>
                     <div className="row">
                         <div className="col-12">
