@@ -9,7 +9,7 @@ export default function Index({ datas }: PageProps & { datas: BusinessReportType
         'NAMA BADAN USAHA / PERORANGAN',
         'NOMOR DAN TANGGAL SKP/IUPTLS/IUJPTL',
         'ALAMAT',
-        'JUMLAH PEMBANGKIT DAN KAPASITAS PEMBANGKIT(SKP / IUPTLS)',
+        'JUMLAH PEMBANGKIT',
     ]
     const dataTable = datas.map(({ id, name, created_at, address }) => ({
         id, name, created_at, address, description: '-',

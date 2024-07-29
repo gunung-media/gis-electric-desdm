@@ -26,7 +26,7 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
     ]
 
     const dataTable = data.trackings.map(({ id, description, status, file_path, created_at }) => ({
-        id, description, status, created_at, file_path: (<RenderDownloadBtn documentPath={file_path} />)
+        id, description, status, file_path: (<RenderDownloadBtn documentPath={file_path} />), created_at
     }))
 
     useEffect(() => {
