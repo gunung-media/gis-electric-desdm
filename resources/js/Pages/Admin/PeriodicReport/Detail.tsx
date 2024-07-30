@@ -46,7 +46,7 @@ export default function Detail({ data }: PageProps & { data: PeriodicReportType 
     useEffect(() => {
         if (map) {
             const marker = L.marker((data ? [data.latitude, data.longitude] : latLangKalteng) as L.LatLngExpression, {
-                draggable: true,
+                draggable: false,
                 icon: electricIcon
             }).addTo(map);
 
@@ -124,6 +124,18 @@ export default function Detail({ data }: PageProps & { data: PeriodicReportType 
                                         title="Alamat"
                                         name="nik"
                                         value={data.address}
+                                        disabled={true}
+                                    />
+                                    <FormGroup
+                                        title="Latitude"
+                                        name="nik"
+                                        value={data.longitude ?? ""}
+                                        disabled={true}
+                                    />
+                                    <FormGroup
+                                        title="Longitude"
+                                        name="nik"
+                                        value={data.latitude ?? ""}
                                         disabled={true}
                                     />
                                     <SelectCity

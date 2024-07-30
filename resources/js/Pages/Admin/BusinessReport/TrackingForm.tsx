@@ -26,7 +26,7 @@ export default function TrackingForm({ tracking }: PageProps & { tracking?: Busi
     const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault()
         if (tracking) {
-            put(route('admin.business-report.tracking.update', { business_report: business_report, tracking: tracking.id }), {
+            router.post(route('admin.business-report.tracking.update', { business_report: business_report, tracking: tracking.id }), { _method: 'put', ...dto }, {
                 onError: (e) => {
                     swalError(e.error)
                 },
@@ -70,6 +70,7 @@ export default function TrackingForm({ tracking }: PageProps & { tracking?: Busi
                                     title="File Pendukung"
                                     name="file_path"
                                     type="file"
+                                    errorMsg={errors.file_path}
                                     onChange={(e) => setData("file_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                 />
                                 <RenderDownloadBtn documentPath={tracking?.file_path} />

@@ -19,6 +19,9 @@ export const DataTable: FC<DataTableProps> = ({ data, columns, onDelete, onEdit,
     window.alert = customAlert;
 
     useEffect(() => {
+        $('#data-table-simple tbody').on('click', '#detailBtn', function () {
+            onDetail!($(this).data('id'));
+        });
         $('#data-table-simple tbody').on('click', '#editBtn', function () {
             onEdit!($(this).data('id'));
         });
@@ -65,7 +68,7 @@ export const DataTable: FC<DataTableProps> = ({ data, columns, onDelete, onEdit,
                                 <tr key={i} >
                                     <td>{i + 1}</td>
                                     {Object.entries(val).map(([key, dataValue], index) => (
-                                        key !== 'id' && <td key={index} onClick={() => onEdit !== undefined ? onEdit((val as CommonTableInterface).id) : null} style={{ cursor: 'pointer' }}>{dataValue}</td>
+                                        key !== 'id' && <td key={index} onClick={() => onEdit !== undefined ? onEdit((val as CommonTableInterface).id) : onDetail !== undefined ? onDetail((val as CommonTableInterface).id) : null} style={{ cursor: 'pointer' }}>{dataValue}</td>
                                     ))}
                                     {!isForLanding && (
                                         <td>
