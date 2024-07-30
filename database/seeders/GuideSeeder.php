@@ -14,7 +14,7 @@ class GuideSeeder extends Seeder
     {
         Guide::create([
             'no_wa' => '62895410535786',
-            'terms_and_conditions' => 'Saya menyetujui semua syarat dan ketentuan yang berlaku.',
+            'terms_and_condition' => 'Saya menyetujui semua syarat dan ketentuan yang berlaku.',
         ]);
     }
 }

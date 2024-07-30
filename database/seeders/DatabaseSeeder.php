@@ -11,7 +11,8 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory()->create([
             'name' => 'Super Admin',
             'username' => 'admin',
-            'password' => bcrypt('admin')
+            'password' => bcrypt('admin'),
+            'role' => 'admin'
         ]);
 
         $this->call(ProvincesSeeder::class);
