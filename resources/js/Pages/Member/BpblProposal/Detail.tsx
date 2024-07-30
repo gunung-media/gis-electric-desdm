@@ -1,16 +1,17 @@
-import { DataTable, FormGroup, OptionType, RenderDownloadBtn } from "@/common/components"
+import { DataTable, FormGroup, InputError, OptionType, RenderDownloadBtn } from "@/common/components"
 import { useMap } from "@/common/hooks"
 import { BpblProposalDTO, BpblProposalType } from "@/features/BpblProposal"
 import { CityType, DistrictType, SelectCity, SelectDistrict, SelectVillage, VillageType } from "@/features/Territory"
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
 import { FormControlElement, PageProps } from "@/types"
-import { Head, useForm } from "@inertiajs/react"
+import { Head, router, useForm, usePage } from "@inertiajs/react"
 import { ChangeEvent, FormEventHandler, useEffect, useState } from "react"
 import L from "leaflet"
 import latLangKalteng from "@/common/constants/latLangKalteng"
 import { electricIcon, swalError, swalSuccess } from "@/common/utils"
 
 export default function Detail({ data }: PageProps & { data: BpblProposalType }) {
+    const { errors } = usePage<PageProps>().props
     const { map } = useMap()
     const [marker, setMarker] = useState<L.Marker>()
     const [cityCode, setCityCode] = useState<string | number>()
@@ -100,7 +101,7 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
 
     const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault()
-        put(route('member.bpbl-proposal.update', { bpbl_proposal: data.id }), {
+        router.post(route('member.bpbl-proposal.update', { bpbl_proposal: data.id }), { _method: 'put', ...dto }, {
             onError: (e) => {
                 swalError(e.error)
             },
@@ -151,29 +152,34 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                         name="full_name"
                                         value={dto.full_name}
                                         onChange={(e) => setData("full_name", (e as ChangeEvent<FormControlElement>).target.value)}
+                                        errorMsg={errors.full_name}
                                     />
                                     <FormGroup
                                         title="NIK"
                                         name="identity_number"
                                         value={dto.identity_number}
+                                        errorMsg={errors.identity_number}
                                         onChange={(e) => setData("identity_number", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Email"
                                         name="email"
                                         value={dto.email}
+                                        errorMsg={errors.email}
                                         onChange={(e) => setData("email", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Nomor Handphone/WA"
                                         name="phone_number"
                                         value={dto.phone_number}
+                                        errorMsg={errors.phone_number}
                                         onChange={(e) => setData("phone_number", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Alamat"
                                         name="address"
                                         value={dto.address}
+                                        errorMsg={errors.address}
                                         onChange={(e) => setData("address", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <SelectCity
@@ -190,28 +196,34 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                         selectedDistrictId={districtCode}
                                         selectedVillage={villageCode}
                                     />
+                                    <InputError message={errors.village_code} />
+
                                     <FormGroup
                                         title="Latitude"
                                         name="latitude"
                                         value={dto.latitude ?? ""}
+                                        errorMsg={errors.latitude}
                                         onChange={(e) => handleLatLangChange("latitude", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Longitude"
                                         name="longitude"
                                         value={dto.longitude ?? ""}
+                                        errorMsg={errors.longitude}
                                         onChange={(e) => handleLatLangChange("longitude", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Deskripsi"
                                         name="description"
                                         value={dto.description ?? ""}
+                                        errorMsg={errors.description}
                                         onChange={(e) => setData("description", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Surat pernyataan siap menerima BPBL"
                                         name="statement_path"
                                         type="file"
+                                        errorMsg={errors.statement_path}
                                         onChange={(e) => setData("statement_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                     />
                                     <RenderDownloadBtn documentPath={data.statement_path} />
@@ -219,7 +231,8 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                         title="KTP"
                                         name="ktp_path"
                                         type="file"
-                                        onChange={(e) => setData("ktp_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                        errorMsg={errors.file_path}
+                                        onChange={(e) => setData("statement_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                     />
                                     <RenderDownloadBtn documentPath={data.ktp_path} />
 
@@ -227,6 +240,7 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                         title="Foto Rumah"
                                         name="house_path"
                                         type="file"
+                                        errorMsg={errors.house_path}
                                         onChange={(e) => setData("house_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                     />
                                     <RenderDownloadBtn documentPath={data.house_path} />
@@ -234,6 +248,7 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                         title="Foto Jaringan Terdekat"
                                         name="nearest_path"
                                         type="file"
+                                        errorMsg={errors.nearest_path}
                                         onChange={(e) => setData("nearest_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                     />
                                     <RenderDownloadBtn documentPath={data.nearest_path} />
@@ -242,6 +257,7 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                         title="Surat Pernyataan Tidak Mampu/Usulan Dari Kepala Desa/Lurah"
                                         name="letter_path"
                                         type="file"
+                                        errorMsg={errors.letter_path}
                                         onChange={(e) => setData("letter_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                     />
                                     <RenderDownloadBtn documentPath={data.letter_path} />

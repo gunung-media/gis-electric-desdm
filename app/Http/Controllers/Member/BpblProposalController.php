@@ -102,7 +102,7 @@ class BpblProposalController extends Controller
             $this->bpblProposalRepository->updateBpblProposal(
                 $id,
                 [
-                    ...($request->all()),
+                    ...($request->except(['_method'])),
                     ...($files),
                     'member_id' => auth('member')->user()->id
                 ]

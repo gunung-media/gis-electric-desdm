@@ -4,7 +4,7 @@ import { PeriodicReportDTO, PeriodicReportType } from "@/features/PeriodicReport
 import { CityType, DistrictType, SelectCity, SelectDistrict, SelectVillage, VillageType } from "@/features/Territory"
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
 import { FormControlElement, PageProps } from "@/types"
-import { Head, useForm, } from "@inertiajs/react"
+import { Head, router, useForm, usePage, } from "@inertiajs/react"
 import { ChangeEvent, FormEventHandler, useEffect, useState } from "react"
 import L from "leaflet"
 import latLangKalteng from "@/common/constants/latLangKalteng"
@@ -17,6 +17,7 @@ export default function Detail({ data }: PageProps & { data: PeriodicReportType 
     const [districtCode, setDistrictCode] = useState<string | number>()
     const [villageCode, setVillageCode] = useState<string | number>()
     const { data: dto, setData, put } = useForm<PeriodicReportDTO>()
+    const { errors } = usePage<PageProps>().props
 
     const column: string[] = [
         'Deskripsi',
@@ -61,6 +62,8 @@ export default function Detail({ data }: PageProps & { data: PeriodicReportType 
             nib,
             npwp,
             email,
+            latitude,
+            longitude,
             permit_number,
             type,
             phone_number,
@@ -104,7 +107,7 @@ export default function Detail({ data }: PageProps & { data: PeriodicReportType 
 
     const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault()
-        put(route('member.periodic-report.update', { periodic_report: data.id }), {
+        router.post(route('member.periodic-report.update', { periodic_report: data.id }), { _method: 'put', ...dto }, {
             onError: (e) => {
                 swalError(e.error)
             },
@@ -154,48 +157,56 @@ export default function Detail({ data }: PageProps & { data: PeriodicReportType 
                                         title="Nama Badan Usaha/Perorangan"
                                         name="name"
                                         value={dto.name}
+                                        errorMsg={errors.name}
                                         onChange={(e) => setData("name", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Tipe Badan Usaha"
                                         name="type"
                                         value={dto.type}
+                                        errorMsg={errors.type}
                                         onChange={(e) => setData("type", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="NIB (Nomor Induk Berusaha)"
                                         name="nib"
                                         value={dto.nib}
+                                        errorMsg={errors.nib}
                                         onChange={(e) => setData("nib", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="NPWP"
                                         name="npwp"
                                         value={dto.npwp}
+                                        errorMsg={errors.npwp}
                                         onChange={(e) => setData("npwp", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Nomor Izin Perizinan"
                                         name="permit_number"
                                         value={dto.permit_number}
+                                        errorMsg={errors.permit_number}
                                         onChange={(e) => setData("permit_number", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Email"
                                         name="email"
                                         value={dto.email}
+                                        errorMsg={errors.email}
                                         onChange={(e) => setData("email", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Nomor Handphone/WA"
                                         name="phone_number"
                                         value={dto.phone_number}
+                                        errorMsg={errors.phone_number}
                                         onChange={(e) => setData("phone_number", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Alamat"
                                         name="address"
                                         value={dto.address}
+                                        errorMsg={errors.address}
                                         onChange={(e) => setData("address", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
 
@@ -217,24 +228,28 @@ export default function Detail({ data }: PageProps & { data: PeriodicReportType 
                                         title="Latitude"
                                         name="latitude"
                                         value={dto.latitude ?? ""}
+                                        errorMsg={errors.latitude}
                                         onChange={(e) => handleLatLangChange("latitude", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Longitude"
                                         name="longitude"
                                         value={dto.longitude ?? ""}
+                                        errorMsg={errors.longitude}
                                         onChange={(e) => handleLatLangChange("longitude", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Deskripsi"
                                         name="description"
                                         value={dto.description ?? ""}
+                                        errorMsg={errors.description}
                                         onChange={(e) => setData("description", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Jenis Laporan"
                                         name="report_type"
                                         value={data.report_type ?? ""}
+                                        errorMsg={errors.report_type}
                                         disabled={true}
                                     />
 
@@ -242,6 +257,7 @@ export default function Detail({ data }: PageProps & { data: PeriodicReportType 
                                         title="SK IUPTLS/IUPTLU/IUJPTL"
                                         name="sk_path"
                                         type="file"
+                                        errorMsg={errors.sk_path}
                                         onChange={(e) => setData("sk_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                     />
                                     <RenderDownloadBtn documentPath={data.sk_path} />
@@ -250,6 +266,7 @@ export default function Detail({ data }: PageProps & { data: PeriodicReportType 
                                         title="Sertifikat Kompetensi Ketenaga Listrikan"
                                         name="certificate_path"
                                         type="file"
+                                        errorMsg={errors.certificate_path}
                                         onChange={(e) => setData("certificate_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                     />
                                     <RenderDownloadBtn documentPath={data.certificate_path} />
@@ -258,6 +275,7 @@ export default function Detail({ data }: PageProps & { data: PeriodicReportType 
                                         title="Dokumentasi Kondisi Pembangkit"
                                         name="condition_path"
                                         type="file"
+                                        errorMsg={errors.condition_path}
                                         onChange={(e) => setData("condition_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                     />
                                     <RenderDownloadBtn documentPath={data.condition_path} />
@@ -266,6 +284,7 @@ export default function Detail({ data }: PageProps & { data: PeriodicReportType 
                                         title="Laporan Berkala (IUPTLS/IUPTLU/IUJPTL)"
                                         name="periodic_path"
                                         type="file"
+                                        errorMsg={errors.periodic_path}
                                         onChange={(e) => setData("periodic_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                     />
                                     <RenderDownloadBtn documentPath={data.periodic_path} />

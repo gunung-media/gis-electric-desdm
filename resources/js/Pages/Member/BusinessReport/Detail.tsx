@@ -65,7 +65,6 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
             description,
             village_code
         }))
-        console.log('test')
     }, [])
 
     useEffect(() => {
@@ -205,6 +204,7 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
                                         selectedVillage={villageCode}
                                     />
                                     <InputError message={errors.village_code} />
+
                                     <FormGroup
                                         title="Latitude"
                                         name="latitude"
