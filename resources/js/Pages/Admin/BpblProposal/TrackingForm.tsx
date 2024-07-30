@@ -75,7 +75,7 @@ export default function TrackingForm({ tracking }: PageProps & { tracking?: Bpbl
                                 />
                                 <RenderDownloadBtn documentPath={tracking?.file_path} />
 
-                                <div className="form-group">
+                                <div className="form-group mt-3">
                                     <button type="submit" className="btn btn-primary me-2">Submit</button>
                                     <button type="button" className="btn btn-light" onClick={() => router.visit(route('admin.bpbl-proposal.show', { bpbl_proposal: bpbl_proposal }))}>Cancel</button>
                                 </div>
