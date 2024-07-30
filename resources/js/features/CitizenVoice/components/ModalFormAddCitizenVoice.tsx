@@ -29,13 +29,14 @@ export const ModalFormAddCitizenVoice: FC<{
     isWithJenisLaporan: boolean,
     isWithPriority: boolean,
     overrideIdentityProposal?: InputType<ProposalDTO | ReportDTO>[] | InputType<BpblProposalDTO>[] | InputType<BusinessReportDTO>[] | InputType<PeriodicReportDTO>[]
-}> = ({ isShow, onClose, additionalFields, route, title, isProposal, isWithJenisLaporan, isWithPriority, overrideIdentityProposal }) => {
+    mapId: string
+}> = ({ isShow, onClose, additionalFields, route, title, isProposal, isWithJenisLaporan, isWithPriority, overrideIdentityProposal, mapId }) => {
     const { errors } = usePage<PageProps>().props
     const [cityCode, setCityCode] = useState<string | number>()
     const [districtCode, setDistrictCode] = useState<string | number>()
     const [villageCode, setVillageCode] = useState<string | number>()
     const { data, setData, post } = useForm<ProposalDTO | ReportDTO>()
-    const { map, setMap } = useMap('map-picker')
+    const { map, setMap } = useMap(mapId)
     const { latLang, setLatLang } = useGetLocation()
     const [marker, setMarker] = useState<L.Marker>()
     const [showTermsModal, setShowTermsModal] = useState(false);
@@ -177,7 +178,7 @@ export const ModalFormAddCitizenVoice: FC<{
                         <Container>
                             <Row>
                                 <Col>
-                                    <div id="map-picker" style={{ height: "95%" }}></div>
+                                    <div id={mapId} style={{ height: "95%" }}></div>
                                 </Col>
                                 <Col>
                                     {identityProposal.map((val, i) => (
