@@ -11,12 +11,17 @@ class BusinessReportRepository
         protected BusinessReport $model = new BusinessReport()
     ) {}
 
-    public function getBusinessReports(int|null $memberId = null): Collection
+    public function getBusinessReports(int|null $memberId = null, int|string|null $villageCode = null): Collection
     {
         $query = $this->model->query();
         if ($memberId) {
             $query->where('member_id', $memberId);
         }
+
+        if ($villageCode) {
+            $query->where('village_code', $villageCode);
+        }
+
         return $query
             ->with('village')
             ->get();

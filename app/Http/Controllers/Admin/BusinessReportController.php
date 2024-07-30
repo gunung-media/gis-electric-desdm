@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\BusinessReport\BusinessReportRepository;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -13,9 +14,9 @@ class BusinessReportController extends Controller
         protected BusinessReportRepository $businessReportRepository = new BusinessReportRepository()
     ) {}
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        return Inertia::render('Admin/BusinessReport/index', ['datas' => $this->businessReportRepository->getBusinessReports()]);
+        return Inertia::render('Admin/BusinessReport/index', ['datas' => $this->businessReportRepository->getBusinessReports(villageCode: $request->query('village_code'))]);
     }
 
     public function show(string $id): Response

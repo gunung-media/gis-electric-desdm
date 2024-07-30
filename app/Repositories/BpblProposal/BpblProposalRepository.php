@@ -11,11 +11,14 @@ class BpblProposalRepository
         protected BpblProposal $model = new BpblProposal()
     ) {}
 
-    public function getBpblProposals(int|null $memberId = null): Collection
+    public function getBpblProposals(int|null $memberId = null, int|string|null $villageCode = null): Collection
     {
         $query = $this->model->query();
         if ($memberId) {
             $query->where('member_id', $memberId);
+        }
+        if ($villageCode) {
+            $query->where('village_code', $villageCode);
         }
         return $query
             ->with('village')

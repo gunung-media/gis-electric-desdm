@@ -11,11 +11,15 @@ class PeriodicReportRepository
         protected PeriodicReport $model = new PeriodicReport()
     ) {}
 
-    public function getPeriodicReports(int|null $memberId = null): Collection
+    public function getPeriodicReports(int|null $memberId = null, string|int|null $villageCode = null): Collection
     {
         $query = $this->model->query();
         if ($memberId) {
             $query->where('member_id', $memberId);
+        }
+
+        if ($villageCode) {
+            $query->where('village_code', $villageCode);
         }
         return $query
             ->with('village')

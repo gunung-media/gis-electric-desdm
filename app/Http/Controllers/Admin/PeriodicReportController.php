@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\PeriodicReport\PeriodicReportRepository;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -13,9 +14,9 @@ class PeriodicReportController extends Controller
         protected PeriodicReportRepository $periodicReportRepository = new PeriodicReportRepository()
     ) {}
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        return Inertia::render('Admin/PeriodicReport/index', ['datas' => $this->periodicReportRepository->getPeriodicReports()]);
+        return Inertia::render('Admin/PeriodicReport/index', ['datas' => $this->periodicReportRepository->getPeriodicReports(villageCode: $request->query('village_code'))]);
     }
 
     public function show(string $id): Response

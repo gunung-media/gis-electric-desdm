@@ -14,9 +14,9 @@ class BpblProposalController extends Controller
         protected BpblProposalRepository $bpblProposalRepository = new BpblProposalRepository()
     ) {}
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        return Inertia::render('Admin/BpblProposal/index', ['datas' => $this->bpblProposalRepository->getBpblProposals()]);
+        return Inertia::render('Admin/BpblProposal/index', ['datas' => $this->bpblProposalRepository->getBpblProposals(villageCode: $request->query('village_code'))]);
     }
 
     public function store(Request $request): mixed
