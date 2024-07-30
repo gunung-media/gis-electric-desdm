@@ -74,8 +74,10 @@ export default function TrackingForm({ tracking }: PageProps & { tracking?: Busi
                                     onChange={(e) => setData("file_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                 />
                                 <RenderDownloadBtn documentPath={tracking?.file_path} />
-                                <button type="submit" className="btn btn-primary me-2">Submit</button>
-                                <button type="button" className="btn btn-light" onClick={() => router.visit(route('admin.business-report.show', { business_report: business_report }))}>Cancel</button>
+                                <div className="form-group mt-3">
+                                    <button type="submit" className="btn btn-primary me-2">Submit</button>
+                                    <button type="button" className="btn btn-light" onClick={() => router.visit(route('admin.business-report.show', { business_report: business_report }))}>Cancel</button>
+                                </div>
                             </form>
                         </div>
                     </div>
