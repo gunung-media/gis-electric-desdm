@@ -26,7 +26,7 @@ class BpblProposalController extends Controller
     {
         $request->validate([
             'full_name' => 'required|string',
-            'identity_number' => 'required|string',
+            'identity_number' => 'required|string|unique:bpbl_proposals,identity_number',
             'email' => 'required|email',
             'phone_number' => 'required|string',
             'village_code' => 'required',
@@ -72,9 +72,10 @@ class BpblProposalController extends Controller
 
     public function update(Request $request, string $id): mixed
     {
+        $bpblProposal = $this->bpblProposalRepository->getBpblProposal($id);
         $request->validate([
             'full_name' => 'required|string',
-            'identity_number' => 'required|string',
+            'identity_number' => 'required|string|unique:bpbl_proposals,identity_number,' . $bpblProposal->id,
             'email' => 'required|email',
             'phone_number' => 'required|string',
             'village_code' => 'required',

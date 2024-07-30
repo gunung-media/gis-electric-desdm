@@ -12,8 +12,8 @@ export default function Index({ datas }: PageProps & { datas: BpblProposalType[]
         'TANGGAL',
         'STATUS',
     ]
-    const dataTable = datas.map(({ id, full_name, identity_number, email, phone_number, village: { name: villageName }, address, description, created_at }) => ({
-        id, full_name, identity_number, address, created_at, description,
+    const dataTable = datas.map(({ id, full_name, identity_number, latest_status, address, created_at }) => ({
+        id, full_name, identity_number, address, created_at, latest_status,
     }))
     return (
         <AuthenticatedLayout>

@@ -294,6 +294,7 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
                             <DataTable
                                 data={dataTable}
                                 columns={column}
+                                isForLanding={true}
                             />
                         </div>
                     </div>

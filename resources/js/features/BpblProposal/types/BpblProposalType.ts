@@ -18,5 +18,6 @@ export interface BpblProposalType extends CommonTableInterface {
     nearest_path: string | null
     letter_path: string | null
     village: VillageType
-    trackings: BpblProposalTracking[]
+    trackings: BpblProposalTracking[],
+    latest_status?: string | null
 }

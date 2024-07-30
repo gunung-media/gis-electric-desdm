@@ -33,14 +33,14 @@ class BpblProposal extends Model
         'member_id'
     ];
 
-    // protected $appends = ["latest_status"];
+    protected $appends = ["latest_status"];
 
-    // public function latestStatus(): Attribute
-    // {
-    //     return Attribute::make(
-    //         get: fn() => count($this->trackings) === 0 ? "Terkirim" : $this->trackings->last()->status
-    //     );
-    // }
+    public function latestStatus(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => count($this->trackings) === 0 ? "Terkirim" : $this->trackings->last()->status
+        );
+    }
 
     public function createdAt(): Attribute
     {

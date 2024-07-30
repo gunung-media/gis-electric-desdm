@@ -286,6 +286,7 @@ export default function Detail({ data }: PageProps & { data: PeriodicReportType 
                             <DataTable
                                 data={dataTable}
                                 columns={column}
+                                isForLanding={true}
                             />
                         </div>
                     </div>

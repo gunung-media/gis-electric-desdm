@@ -263,6 +263,7 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                             <DataTable
                                 data={dataTable}
                                 columns={column}
+                                isForLanding={true}
                             />
                         </div>
                     </div>
