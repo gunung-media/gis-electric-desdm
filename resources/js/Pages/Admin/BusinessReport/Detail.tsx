@@ -151,7 +151,7 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
                                     />
                                     <div className="row">
                                         <div className="col-md-4 mb-3">
-                                            <p>Format Permohonan SKP dan Lampiran Persyaratan s.d 500 Kw</p>
+                                            <p>Surat Permohonan SKP dan Lampiran Persyaratan s.d 500 Kw</p>
                                             <RenderDownloadBtn documentPath={data.request_path} />
                                         </div>
                                         <div className="col-md-4 mb-3">

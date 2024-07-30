@@ -108,7 +108,7 @@ class BusinessReportController extends Controller
         $arrFiles = ['request', 'ktp', 'nib', 'npwp', 'diagram', 'location', 'specification', 'bap'];
         foreach ($arrFiles as $file) {
             if ($request->hasFile($file . '_path')) {
-                $path = $request->file($file . '_path')->store('bpbl_proposal/' . $file);
+                $path = $request->file($file . '_path')->store('businessReport/' . $file);
                 $files[$file . '_path'] = $path;
             }
         }
@@ -117,7 +117,7 @@ class BusinessReportController extends Controller
             $this->businessReportRepository->updateBusinessReport(
                 $id,
                 [
-                    ...($request->all()),
+                    ...($request->except(['_method'])),
                     ...$files,
                     'member_id' => auth('member')->user()->id
                 ]

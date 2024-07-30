@@ -1,16 +1,17 @@
-import { DataTable, FormGroup, OptionType, RenderDownloadBtn } from "@/common/components"
+import { DataTable, FormGroup, InputError, OptionType, RenderDownloadBtn } from "@/common/components"
 import { useMap } from "@/common/hooks"
 import { BusinessReportDTO, BusinessReportType } from "@/features/BusinessReport"
 import { CityType, DistrictType, SelectCity, SelectDistrict, SelectVillage, VillageType } from "@/features/Territory"
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
 import { FormControlElement, PageProps } from "@/types"
-import { Head, useForm } from "@inertiajs/react"
+import { Head, router, useForm, usePage } from "@inertiajs/react"
 import { ChangeEvent, FormEventHandler, useEffect, useState } from "react"
 import L from "leaflet"
 import latLangKalteng from "@/common/constants/latLangKalteng"
 import { electricIcon, swalError, swalSuccess } from "@/common/utils"
 
 export default function Detail({ data }: PageProps & { data: BusinessReportType }) {
+    const { errors } = usePage<PageProps>().props
     const { map } = useMap()
     const [marker, setMarker] = useState<L.Marker>()
     const [cityCode, setCityCode] = useState<string | number>()
@@ -57,11 +58,14 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
             nib,
             npwp,
             email,
+            latitude,
+            longitude,
             phone_number,
             address,
             description,
             village_code
         }))
+        console.log('test')
     }, [])
 
     useEffect(() => {
@@ -99,7 +103,7 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
 
     const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault()
-        put(route('member.business-report.update', { business_report: data.id }), {
+        router.post(route('member.business-report.update', { business_report: data.id }), { _method: 'put', ...dto }, {
             onError: (e) => {
                 swalError(e.error)
             },
@@ -149,34 +153,40 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
                                         name="name"
                                         value={dto.name}
                                         onChange={(e) => setData("name", (e as ChangeEvent<FormControlElement>).target.value)}
+                                        errorMsg={errors.name}
                                     />
                                     <FormGroup
                                         title="NIB (Nomor Induk Berusaha)"
-                                        name="nik"
+                                        name="nib"
                                         value={dto.nib}
+                                        errorMsg={errors.nib}
                                         onChange={(e) => setData("nib", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="NPWP"
                                         name="npwp"
                                         value={dto.npwp}
+                                        errorMsg={errors.npwp}
                                         onChange={(e) => setData("npwp", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Email"
                                         name="email"
                                         value={dto.email}
+                                        errorMsg={errors.email}
                                         onChange={(e) => setData("email", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Nomor Handphone/WA"
                                         name="phone_number"
+                                        errorMsg={errors.phone_number}
                                         value={dto.phone_number}
                                         onChange={(e) => setData("phone_number", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Alamat"
                                         name="address"
+                                        errorMsg={errors.address}
                                         value={dto.address}
                                         onChange={(e) => setData("address", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
@@ -194,22 +204,26 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
                                         selectedDistrictId={districtCode}
                                         selectedVillage={villageCode}
                                     />
+                                    <InputError message={errors.village_code} />
                                     <FormGroup
                                         title="Latitude"
                                         name="latitude"
                                         value={dto.latitude ?? ""}
+                                        errorMsg={errors.latitude}
                                         onChange={(e) => handleLatLangChange("latitude", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Longitude"
                                         name="longitude"
                                         value={dto.longitude ?? ""}
+                                        errorMsg={errors.longitude}
                                         onChange={(e) => handleLatLangChange("longitude", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
                                     <FormGroup
                                         title="Deskripsi"
                                         name="description"
                                         value={dto.description ?? ""}
+                                        errorMsg={errors.description}
                                         onChange={(e) => setData("description", (e as ChangeEvent<FormControlElement>).target.value)}
                                     />
 
@@ -217,6 +231,7 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
                                         title="Format Permohonan SKP dan Lampiran Persyaratan s.d 500 Kw"
                                         name="request_path"
                                         type="file"
+                                        errorMsg={errors.request_path}
                                         onChange={(e) => setData("request_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                     />
                                     <RenderDownloadBtn documentPath={data.request_path} />
@@ -225,6 +240,7 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
                                         title="KTP"
                                         name="ktp_path"
                                         type="file"
+                                        errorMsg={errors.ktp_path}
                                         onChange={(e) => setData("ktp_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                     />
                                     <RenderDownloadBtn documentPath={data.ktp_path} />
@@ -233,6 +249,7 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
                                         title="NPWP"
                                         name="npwp_path"
                                         type="file"
+                                        errorMsg={errors.npwp_path}
                                         onChange={(e) => setData("npwp_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                     />
                                     <RenderDownloadBtn documentPath={data.npwp_path} />
@@ -241,6 +258,7 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
                                         title="NIB"
                                         name="nib_path"
                                         type="file"
+                                        errorMsg={errors.nib_path}
                                         onChange={(e) => setData("nib_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                     />
                                     <RenderDownloadBtn documentPath={data.nib_path} />
@@ -249,6 +267,7 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
                                         title="Diagram Satu Garis"
                                         name="diagram_path"
                                         type="file"
+                                        errorMsg={errors.diagram_path}
                                         onChange={(e) => setData("diagram_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                     />
                                     <RenderDownloadBtn documentPath={data.diagram_path} />
@@ -257,6 +276,7 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
                                         title="Lokasi instalasi termasuk tata letak (gambar situasi)"
                                         name="location_path"
                                         type="file"
+                                        errorMsg={errors.location_path}
                                         onChange={(e) => setData("location_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                     />
                                     <RenderDownloadBtn documentPath={data.location_path} />
@@ -265,6 +285,7 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
                                         title="Spesifikasi Teknis Pembangkit"
                                         name="specification_path"
                                         type="file"
+                                        errorMsg={errors.specification_path}
                                         onChange={(e) => setData("specification_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                     />
                                     <RenderDownloadBtn documentPath={data.specification_path} />
@@ -273,6 +294,7 @@ export default function Detail({ data }: PageProps & { data: BusinessReportType 
                                         title="Berita Acara Pemeriksaan (BAP)"
                                         name="bap_path"
                                         type="file"
+                                        errorMsg={errors.bap_path}
                                         onChange={(e) => setData("bap_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                     />
                                     <RenderDownloadBtn documentPath={data.bap_path} />

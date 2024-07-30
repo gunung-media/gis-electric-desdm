@@ -30,7 +30,7 @@ class BusinessReport extends Model
         'ktp_path',
         'nib_path',
         'npwp_path',
-        'digram_path',
+        'diagram_path',
         'location_path',
         'specification_path',
         'bap_path',
