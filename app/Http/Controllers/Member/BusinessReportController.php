@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\BusinessReport\BusinessReportRepository;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -53,7 +52,9 @@ class BusinessReportController extends Controller
         $diagramPath = $request->file('diagram_path')->store('businessReport/diagram');
         $locationPath = $request->file('location_path')->store('businessReport/location');
         $specificationPath = $request->file('specification_path')->store('businessReport/specification');
-        $bapPath = $request->file('bap_path')->store('businessReport/bap');
+        $bapPath = null;
+        if ($request->hasFile('bap_path'))
+            $bapPath = $request->file('bap_path')->store('businessReport/bap');
         try {
             $this->businessReportRepository->insertBusinessReport(
                 [
