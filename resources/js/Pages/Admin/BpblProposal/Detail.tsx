@@ -4,7 +4,7 @@ import { BpblProposalDTO, BpblProposalType } from "@/features/BpblProposal"
 import { CityType, DistrictType, SelectCity, SelectDistrict, SelectVillage, VillageType } from "@/features/Territory"
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
 import { FormControlElement, PageProps } from "@/types"
-import { Head, router, useForm } from "@inertiajs/react"
+import { Head, router, useForm, usePage } from "@inertiajs/react"
 import { ChangeEvent, FormEventHandler, useEffect, useState } from "react"
 import L from "leaflet"
 import latLangKalteng from "@/common/constants/latLangKalteng"
@@ -17,6 +17,9 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
     const [districtCode, setDistrictCode] = useState<string | number>()
     const [villageCode, setVillageCode] = useState<string | number>()
     const { data: dto, setData, put } = useForm<BpblProposalDTO>()
+    const { url, props } = usePage();
+    const isDetail = new URL(window.location.origin + url).searchParams.get('isDetail') ?? 0;
+
 
     const column: string[] = [
         'Deskripsi',
@@ -151,68 +154,80 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                         name="full_name"
                                         value={dto.full_name}
                                         onChange={(e) => setData("full_name", (e as ChangeEvent<FormControlElement>).target.value)}
+                                        disabled={isDetail === '1'}
                                     />
                                     <FormGroup
                                         title="NIK"
                                         name="identity_number"
                                         value={dto.identity_number}
                                         onChange={(e) => setData("identity_number", (e as ChangeEvent<FormControlElement>).target.value)}
+                                        disabled={isDetail === '1'}
                                     />
                                     <FormGroup
                                         title="Email"
                                         name="email"
                                         value={dto.email}
                                         onChange={(e) => setData("email", (e as ChangeEvent<FormControlElement>).target.value)}
+                                        disabled={isDetail === '1'}
                                     />
                                     <FormGroup
                                         title="Nomor Handphone/WA"
                                         name="phone_number"
                                         value={dto.phone_number}
                                         onChange={(e) => setData("phone_number", (e as ChangeEvent<FormControlElement>).target.value)}
+                                        disabled={isDetail === '1'}
                                     />
                                     <FormGroup
                                         title="Alamat"
                                         name="address"
                                         value={dto.address}
                                         onChange={(e) => setData("address", (e as ChangeEvent<FormControlElement>).target.value)}
+                                        disabled={isDetail === '1'}
                                     />
                                     <SelectCity
                                         handleCityChange={handleCityChange}
                                         selectedCity={cityCode}
+                                        disabled={isDetail === '1'}
                                     />
                                     <SelectDistrict
                                         handleDistrictChange={handleDistrictChange}
                                         selectedCityId={cityCode}
                                         selectedDistrict={districtCode}
+                                        disabled={isDetail === '1'}
                                     />
                                     <SelectVillage
                                         handleVillageChange={handleVillageChange}
                                         selectedDistrictId={districtCode}
                                         selectedVillage={villageCode}
+                                        disabled={isDetail === '1'}
                                     />
                                     <FormGroup
                                         title="Latitude"
                                         name="latitude"
                                         value={dto.latitude ?? ""}
                                         onChange={(e) => handleLatLangChange("latitude", (e as ChangeEvent<FormControlElement>).target.value)}
+                                        disabled={isDetail === '1'}
                                     />
                                     <FormGroup
                                         title="Longitude"
                                         name="longitude"
                                         value={dto.longitude ?? ""}
                                         onChange={(e) => handleLatLangChange("longitude", (e as ChangeEvent<FormControlElement>).target.value)}
+                                        disabled={isDetail === '1'}
                                     />
                                     <FormGroup
                                         title="Deskripsi"
                                         name="description"
                                         value={dto.description ?? ""}
                                         onChange={(e) => setData("description", (e as ChangeEvent<FormControlElement>).target.value)}
+                                        disabled={isDetail === '1'}
                                     />
                                     <FormGroup
                                         title="Surat pernyataan siap menerima BPBL"
                                         name="statement_path"
                                         type="file"
                                         onChange={(e) => setData("statement_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                        disabled={isDetail === '1'}
                                     />
                                     <RenderDownloadBtn documentPath={data.statement_path} />
                                     <FormGroup
@@ -220,6 +235,7 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                         name="ktp_path"
                                         type="file"
                                         onChange={(e) => setData("ktp_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                        disabled={isDetail === '1'}
                                     />
                                     <RenderDownloadBtn documentPath={data.ktp_path} />
 
@@ -228,6 +244,7 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                         name="house_path"
                                         type="file"
                                         onChange={(e) => setData("house_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                        disabled={isDetail === '1'}
                                     />
                                     <RenderDownloadBtn documentPath={data.house_path} />
                                     <FormGroup
@@ -235,6 +252,7 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                         name="nearest_path"
                                         type="file"
                                         onChange={(e) => setData("nearest_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                        disabled={isDetail === '1'}
                                     />
                                     <RenderDownloadBtn documentPath={data.nearest_path} />
 
@@ -243,10 +261,13 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                         name="letter_path"
                                         type="file"
                                         onChange={(e) => setData("letter_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                        disabled={isDetail === '1'}
                                     />
                                     <RenderDownloadBtn documentPath={data.letter_path} />
 
-                                    <button type="submit" className="btn btn-primary mt-2 w-100" onClick={handleSubmit}>Submit</button>
+                                    {isDetail !== '1' && (
+                                        <button type="submit" className="btn btn-primary mt-2 w-100" onClick={handleSubmit}>Submit</button>
+                                    )}
                                 </div>
                             </div>
                         </div>

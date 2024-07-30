@@ -29,6 +29,7 @@ export default function Index({ datas }: PageProps & { datas: BpblProposalType[]
                                 data={dataTable}
                                 columns={column}
                                 onEdit={(id) => router.visit(route('admin.bpbl-proposal.show', { bpbl_proposal: id }))}
+                                onDetail={(id) => router.visit(route('admin.bpbl-proposal.show', { bpbl_proposal: id, isDetail: 1 }))}
                                 onDelete={(id) => router.delete(route('admin.bpbl-proposal.destroy', { bpbl_proposal: id }))} />
                         </div>
                     </div>

@@ -27,7 +27,7 @@ export default function Index({ datas }: PageProps & { datas: PeriodicReportType
                             <DataTable
                                 data={dataTable}
                                 columns={column}
-                                onEdit={(id) => router.visit(route('admin.periodic-report.show', { id: id }))}
+                                onDetail={(id) => router.visit(route('admin.periodic-report.show', { id: id }))}
                                 onDelete={(id) => router.delete(route('admin.periodic-report.destroy', { id: id }))} />
                         </div>
                     </div>

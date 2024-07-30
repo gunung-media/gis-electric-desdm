@@ -8,10 +8,11 @@ type DataTableProps<T extends object = object> = {
     columns: string[];
     onDelete?: (id: number) => void;
     onEdit?: (id: number) => void;
+    onDetail?: (id: number) => void;
     isForLanding?: boolean
 }
 
-export const DataTable: FC<DataTableProps> = ({ data, columns, onDelete, onEdit, isForLanding = false }) => {
+export const DataTable: FC<DataTableProps> = ({ data, columns, onDelete, onEdit, onDetail, isForLanding = false }) => {
     function customAlert(message: any) {
         console.log('Custom Alert:', message);
     }
@@ -68,6 +69,9 @@ export const DataTable: FC<DataTableProps> = ({ data, columns, onDelete, onEdit,
                                     ))}
                                     {!isForLanding && (
                                         <td>
+                                            {onDetail !== undefined &&
+                                                <button id="detailBtn" className="btn btn-outline-primary" onClick={() => onDetail((val as CommonTableInterface).id)} data-id={(val as CommonTableInterface).id}>Detail</button>
+                                            }
                                             {onEdit !== undefined &&
                                                 <button id="editBtn" className="btn btn-outline-warning" onClick={() => onEdit((val as CommonTableInterface).id)} data-id={(val as CommonTableInterface).id}>Edit</button>
                                             }
