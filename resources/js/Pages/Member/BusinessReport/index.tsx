@@ -45,26 +45,15 @@ export default function Proposal({ datas }: PageProps & { datas: BusinessReportT
                 additionalFields={additionalFields}
                 overrideRoute={route('member.business-report.store')}
                 isWithJenisLaporan={false}
+                firstInitShowModal={false}
                 isWithPriority={false}
                 overrideIndex={
-                    <AuthenticatedLayout>
-                        <div className="card">
-                            <div className="card-body">
-                                <div className="card-title d-flex justify-content-between">
-                                    <p>Laporan Usaha Penyediaan Tenaga Listrik Untuk Kepentingan Sendiri Sampai Dengan 500 kW</p>
-                                </div>
-                                <div className="row">
-                                    <div className="col-12">
-                                        <DataTable
-                                            data={dataTable}
-                                            columns={column}
-                                            onEdit={(id) => router.visit(route('member.business-report.show', { business_report: id }))}
-                                            onDelete={(id) => router.delete(route('member.business-report.destroy', { business_report: id }))} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </AuthenticatedLayout >
+                    <DataTable
+                        data={dataTable}
+                        columns={column}
+                        onEdit={(id) => router.visit(route('member.business-report.show', { business_report: id }))}
+                        onDelete={(id) => router.delete(route('member.business-report.destroy', { business_report: id }))}
+                    />
                 }
                 isShowContactUs={false}
             />

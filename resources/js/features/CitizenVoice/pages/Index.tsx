@@ -13,6 +13,7 @@ import { CitizenVoiceTrackingBox, ModalFormAddCitizenVoice } from '../components
 import { BpblProposalDTO, BpblProposalType } from '@/features/BpblProposal';
 import { BusinessReportDTO, BusinessReportType } from '@/features/BusinessReport';
 import { PeriodicReportDTO, PeriodicReportType } from '@/features/PeriodicReport';
+import { AuthenticatedLayout } from '@/Layouts/AuthenticatedLayout';
 
 type CitizenVoice = {
     datas: (ProposalType | ReportType | BpblProposalType | BusinessReportType | PeriodicReportType)[],
@@ -29,6 +30,7 @@ type CitizenVoice = {
     hasMap?: boolean;
     overrideIndex?: React.ReactNode
     isShowContactUs?: boolean
+    firstInitShowModal?: boolean
 }
 
 export default function CitizenVoicePage(
@@ -46,11 +48,12 @@ export default function CitizenVoicePage(
         overrideIdentityProposal,
         hasMap = true,
         overrideIndex,
-        isShowContactUs = true
+        isShowContactUs = true,
+        firstInitShowModal = true,
     }: CitizenVoice) {
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [isShowTracking, setIsShowTracking] = useState<boolean>(false)
-    const [isShowAdd, setIsShowAdd] = useState<boolean>(showAdd)
+    const [isShowAdd, setIsShowAdd] = useState<boolean>(firstInitShowModal)
     const [idClicked, setIdClocked] = useState<number>()
     const saveRoute = !overrideRoute ? (isProposal ? route('proposal.store') : route('report.store')) : overrideRoute
 
@@ -78,7 +81,25 @@ export default function CitizenVoicePage(
     return (
         <>
             <Head title={title} />
-            {overrideIndex ? overrideIndex! :
+            {overrideIndex ?
+                <AuthenticatedLayout>
+                    <div className="card">
+                        <div className="card-body">
+                            <div className="card-title d-flex justify-content-between">
+                                <p>{title}</p>
+                                <div>
+                                    <a href="#" type="button" className="btn btn-primary btn-icon-text" onClick={() => setIsShowAdd(true)}>
+                                        <i className="ti-plus btn-icon-prepend"></i>
+                                        Tambah
+                                    </a>
+                                </div>
+                            </div>
+                            <div className="row">
+                                {overrideIndex}
+                            </div>
+                        </div>
+                    </div>
+                </AuthenticatedLayout> :
                 <>
                     <Loader isShow={isLoading} />
                     <div id="map"></div>
@@ -96,7 +117,7 @@ export default function CitizenVoicePage(
 
             }
 
-            {showAdd && (
+            {isShowAdd && (
                 <ModalFormAddCitizenVoice
                     isShow={isShowAdd}
                     onClose={() => hasMap ? setIsShowAdd(false) : window.history.back()}
@@ -107,6 +128,7 @@ export default function CitizenVoicePage(
                     isWithJenisLaporan={isWithJenisLaporan}
                     isWithPriority={isWithPriority}
                     overrideIdentityProposal={overrideIdentityProposal}
+                    mapId={`map-picker-${Date.now()}`}
                 />
             )}
 

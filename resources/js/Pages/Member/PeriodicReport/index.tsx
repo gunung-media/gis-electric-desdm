@@ -52,25 +52,14 @@ export default function Proposal({ datas }: PageProps & { datas: PeriodicReportT
                 overrideRoute={route('member.periodic-report.store')}
                 isWithPriority={false}
                 isWithJenisLaporan={false}
+                firstInitShowModal={false}
                 overrideIndex={
-                    <AuthenticatedLayout>
-                        <div className="card">
-                            <div className="card-body">
-                                <div className="card-title d-flex justify-content-between">
-                                    <p>Layanan Pembinaan dan Pengawasan (Laporan Berkala)</p>
-                                </div>
-                                <div className="row">
-                                    <div className="col-12">
-                                        <DataTable
-                                            data={dataTable}
-                                            columns={column}
-                                            onEdit={(id) => router.visit(route('member.periodic-report.show', { id: id }))}
-                                            onDelete={(id) => router.delete(route('member.periodic-report.destroy', { id: id }))} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </AuthenticatedLayout >
+                    <DataTable
+                        data={dataTable}
+                        columns={column}
+                        onEdit={(id) => router.visit(route('member.periodic-report.show', { id: id }))}
+                        onDelete={(id) => router.delete(route('member.periodic-report.destroy', { id: id }))}
+                    />
                 }
                 isShowContactUs={false}
             />

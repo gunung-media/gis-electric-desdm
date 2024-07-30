@@ -36,26 +36,15 @@ export default function Proposal({ datas }: PageProps & { datas: BpblProposalTyp
                 overrideRoute={route('member.bpbl-proposal.store')}
                 isWithJenisLaporan={false}
                 isWithPriority={false}
-                showAdd={!datas.length}
+                firstInitShowModal={false}
                 overrideIndex={
-                    <AuthenticatedLayout>
-                        <div className="card">
-                            <div className="card-body">
-                                <div className="card-title d-flex justify-content-between">
-                                    <p>Usulan BPBL(Bantuan Pasang Baru Listrik)</p>
-                                </div>
-                                <div className="row">
-                                    <div className="col-12">
-                                        <DataTable
-                                            data={dataTable}
-                                            columns={column}
-                                            onEdit={(id) => router.visit(route('member.bpbl-proposal.show', { bpbl_proposal: id }))}
-                                            onDelete={(id) => router.delete(route('member.bpbl-proposal.destroy', { bpbl_proposal: id }))} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </AuthenticatedLayout >
+                    <div className="col-12">
+                        <DataTable
+                            data={dataTable}
+                            columns={column}
+                            onEdit={(id) => router.visit(route('member.bpbl-proposal.show', { bpbl_proposal: id }))}
+                            onDelete={(id) => router.delete(route('member.bpbl-proposal.destroy', { bpbl_proposal: id }))} />
+                    </div>
                 }
                 isShowContactUs={false}
             />
