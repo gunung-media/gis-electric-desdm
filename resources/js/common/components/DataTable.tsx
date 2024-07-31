@@ -10,9 +10,10 @@ type DataTableProps<T extends object = object> = {
     onEdit?: (id: number) => void;
     onDetail?: (id: number) => void;
     isForLanding?: boolean
+    overrideDeleteAlert?: boolean
 }
 
-export const DataTable: FC<DataTableProps> = ({ data, columns, onDelete, onEdit, onDetail, isForLanding = false }) => {
+export const DataTable: FC<DataTableProps> = ({ data, columns, onDelete, onEdit, onDetail, isForLanding = false, overrideDeleteAlert = false }) => {
     function customAlert(message: any) {
         console.log('Custom Alert:', message);
     }
@@ -33,7 +34,7 @@ export const DataTable: FC<DataTableProps> = ({ data, columns, onDelete, onEdit,
 
     const onDeleteClick = (id: number) => {
         Swal.fire({
-            title: "Do you want to delete this data?",
+            title: "Apakah kamu benar ingin menghapus data ini?",
             showDenyButton: true,
             showCancelButton: true,
             confirmButtonText: "Yes",
@@ -41,7 +42,9 @@ export const DataTable: FC<DataTableProps> = ({ data, columns, onDelete, onEdit,
         }).then((result) => {
             if (result.isConfirmed) {
                 onDelete!(id)
-                swalSuccess('Sukses Menghapus')
+                if (!overrideDeleteAlert) {
+                    swalSuccess("Sukses Menghapus")
+                }
             } else if (result.isDenied) {
                 Swal.fire("Data tidak dihapus", "", "info");
             }

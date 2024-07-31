@@ -1,4 +1,5 @@
 import { DataTable } from "@/common/components";
+import { swalError, swalSuccess } from "@/common/utils";
 import { GuideType } from "@/features/Guide";
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
@@ -31,7 +32,12 @@ export default function Index({ guides }: PageProps & { guides: GuideType[] }) {
                                 data={dataTable}
                                 columns={column}
                                 onEdit={(id) => router.visit(route('admin.guide.edit', { guide: id }))}
-                                onDelete={(id) => router.delete(route('admin.guide.destroy', { guide: id }))} />
+                                onDelete={(id) => router.delete(route('admin.guide.destroy', { guide: id }), {
+                                    onError: (e) => swalError(e.error),
+                                    onSuccess: () => swalSuccess('Sukses Menghapus'),
+                                })}
+                                overrideDeleteAlert={true}
+                            />
                         </div>
                     </div>
                 </div>
