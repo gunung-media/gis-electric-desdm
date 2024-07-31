@@ -27,7 +27,7 @@ class BpblProposalTrackingController extends Controller
             'file_path' => 'file|max:2048',
         ]);
 
-        $filePath = $request->hasFile('file_path') ?  $request->file('file_path')->store('bpbl-proposal-tracking', 'public') : null;
+        $filePath = $request->hasFile('file_path') ?  $request->file('file_path')->store('bpbl-proposal/tracking') : null;
         try {
             $this->bpblProposalTrackingRepository->insertTracking([...($request->all()), 'bpbl_proposal_id' => $bpblProposalId, 'file_path' => $filePath]);
             return redirect(route('admin.bpbl-proposal.show', ['bpbl_proposal' => $bpblProposalId]))->with('status', 'Sukses Menambah tracking');
@@ -47,7 +47,7 @@ class BpblProposalTrackingController extends Controller
     public function update(Request $request, string $bpblProposalId, string $id): mixed
     {
 
-        $filePath = $request->hasFile('file_path') ?  $request->file('file_path')->store('bpbl-proposal-tracking', 'public') : null;
+        $filePath = $request->hasFile('file_path') ?  $request->file('file_path')->store('bpbl-proposal/tracking') : null;
         try {
             $proposalTracking = $this->bpblProposalTrackingRepository->getTracking($id);
             $proposalTracking->update([...($request->all()), 'bpbl_proposal_id' => $bpblProposalId, 'file_path' => $filePath]);

@@ -27,7 +27,7 @@ class BusinessReportTrackingController extends Controller
             'file_path' => 'file|max:2048',
         ]);
 
-        $filePath = $request->hasFile('file_path') ?  $request->file('file_path')->store('business-report-tracking', 'public') : null;
+        $filePath = $request->hasFile('file_path') ?  $request->file('file_path')->store('business-report/tracking') : null;
         try {
             $this->businessReportTrackingRepository->insertTracking([...($request->all()), 'business_report_id' => $businessReportId, 'file_path' => $filePath]);
             return redirect(route('admin.business-report.show', ['business_report' => $businessReportId]))->with('status', 'Sukses Menambah tracking');
@@ -46,7 +46,7 @@ class BusinessReportTrackingController extends Controller
 
     public function update(Request $request, string $businessReportId, string $id): mixed
     {
-        $filePath = $request->hasFile('file_path') ?  $request->file('file_path')->store('business-report-tracking', 'public') : null;
+        $filePath = $request->hasFile('file_path') ?  $request->file('file_path')->store('business-report/tracking') : null;
         try {
             $proposalTracking = $this->businessReportTrackingRepository->getTracking($id);
             $proposalTracking->update([...($request->all()), 'business_report_id' => $businessReportId, 'file_path' => $filePath]);

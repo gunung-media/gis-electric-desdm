@@ -27,8 +27,9 @@ class PeriodicReportTrackingController extends Controller
             'file_path' => 'file|max:2048',
         ]);
 
+        $filePath = $request->hasFile('file_path') ?  $request->file('file_path')->store('periodic-report/tracking') : null;
         try {
-            $this->periodicReportTrackingRepository->insertTracking([...($request->all()), 'periodic_report_id' => $periodicReportId]);
+            $this->periodicReportTrackingRepository->insertTracking([...($request->all()), 'periodic_report_id' => $periodicReportId, 'file_path' => $filePath]);
             return redirect(route('admin.periodic-report.show', ['periodic_report' => $periodicReportId]))->with('status', 'Sukses Menambah tracking');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));
@@ -45,9 +46,10 @@ class PeriodicReportTrackingController extends Controller
 
     public function update(Request $request, string $periodicReportId, string $id): mixed
     {
+        $filePath = $request->hasFile('file_path') ?  $request->file('file_path')->store('periodic-report/tracking') : null;
         try {
             $proposalTracking = $this->periodicReportTrackingRepository->getTracking($id);
-            $proposalTracking->update([...($request->all()), 'periodic_report_id' => $periodicReportId]);
+            $proposalTracking->update([...($request->all()), 'periodic_report_id' => $periodicReportId, 'file_path' => $filePath]);
             return redirect(route('admin.periodic-report.show', ['periodic_report' => $periodicReportId]))->with('status', 'Sukses Edit tracking');
         } catch (\Throwable $th) {
             error_log(json_encode($th->getMessage()));

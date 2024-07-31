@@ -45,16 +45,16 @@ class BusinessReportController extends Controller
             'bap_path' => 'file|max:2048',
         ]);
 
-        $requestPath = $request->file('request_path')->store('businessReport/request');
-        $ktpPath = $request->file('ktp_path')->store('businessReport/ktp');
-        $nibPath = $request->file('nib_path')->store('businessReport/nib');
-        $npwpPath = $request->file('npwp_path')->store('businessReport/npwp');
-        $diagramPath = $request->file('diagram_path')->store('businessReport/diagram');
-        $locationPath = $request->file('location_path')->store('businessReport/location');
-        $specificationPath = $request->file('specification_path')->store('businessReport/specification');
+        $requestPath = $request->file('request_path')->store('business_report/request');
+        $ktpPath = $request->file('ktp_path')->store('business_report/ktp');
+        $nibPath = $request->file('nib_path')->store('business_report/nib');
+        $npwpPath = $request->file('npwp_path')->store('business_report/npwp');
+        $diagramPath = $request->file('diagram_path')->store('business_report/diagram');
+        $locationPath = $request->file('location_path')->store('business_report/location');
+        $specificationPath = $request->file('specification_path')->store('business_report/specification');
         $bapPath = null;
         if ($request->hasFile('bap_path'))
-            $bapPath = $request->file('bap_path')->store('businessReport/bap');
+            $bapPath = $request->file('bap_path')->store('business_report/bap');
         try {
             $this->businessReportRepository->insertBusinessReport(
                 [
@@ -108,7 +108,7 @@ class BusinessReportController extends Controller
         $arrFiles = ['request', 'ktp', 'nib', 'npwp', 'diagram', 'location', 'specification', 'bap'];
         foreach ($arrFiles as $file) {
             if ($request->hasFile($file . '_path')) {
-                $path = $request->file($file . '_path')->store('businessReport/' . $file);
+                $path = $request->file($file . '_path')->store('business_report/' . $file);
                 $files[$file . '_path'] = $path;
             }
         }

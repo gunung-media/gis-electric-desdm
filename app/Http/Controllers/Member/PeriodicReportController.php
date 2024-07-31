@@ -45,10 +45,10 @@ class PeriodicReportController extends Controller
             'periodic_path' => 'required|file|max:2048',
         ]);
 
-        $skPath = $request->file('sk_path')->store('periodicReport/sk');
-        $certificatePath = $request->file('certificate_path')->store('periodicReport/certificate');
-        $conditionPath = $request->file('condition_path')->store('periodicReport/condition');
-        $periodicPath = $request->file('periodic_path')->store('periodicReport/periodic');
+        $skPath = $request->file('sk_path')->store('periodic_report/sk');
+        $certificatePath = $request->file('certificate_path')->store('periodic_report/certificate');
+        $conditionPath = $request->file('condition_path')->store('periodic_report/condition');
+        $periodicPath = $request->file('periodic_path')->store('periodic_report/periodic');
         try {
             $this->periodicReportRepository->insertPeriodicReport(
                 [
@@ -96,7 +96,7 @@ class PeriodicReportController extends Controller
         $arrFiles = ['sk', 'certificate', 'condition', 'periodic'];
         foreach ($arrFiles as $file) {
             if ($request->hasFile($file . '_path')) {
-                $path = $request->file($file . '_path')->store('bpbl_proposal/' . $file);
+                $path = $request->file($file . '_path')->store('periodic_report/' . $file);
                 $files[$file . '_path'] = $path;
             }
         }
