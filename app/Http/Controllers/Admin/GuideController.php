@@ -78,7 +78,7 @@ class GuideController extends Controller
 
     public function destroy(string $id): mixed
     {
-        if ($id === 1) {
+        if ($id == 1 || $id == '1') {
             return back()->withErrors(['error' => 'Gagal Menghapus, Informasi Umum Tidak boleh dihapus']);
         }
         $user = $this->guideRepository->getById($id);
