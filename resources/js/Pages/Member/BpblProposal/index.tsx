@@ -3,17 +3,18 @@ import { PageProps } from '@/types'
 import CitizenVoicePage from '@/features/CitizenVoice/pages/Index';
 import { DataTable, InputType } from '@/common/components';
 import { AuthenticatedLayout } from '@/Layouts/AuthenticatedLayout';
-import { Head, router } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 
 export default function Proposal({ datas }: PageProps & { datas: BpblProposalType[] }) {
+    const { assets } = usePage<PageProps>().props
     const additionalFields: InputType<BpblProposalDTO>[] = [
         { title: 'Alamat', name: 'address', type: 'text' },
         { title: 'Deskripsi Usulan', name: 'description', type: "textarea" },
-        { title: 'Surat pernyataan siap menerima BPBL', name: 'statement_path', type: "file" },
+        { title: 'Surat pernyataan siap menerima BPBL', name: 'statement_path', type: "file", templateUrl: `${assets}/Bpbl_Format_Pernyataan.pdf` },
         { title: 'KTP', name: 'ktp_path', type: "file" },
         { title: 'Foto Rumah', name: 'house_path', type: "file" },
         { title: 'Foto Jaringan Terdekat', name: 'nearest_path', type: "file" },
-        { title: 'Surat Pernyataan Tidak Mampu/Usulan Dari Kepala Desa/Lurah', name: 'letter_path', type: "file" },
+        { title: 'Surat Pernyataan Tidak Mampu/Usulan Dari Kepala Desa/Lurah', name: 'letter_path', type: "file", templateUrl: `${assets}/Bpbl_Format_Pernyataan_Kades.pdf` },
     ]
 
     const column: string[] = [
