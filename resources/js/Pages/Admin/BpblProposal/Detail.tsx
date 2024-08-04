@@ -18,7 +18,7 @@ export default function Detail({ data }: PageProps & { data?: BpblProposalType }
     const [villageCode, setVillageCode] = useState<string | number>()
     const { data: dto, setData, post } = useForm<BpblProposalDTO>()
     const { url, props: { errors } } = usePage();
-    const isDetail = new URL(window.location.origin + url).searchParams.get('isDetail') ?? 0;
+    const isDetail = new URL(window.location.origin + url).searchParams.get('isDetail') === '1';
 
 
     const column: string[] = [
@@ -167,6 +167,7 @@ export default function Detail({ data }: PageProps & { data?: BpblProposalType }
                                         value={dto.full_name}
                                         onChange={(e) => setData("full_name", (e as ChangeEvent<FormControlElement>).target.value)}
                                         errorMsg={errors.full_name}
+                                        disabled={isDetail}
                                     />
                                     <FormGroup
                                         title="NIK"
@@ -174,6 +175,7 @@ export default function Detail({ data }: PageProps & { data?: BpblProposalType }
                                         value={dto.identity_number}
                                         errorMsg={errors.identity_number}
                                         onChange={(e) => setData("identity_number", (e as ChangeEvent<FormControlElement>).target.value)}
+                                        disabled={isDetail}
                                     />
                                     <FormGroup
                                         title="Email"
@@ -181,6 +183,7 @@ export default function Detail({ data }: PageProps & { data?: BpblProposalType }
                                         value={dto.email}
                                         errorMsg={errors.email}
                                         onChange={(e) => setData("email", (e as ChangeEvent<FormControlElement>).target.value)}
+                                        disabled={isDetail}
                                     />
                                     <FormGroup
                                         title="Nomor Handphone/WA"
@@ -188,6 +191,7 @@ export default function Detail({ data }: PageProps & { data?: BpblProposalType }
                                         value={dto.phone_number}
                                         errorMsg={errors.phone_number}
                                         onChange={(e) => setData("phone_number", (e as ChangeEvent<FormControlElement>).target.value)}
+                                        disabled={isDetail}
                                     />
                                     <FormGroup
                                         title="Alamat"
@@ -195,20 +199,24 @@ export default function Detail({ data }: PageProps & { data?: BpblProposalType }
                                         value={dto.address}
                                         errorMsg={errors.address}
                                         onChange={(e) => setData("address", (e as ChangeEvent<FormControlElement>).target.value)}
+                                        disabled={isDetail}
                                     />
                                     <SelectCity
                                         handleCityChange={handleCityChange}
                                         selectedCity={cityCode}
+                                        disabled={isDetail}
                                     />
                                     <SelectDistrict
                                         handleDistrictChange={handleDistrictChange}
                                         selectedCityId={cityCode}
                                         selectedDistrict={districtCode}
+                                        disabled={isDetail}
                                     />
                                     <SelectVillage
                                         handleVillageChange={handleVillageChange}
                                         selectedDistrictId={districtCode}
                                         selectedVillage={villageCode}
+                                        disabled={isDetail}
                                     />
                                     <InputError message={errors.village_code} />
 
@@ -218,6 +226,7 @@ export default function Detail({ data }: PageProps & { data?: BpblProposalType }
                                         value={dto.latitude ?? ""}
                                         errorMsg={errors.latitude}
                                         onChange={(e) => handleLatLangChange("latitude", (e as ChangeEvent<FormControlElement>).target.value)}
+                                        disabled={isDetail}
                                     />
                                     <FormGroup
                                         title="Longitude"
@@ -225,6 +234,7 @@ export default function Detail({ data }: PageProps & { data?: BpblProposalType }
                                         value={dto.longitude ?? ""}
                                         errorMsg={errors.longitude}
                                         onChange={(e) => handleLatLangChange("longitude", (e as ChangeEvent<FormControlElement>).target.value)}
+                                        disabled={isDetail}
                                     />
                                     <FormGroup
                                         title="Deskripsi"
@@ -232,6 +242,7 @@ export default function Detail({ data }: PageProps & { data?: BpblProposalType }
                                         value={dto.description ?? ""}
                                         errorMsg={errors.description}
                                         onChange={(e) => setData("description", (e as ChangeEvent<FormControlElement>).target.value)}
+                                        disabled={isDetail}
                                     />
                                     <FormGroup
                                         title="Surat pernyataan siap menerima BPBL"
@@ -239,14 +250,16 @@ export default function Detail({ data }: PageProps & { data?: BpblProposalType }
                                         type="file"
                                         errorMsg={errors.statement_path}
                                         onChange={(e) => setData("statement_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                        disabled={isDetail}
                                     />
                                     <RenderDownloadBtn documentPath={data?.statement_path} />
                                     <FormGroup
                                         title="KTP"
                                         name="ktp_path"
                                         type="file"
-                                        errorMsg={errors.file_path}
-                                        onChange={(e) => setData("statement_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                        errorMsg={errors.ktp_path}
+                                        onChange={(e) => setData("ktp_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                        disabled={isDetail}
                                     />
                                     <RenderDownloadBtn documentPath={data?.ktp_path} />
 
@@ -256,6 +269,7 @@ export default function Detail({ data }: PageProps & { data?: BpblProposalType }
                                         type="file"
                                         errorMsg={errors.house_path}
                                         onChange={(e) => setData("house_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                        disabled={isDetail}
                                     />
                                     <RenderDownloadBtn documentPath={data?.house_path} />
                                     <FormGroup
@@ -264,6 +278,7 @@ export default function Detail({ data }: PageProps & { data?: BpblProposalType }
                                         type="file"
                                         errorMsg={errors.nearest_path}
                                         onChange={(e) => setData("nearest_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
+                                        disabled={isDetail}
                                     />
                                     <RenderDownloadBtn documentPath={data?.nearest_path} />
 
@@ -272,11 +287,14 @@ export default function Detail({ data }: PageProps & { data?: BpblProposalType }
                                         name="letter_path"
                                         type="file"
                                         errorMsg={errors.letter_path}
+                                        disabled={isDetail}
                                         onChange={(e) => setData("letter_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                     />
                                     <RenderDownloadBtn documentPath={data?.letter_path} />
 
-                                    <button type="submit" className="btn btn-primary mt-2 w-100" onClick={handleSubmit}>Submit</button>
+                                    {!isDetail && (
+                                        <button type="submit" className="btn btn-primary mt-2 w-100" onClick={handleSubmit}>Submit</button>
+                                    )}
                                 </div>
                             </div>
                         </div>
