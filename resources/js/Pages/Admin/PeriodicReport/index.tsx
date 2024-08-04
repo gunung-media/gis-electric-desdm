@@ -1,6 +1,7 @@
 import { DataTable, OptionType } from "@/common/components"
 import { PeriodicReportType } from "@/features/PeriodicReport"
 import { CityType, DistrictType, VillageType, SelectCity, SelectDistrict, SelectVillage } from "@/features/Territory"
+import { ImportModal } from "@/features/VillageElectricity/components"
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
 import { PageProps } from "@/types"
 import { Head, router, usePage } from "@inertiajs/react"
@@ -10,6 +11,7 @@ export default function Index({ datas }: PageProps & { datas: PeriodicReportType
     const [cityCode, setCityCode] = useState<string | number>()
     const [districtCode, setDistrictCode] = useState<string | number>()
     const [villageCode, setVillageCode] = useState<string | number>()
+    const [isShowImport, setIsShowImport] = useState<boolean>(false)
     const { url } = usePage();
 
     useEffect(() => {
@@ -77,6 +79,9 @@ export default function Index({ datas }: PageProps & { datas: PeriodicReportType
                 <div className="card-body">
                     <div className="card-title d-flex justify-content-between">
                         <p>Layanan Pembinaan dan Pengawasan (Laporan Berkala)</p>
+                        <button className="btn btn-warning btn-icon-text" style={{ marginRight: '1rem' }} onClick={() => setIsShowImport(true)}>
+                            Impor
+                        </button>
                     </div>
                     <div className="row">
                         <div className="col-12">
@@ -89,6 +94,12 @@ export default function Index({ datas }: PageProps & { datas: PeriodicReportType
                     </div>
                 </div>
             </div>
+            <ImportModal
+                isShow={isShowImport}
+                onClose={() => setIsShowImport(false)}
+                overrideRoute="admin.import.periodic_report"
+                overrideFileName="FormatImportPR.xlsx"
+            />
         </AuthenticatedLayout >
     )
 }

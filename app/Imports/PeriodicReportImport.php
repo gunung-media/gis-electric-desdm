@@ -2,21 +2,23 @@
 
 namespace App\Imports;
 
-use App\Models\BpblProposal\BpblProposal;
+use App\Models\PeriodicReport\PeriodicReport;
 use App\Models\Territory\Village;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class BpblProposalImport implements ToCollection, WithHeadingRow
+class PeriodicReportImport implements ToCollection, WithHeadingRow
 {
-
     public function mapping($row): array
     {
         return [
-            'full_name' => $row['nama_lengkap'] ?? 'notfound',
+            'name' => $row['nama'] ?? 'notfound',
+            'nib' => $row['nib'] ?? 'notfound',
+            'type' => $row['tipe_perizinan'] ?? 'notfound',
+            'npwp' => $row['npwp'] ?? 'notfound',
+            'permit_number' => $row['nomor_perizinan'] ?? 'notfound',
             'email' => $row['email'] ?? 'notfound@gmail.com',
-            'identity_number' => $row['nik'] ?? 0,
             'phone_number' => $row['nomor_handphone'] ?? 0,
             'address' => $row['alamat'] ?? '',
             'latitude' => $row['latitude'] ?? '0',
@@ -42,7 +44,7 @@ class BpblProposalImport implements ToCollection, WithHeadingRow
                 'village_code' => $village->code
             ];
             error_log(json_encode($insertData));
-            BpblProposal::create($insertData);
+            PeriodicReport::create($insertData);
         }
     }
 

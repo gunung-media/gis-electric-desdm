@@ -1,6 +1,7 @@
 import { DataTable, OptionType } from "@/common/components"
 import { BusinessReportType } from "@/features/BusinessReport"
 import { CityType, DistrictType, SelectCity, SelectDistrict, SelectVillage, VillageType } from "@/features/Territory"
+import { ImportModal } from "@/features/VillageElectricity/components"
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
 import { PageProps } from "@/types"
 import { Head, router, usePage } from "@inertiajs/react"
@@ -11,6 +12,7 @@ export default function Index({ datas }: PageProps & { datas: BusinessReportType
     const [districtCode, setDistrictCode] = useState<string | number>()
     const [villageCode, setVillageCode] = useState<string | number>()
     const { url } = usePage();
+    const [isShowImport, setIsShowImport] = useState<boolean>(false)
 
     useEffect(() => {
         setCityCode(new URL(window.location.origin + url).searchParams.get('city_code') ?? undefined);
@@ -76,6 +78,9 @@ export default function Index({ datas }: PageProps & { datas: BusinessReportType
                 <div className="card-body">
                     <div className="card-title d-flex justify-content-between">
                         <p>Laporan Usaha Penyediaan Tenaga Listrik Untuk Kepentingan Sendiri Sampai Dengan 500 kW</p>
+                        <button className="btn btn-warning btn-icon-text" style={{ marginRight: '1rem' }} onClick={() => setIsShowImport(true)}>
+                            Impor
+                        </button>
                     </div>
                     <div className="row">
                         <div className="col-12">
@@ -88,6 +93,12 @@ export default function Index({ datas }: PageProps & { datas: BusinessReportType
                     </div>
                 </div>
             </div>
+            <ImportModal
+                isShow={isShowImport}
+                onClose={() => setIsShowImport(false)}
+                overrideRoute="admin.import.business_report"
+                overrideFileName="FormatImportBR.xlsx"
+            />
         </AuthenticatedLayout >
     )
 }
