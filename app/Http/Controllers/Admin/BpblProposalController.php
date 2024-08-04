@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Imports\BpblProposalImport;
 use App\Repositories\BpblProposal\BpblProposalRepository;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BpblProposalController extends Controller
 {
@@ -120,5 +124,25 @@ class BpblProposalController extends Controller
         $proposal = $this->bpblProposalRepository->getBpblProposal($id);
         $proposal->delete();
         return redirect(route('admin.bpbl-proposal.index'))->with('status', 'Sukses Menghapus Urusan');
+    }
+
+    public function import(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $file = $request->file('file');
+
+            Excel::import(new BpblProposalImport, $file);
+            DB::commit();
+            return redirect(route('admin.bpbl-proposal.index'))->with('status', 'Sukses Mengimport ');
+        } catch (\Throwable $th) {
+            error_log(json_encode($th->getMessage()));
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Gagal Mengimport ']);
+        }
     }
 }

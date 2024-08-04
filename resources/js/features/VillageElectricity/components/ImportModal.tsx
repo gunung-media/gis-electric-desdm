@@ -8,10 +8,12 @@ import { Button, Form, Modal } from "react-bootstrap"
 
 type ImportModalProps = {
     isShow: boolean
-    onClose: () => void
+    onClose: () => void,
+    overrideRoute?: string,
+    overrideFileName?: string,
 }
 
-export const ImportModal: FC<ImportModalProps> = ({ isShow, onClose }) => {
+export const ImportModal: FC<ImportModalProps> = ({ isShow, onClose, overrideRoute, overrideFileName }) => {
     const { setData, post } = useForm<{
         file: File
     }>()
@@ -19,7 +21,7 @@ export const ImportModal: FC<ImportModalProps> = ({ isShow, onClose }) => {
 
     const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault()
-        post(route('admin.import.village_electricity'), {
+        post(route(overrideRoute ?? 'admin.import.village_electricity'), {
             onError: (e) => {
                 swalError(e.error)
             },
@@ -48,7 +50,7 @@ export const ImportModal: FC<ImportModalProps> = ({ isShow, onClose }) => {
                             onChange={(e) => setData('file', (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                             errorMsg={errors.file}
                         />
-                        <label htmlFor=""><a href={`${assets}/FormatImport.xlsx`} target="blank">Unduh Format</a></label>
+                        <label htmlFor=""><a href={`${assets}/${overrideFileName ?? 'FormatImport.xlsx'}`} target="blank">Unduh Format</a></label>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={onClose}>

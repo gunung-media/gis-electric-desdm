@@ -1,6 +1,7 @@
 import { DataTable, OptionType } from "@/common/components"
 import { BpblProposalType } from "@/features/BpblProposal"
 import { CityType, DistrictType, SelectCity, SelectDistrict, SelectVillage, VillageType } from "@/features/Territory"
+import { ImportModal } from "@/features/VillageElectricity/components"
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout"
 import { PageProps } from "@/types"
 import { Head, router, usePage } from "@inertiajs/react"
@@ -10,6 +11,7 @@ export default function Index({ datas }: PageProps & { datas: BpblProposalType[]
     const [cityCode, setCityCode] = useState<string | number>()
     const [districtCode, setDistrictCode] = useState<string | number>()
     const [villageCode, setVillageCode] = useState<string | number>()
+    const [isShowImport, setIsShowImport] = useState<boolean>(false)
     const { url } = usePage();
 
     useEffect(() => {
@@ -78,10 +80,15 @@ export default function Index({ datas }: PageProps & { datas: BpblProposalType[]
                 <div className="card-body">
                     <div className="card-title d-flex justify-content-between">
                         <p>Usulan BPBL (Bantuan Pasang Baru Listrik)</p>
-                        <a href={route('admin.bpbl-proposal.create')} type="button" className="btn btn-primary btn-icon-text">
-                            <i className="ti-plus btn-icon-prepend"></i>
-                            Tambah
-                        </a>
+                        <div>
+                            <button className="btn btn-warning btn-icon-text" style={{ marginRight: '1rem' }} onClick={() => setIsShowImport(true)}>
+                                Impor
+                            </button>
+                            <a href={route('admin.bpbl-proposal.create')} type="button" className="btn btn-primary btn-icon-text">
+                                <i className="ti-plus btn-icon-prepend"></i>
+                                Tambah
+                            </a>
+                        </div>
                     </div>
                     <div className="row">
                         <div className="col-12">
@@ -95,6 +102,12 @@ export default function Index({ datas }: PageProps & { datas: BpblProposalType[]
                     </div>
                 </div>
             </div>
+            <ImportModal
+                isShow={isShowImport}
+                onClose={() => setIsShowImport(false)}
+                overrideRoute="admin.import.bpbl_proposal"
+                overrideFileName="FormatImportBpbl.xlsx"
+            />
         </AuthenticatedLayout >
     )
 }

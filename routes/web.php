@@ -106,6 +106,7 @@ Route::middleware('auth')->group(function () {
 
         Route::prefix('import')->name('import.')->group(function () {
             Route::post('village_electricity', [AdminVillageElectricityController::class, 'import'])->name('village_electricity');
+            Route::post('bpbl_proposal', [AdminBpblProposalController::class, 'import'])->name('bpbl_proposal');
         });
     });
 });
