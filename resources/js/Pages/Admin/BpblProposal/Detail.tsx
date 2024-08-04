@@ -10,13 +10,13 @@ import L from "leaflet"
 import latLangKalteng from "@/common/constants/latLangKalteng"
 import { electricIcon, swalError, swalSuccess } from "@/common/utils"
 
-export default function Detail({ data }: PageProps & { data: BpblProposalType }) {
+export default function Detail({ data }: PageProps & { data?: BpblProposalType }) {
     const { map } = useMap()
     const [marker, setMarker] = useState<L.Marker>()
     const [cityCode, setCityCode] = useState<string | number>()
     const [districtCode, setDistrictCode] = useState<string | number>()
     const [villageCode, setVillageCode] = useState<string | number>()
-    const { data: dto, setData, put } = useForm<BpblProposalDTO>()
+    const { data: dto, setData, post } = useForm<BpblProposalDTO>()
     const { url, props: { errors } } = usePage();
     const isDetail = new URL(window.location.origin + url).searchParams.get('isDetail') ?? 0;
 
@@ -28,43 +28,45 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
         'Tanggal',
     ]
 
-    const dataTable = data.trackings.map(({ id, description, status, file_path, created_at }) => ({
+    const dataTable = data?.trackings.map(({ id, description, status, file_path, created_at }) => ({
         id, description, status, file_path: (<RenderDownloadBtn documentPath={file_path} />), created_at
     }))
 
     useEffect(() => {
-        const {
-            village: {
-                code: village_code,
-                district: {
-                    code: districtCode,
-                    city_code,
-                }
-            },
-            full_name,
-            identity_number,
-            email,
-            phone_number,
-            address,
-            latitude,
-            longitude,
-            description,
-        } = data
-        setVillageCode(village_code)
-        setDistrictCode(districtCode)
-        setCityCode(city_code)
-        setData(() => ({
-            ...dto,
-            full_name,
-            identity_number,
-            email,
-            phone_number,
-            village_code,
-            address,
-            latitude,
-            longitude,
-            description
-        }))
+        if (data) {
+            const {
+                village: {
+                    code: village_code,
+                    district: {
+                        code: districtCode,
+                        city_code,
+                    }
+                },
+                full_name,
+                identity_number,
+                email,
+                phone_number,
+                address,
+                latitude,
+                longitude,
+                description,
+            } = data
+            setVillageCode(village_code)
+            setDistrictCode(districtCode)
+            setCityCode(city_code)
+            setData(() => ({
+                ...dto,
+                full_name,
+                identity_number,
+                email,
+                phone_number,
+                village_code,
+                address,
+                latitude,
+                longitude,
+                description
+            }))
+        }
     }, [])
 
     useEffect(() => {
@@ -74,7 +76,7 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                 icon: electricIcon
             }).addTo(map);
 
-            map?.setView([Number(data.latitude ?? 0), Number(data.longitude ?? 0)], 7, { animate: true })
+            map?.setView([Number(data?.latitude ?? 0), Number(data?.longitude ?? 0)], 7, { animate: true })
 
             marker.on('dragend', function () {
                 const position = marker.getLatLng();
@@ -103,14 +105,24 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
 
     const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault()
-        router.post(route('admin.bpbl-proposal.update', { bpbl_proposal: data.id }), { _method: 'put', ...dto }, {
-            onError: (e) => {
-                swalError(e.error)
-            },
-            onSuccess: () => {
-                swalSuccess('Sukses Mengedit')
-            }
-        })
+        if (data)
+            router.post(route('admin.bpbl-proposal.update', { bpbl_proposal: data?.id }), { _method: 'put', ...dto }, {
+                onError: (e) => {
+                    swalError(e.error)
+                },
+                onSuccess: () => {
+                    swalSuccess('Sukses Mengedit')
+                }
+            })
+        else
+            post(route('admin.bpbl-proposal.store'), {
+                onError: (e) => {
+                    swalError(e.error)
+                },
+                onSuccess: () => {
+                    swalSuccess('Sukses Mengedit')
+                }
+            })
     }
 
     const handleLatLangChange = (name: 'latitude' | 'longitude', val: string) => {
@@ -228,7 +240,7 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                         errorMsg={errors.statement_path}
                                         onChange={(e) => setData("statement_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                     />
-                                    <RenderDownloadBtn documentPath={data.statement_path} />
+                                    <RenderDownloadBtn documentPath={data?.statement_path} />
                                     <FormGroup
                                         title="KTP"
                                         name="ktp_path"
@@ -236,7 +248,7 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                         errorMsg={errors.file_path}
                                         onChange={(e) => setData("statement_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                     />
-                                    <RenderDownloadBtn documentPath={data.ktp_path} />
+                                    <RenderDownloadBtn documentPath={data?.ktp_path} />
 
                                     <FormGroup
                                         title="Foto Rumah"
@@ -245,7 +257,7 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                         errorMsg={errors.house_path}
                                         onChange={(e) => setData("house_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                     />
-                                    <RenderDownloadBtn documentPath={data.house_path} />
+                                    <RenderDownloadBtn documentPath={data?.house_path} />
                                     <FormGroup
                                         title="Foto Jaringan Terdekat"
                                         name="nearest_path"
@@ -253,7 +265,7 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                         errorMsg={errors.nearest_path}
                                         onChange={(e) => setData("nearest_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                     />
-                                    <RenderDownloadBtn documentPath={data.nearest_path} />
+                                    <RenderDownloadBtn documentPath={data?.nearest_path} />
 
                                     <FormGroup
                                         title="Surat Pernyataan Tidak Mampu/Usulan Dari Kepala Desa/Lurah"
@@ -262,7 +274,7 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                                         errorMsg={errors.letter_path}
                                         onChange={(e) => setData("letter_path", (e as ChangeEvent<HTMLInputElement>).target.files![0])}
                                     />
-                                    <RenderDownloadBtn documentPath={data.letter_path} />
+                                    <RenderDownloadBtn documentPath={data?.letter_path} />
 
                                     <button type="submit" className="btn btn-primary mt-2 w-100" onClick={handleSubmit}>Submit</button>
                                 </div>
@@ -271,31 +283,33 @@ export default function Detail({ data }: PageProps & { data: BpblProposalType })
                     </div>
                 </div>
             </div>
-            <div className="card">
-                <div className="card-body">
-                    <div className="card-title d-flex justify-content-between">
-                        <p>Tracking</p>
-                        <a
-                            href={route('admin.bpbl-proposal.tracking.create', { bpbl_proposal: data.id })}
-                            type="button"
-                            className="btn btn-primary btn-icon-text"
-                        >
-                            <i className="ti-plus btn-icon-prepend"></i>
-                            Tambah
-                        </a>
-                    </div>
-                    <div className="row">
-                        <div className="col-12">
-                            <DataTable
-                                data={dataTable}
-                                columns={column}
-                                onEdit={(id) => router.visit(route('admin.bpbl-proposal.tracking.edit', { bpbl_proposal: data.id, tracking: id }))}
-                                onDelete={(id) => router.delete(route('admin.bpbl-proposal.tracking.destroy', { bpbl_proposal: data.id, tracking: id }))}
-                            />
+            {data?.trackings && (
+                <div className="card">
+                    <div className="card-body">
+                        <div className="card-title d-flex justify-content-between">
+                            <p>Tracking</p>
+                            <a
+                                href={route('admin.bpbl-proposal.tracking.create', { bpbl_proposal: data.id })}
+                                type="button"
+                                className="btn btn-primary btn-icon-text"
+                            >
+                                <i className="ti-plus btn-icon-prepend"></i>
+                                Tambah
+                            </a>
+                        </div>
+                        <div className="row">
+                            <div className="col-12">
+                                <DataTable
+                                    data={dataTable ?? []}
+                                    columns={column}
+                                    onEdit={(id) => router.visit(route('admin.bpbl-proposal.tracking.edit', { bpbl_proposal: data.id, tracking: id }))}
+                                    onDelete={(id) => router.delete(route('admin.bpbl-proposal.tracking.destroy', { bpbl_proposal: data.id, tracking: id }))}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            )}
         </AuthenticatedLayout >
     )
 }

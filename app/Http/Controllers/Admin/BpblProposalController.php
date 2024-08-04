@@ -19,6 +19,11 @@ class BpblProposalController extends Controller
         return Inertia::render('Admin/BpblProposal/index', ['datas' => $this->bpblProposalRepository->getBpblProposals(villageCode: $request->query('village_code'))]);
     }
 
+    public function create(): Response
+    {
+        return Inertia::render('Admin/BpblProposal/Detail');
+    }
+
     public function store(Request $request): mixed
     {
         $request->validate([
