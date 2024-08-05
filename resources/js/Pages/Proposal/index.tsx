@@ -21,6 +21,7 @@ export default function Proposal({ datas }: PageProps & { datas: ProposalType[] 
                 isProposal
                 title="Usulan"
                 additionalFields={additionalFields}
+                firstInitShowModal={false}
             />
         </>
     )

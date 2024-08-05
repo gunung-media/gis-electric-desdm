@@ -16,6 +16,7 @@ export default function Report({ datas }: PageProps & { datas: ReportType[] }) {
                 datas={datas}
                 title="Laporan"
                 additionalFields={additionalFields}
+                firstInitShowModal={false}
             />
         </>
     )
