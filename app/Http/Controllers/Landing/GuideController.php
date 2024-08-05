@@ -23,7 +23,7 @@ class GuideController extends Controller
     {
         Inertia::setRootView('horizontal');
         return Inertia::render('Guide/Index', [
-            'data' => $this->guideRepository->getFirstGuide()
+            'data' => $this->guideRepository->getFirstGuide(isGuide: true)
         ]);
     }
 }

@@ -27,9 +27,12 @@ class GuideRepository
         return null;
     }
 
-    public function getFirstGuide()
+    public function getFirstGuide($isGuide = false)
     {
-        return $this->model->first();
+        $data =  $this->model->first();
+        if (!$isGuide) return $data;
+
+        if ($data->file == null) return $this->model->where('file', '!=', null)->first();
     }
 
     public function getAll()
