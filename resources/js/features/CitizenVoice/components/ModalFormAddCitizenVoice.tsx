@@ -275,7 +275,7 @@ export const ModalFormAddCitizenVoice: FC<{
                         <Button variant="secondary" onClick={onClose}>
                             Close
                         </Button>
-                        <Button variant="primary" type='submit'>Simpan</Button>
+                        <Button variant="primary" type='submit' disabled={!isTermsChecked}>Simpan</Button>
                     </Modal.Footer>
                 </Form>
             </Modal>
