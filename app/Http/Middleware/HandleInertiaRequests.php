@@ -40,10 +40,11 @@ class HandleInertiaRequests extends Middleware
             'session' => [
                 'status' => $request->session('status')
             ],
-            'ziggy' => fn () => [
+            'ziggy' => fn() => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
+            'APP_VERSION' => env('APP_VERSION', '2.1-demo')
         ];
     }
 }

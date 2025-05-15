@@ -1,4 +1,4 @@
-import { Head } from "@inertiajs/react"
+import { Head, usePage } from "@inertiajs/react"
 import './styles.scss'
 import kaltengLogo from '@/assets/images/kalteng-logo.png'
 import gubWagub from '@/assets/images/gubWagub.png'
@@ -11,6 +11,7 @@ import reportIcon from '@/assets/icons/landing/report.png'
 import trackingIcon from '@/assets/icons/landing/tracking.png'
 import guideIcon from '@/assets/icons/landing/workshop.png'
 import electricIcon from '@/assets/icons/landing/electric.png'
+import { PageProps } from "@/types"
 
 export default function Landing() {
     const menus = [
@@ -65,6 +66,8 @@ export default function Landing() {
             title: "Panduan Aplikasi"
         },
     ]
+
+    const { APP_VERSION } = usePage<PageProps>().props
     return (
         <div className="bg">
             <Head title="Landing" />
@@ -74,7 +77,7 @@ export default function Landing() {
                 <div className="landing-container">
                     <div className="heading">
                         <img src={kaltengLogo} alt="Kalimantan Tengah" />
-                        <h1>Si<span>lisda</span><i>Versi 2.0-demo</i></h1>
+                        <h1>Si<span>lisda</span><i>Versi {APP_VERSION}</i></h1>
                         <h5>Sistem Informasi Listrik Daerah Provinsi Kalimantan Tengah</h5>
                     </div>
                     <div className="new-menus">

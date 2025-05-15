@@ -17,4 +17,5 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     session: {
         status: string
     }
+    APP_VERSION: string
 };
